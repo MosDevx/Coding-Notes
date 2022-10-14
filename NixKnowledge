@@ -1,0 +1,82 @@
+My Commands:
+rsync --progress -avz -e "ssh -p 2934 -i /home/mdx/.ssh/id_rsa_me" me@192.168.0.20:/home/me/Workspace/React /home/mdx/Workspace/React
+scp -i ~/.ssh/id_rsa_me -P 2934 me@192.168.0.20:home/me/Workspace/React /home/mdx/Workspace/React
+
+
+Permisions: 
+    W R X : 4 2 1
+    Owner Group Others
+    755 is most common ??   
+
+Git:
+    git init//git add (files)//git commit// git remote add origin(aname) url//git push origin(aname) master
+    you can add branches 
+    
+    merge and rebase merge takes changes in feature add to master  //presevers history
+                     adds the feature branch to the tip of master bracnh//rewrites history
+
+
+bc:
+    ibase = (input base) 2/16/18
+    obase = (output base) set obase first
+    scale = (decimal places needed) some int
+
+    32 48 65 97
+
+GREP:
+    [a-z] [A-Z]
+    \d \D =digits, ! digits
+    \w \W = alphanumeric, ! alp...
+    \s \S = spaces and tabs and shit,! spa..
+
+    (expres)= group that shit ....\1, use first group in same expression
+    + one or more
+    * zero or more
+    ? none or one
+    {start,stop} from start to stop
+    ^expr - match to begining of line
+    expr$ - match to end of line
+    (?=epr) - look ahead.true if epr succesfull matches
+    (?!expr) - negative look ahead.true if does not match eg find string with no bat  .*(?!bat$)
+    .  =  everything apart from \n (you can set flag to get \n also)
+    re.match(expr) = only check at beggining of line
+    re.search = check everywhere  //you  get groups from this
+
+    form expression with raw string to avoid many escapes \\\ 
+        re.findall(r'expression goes here') -- returns alist
+
+    modifying spilt() sub() subn()
+
+bash arguments
+    $* = $1 $2
+    "$*" = "$1 $2"
+
+    $@ = $1 $2
+    "$@" = "$1" "$2"   preffered works with spaces
+
+edit /etc/rc.local to add scripts and commands to run after startup
+
+put alias in ~/.bashrc
+
+ps -elf
+
+
+cpu operates on Fetch Decode Execute loop. each per one cycle
+    Program Counter: stores the address of the next memory space to fetch
+    Current Instruction Register:: the instruction from memory that is  being executed
+    Memory Address Register: the address that is the operand of the instruction
+    Memory Data Register: the data that is located in the above register
+
+    PC hold address next instrcution to be fetched from ram
+    that address is passed to MAR 
+    The instrction is loaded into MDR from ram
+    instruction placed into CIR
+    PC increments
+    Fetch is over 
+    CU takes over 
+    MAR used to hold the operand of the instruction ie Mem Addr 10 from LOAD 10 
+    Data placed into MDR
+    from MDR to Accumulator
+
+
+

@@ -1,0 +1,134 @@
+
+Pointers:
+	(side observation : my pointer adrresses always end with 0x..c. tis strange)
+
+	[Normal pointer to normal value]
+	int myNumber = 10
+    int *myPoint = &myNumber --- creates a pointer to an int object
+        also can be int *myPoint; myPoint = &myNumber
+	mypoint -- -- returns address of myNumber  set and get an address
+   (dereferencing) *mypoint --gives you the int value myNumber
+	(we can change both what the pointer is pointing at(myPoint =&otherNumber), and we can change the value at the address being held(*myPoint = 20).)
+    
+    int **mypoint =  ---creates a pointer to a pointer to an int object
+    
+	[pointer to const value:wrong way]
+	const int myNumber = 10
+	int *myPoint = &myNumber // wont compile
+	(Reason : we cant set a non-const pointer to point to a const variable.Beacause that would be creating a means for the const value to be edited via de-referencing the pointer)
+	
+	[pointer to const value:right way]
+	const int myNumber = 10;
+	const int *myPointer = &myNumber;
+	(its a normal pointer to a const int: we cant change the value of the int through the pointer which is what we want.But we can change what the pointer is pointing to by simply assinging a new address.It can be pointed at a const or non const value.however since we declared it as const int pointer(as in pointer to a const int) we still cannot update that value via dereferencing the pointer.)
+
+	[const pointer]
+	int myNumber = 10
+	int *const myPointer = &myNumber
+	myPointer = &myOtherNumber // wont compile
+	*myPointer = 20 //okay 
+	(we cannot change the addrss being pointed to because the pointer is  const.But we can change the value at the address through dereferencing,because the actual value isnt a const itself)
+    
+
+	[const pointer to const value]
+    int myNumber = 10;
+	const int * const myPointer = &myNumber;
+	(we cannot change the address its pointing to and we cannot change the value at the address through dereferencing.)
+	
+
+    Pointer arithmetic: (++), (--), integer added or subtracted from pointer
+	Pointer arithmetic works on arrays otherwise its meaningless
+
+    the name of an array acts like a pointer constant eg myArray[3] = {1,3,4} ; the value of myArray == &myArray[0]
+ == some Address.  
+    so assigning an array to a pointer looks like my int *pointer = myArra
+    conversly you can access elements of the array like so pointer[0], pointer[1]
+	
+   Multidimensional Arrays:
+	
+	int nums[2][3] = {{1,2,3},{4,5,6}}
+	nums[i][j] == *(*(nums+i)+j) == array[rows][columns] == arrays[height][width]  
+	
+	nums[0][1]  == *(*(nums)+1) = 2 	
+
+
+  How to declare a pointer to a multidimensional array:
+	
+	const int height =2
+	const int width = 3
+
+	int (*array)[width] = new int[height][width] or an Array that fits the width declared
+	.Yeppers, consider the width.
+
+Pass by Value or Reference or Pointer:
+	
+	By value => a copy is made,takes up more memory,slower,original value variable isnt touched
+
+	By Reference => you call the function with an address as the argument. The function dereferences that argument to get the value and do operations on it. 
+		When to pass by reference: need to change original variable, need to  pass in a complex D.S. , optimize performance on a large number of function calls, or for polymorphism.
+		Polymorphism. have a function that takes a reference object of super class as a parameter eg display(BaseClass &c){ c.a_virtual_function_existing_in_base_and_derived() }   -- the function will be called in the appropriate class.
+
+	By Pointer => you need to keep dereferencing it in the function body to use it.	
+		eg myFunctionIncreaseBy5(*myvalue) { return *myValue += 5;}  int main() {myNumber = 10 ; myFunctionIncreaseBy5(&myNumber); cout<<myNumber;//15// return 0;}
+  
+   Difference pass by reference and pointer
+	1. Pointer can be reassinged.       ||       Reference cannot and must be assigned at initialization only
+	2. Pointer can be assinged NULL directly    || Reference cannot
+	3. Pointers can iterate over an array.we use incremen /decrement.
+	4. Pointer holds a memory address   || Reference has the same memory address as the item it references.
+	5. Pointer to class/struct uses arrow operator (->) to access members    ||  Reference use dot operator (.)
+	6. Pointer needs to be dereferenced with (*)  || reference can be used directly 
+
+	int &myref = x //says create a reference to an already existing variable x,and shares a memory location with it. the integer stored by x now has two "handles" to it.
+	int *point =&x // says store the address of variable x in point. point will give an address. *point will give the value stored in that address
+			// i think its safe to say hat it also creates another handle.
+
+	struct demo {int a;}; demo d;    demo *q =&d  q->a=10; cout<<q->a; //Note that accessing the members of the struct via pointers we dont dereference //
+					 demo &ref=d  cout<<ref.a;  //will give same value as above{10} cause its referencing same struct as the pointer
+
+Typedef:
+	a way to assign a new name to a pre-existing data type. It cannot do the same with values. #define provides that functionality for values.
+
+Preprocesspr Direcives:
+	1.Macros 2.File Inclusion 3.Conditional Compilation 4.Others
+
+
+	1.Macros:  A named piece of code.Whenever the name is encountered in the program the compiler replaces it with the actual code.
+		#define MACRO_NAME 
+	eg
+		#define LIMIT 5
+		{...}
+		for(..,x<LIMIT,..)
+		{...}
+	can also give macros arguments.will function like functions
+
+		#define AREA(h,w)(h*W)
+		{...}
+		AREA(3,4) //will return 12
+		{..}
+
+	2.File Inlcusion : can be 2 types for header files/ standard files or user defined files
+		
+		#include <iostream>
+				or
+		#include "My_own_files"
+
+	3.Conditional Compilation:  if a certain macro exists a block of  code will be processed ; if it doeant the block of code will be skipped. Used the keywords ifdef and endif to bookend that bock of statement
+		eg:
+			ifdef MacroName
+				statement 1
+				statement n
+			endif	
+	4.Others
+		1.#Undef -> to undefine a Macro 
+		2.#pragma Directive(doesnt work with gcc compiler) -> #pragma startup and #pragma exit : specify functions that need to run just before program starts(before control passes to main) and before program exit(before control returns from main )
+
+			for equivalent functionallity with gcc label the functions with ((constructor)) or ((destructor))
+
+			eg void __atribute__((constructor)) func1			
+			eg void __atribute__((destructor)) func2
+		3.#pragma warn Directive -- for hiding warnings when
+
+			1. #pragma warn -rvl : a function supposed t eturn a value doesnt 
+			2. #pragma warn -par : a function doesnt use the parameters passed to it
+			3. #pragma warn -rch: code is unreachable..eg any code written after the return statement

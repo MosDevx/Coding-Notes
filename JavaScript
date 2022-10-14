@@ -1,0 +1,849 @@
+
+//okay my notes for javascript here we go
+
+var -> {update & redeclare} {Global scope or Function Scope} -- hoisted  and initialized to undefined(if you try   to access them before the actual line of initialization)
+
+    the scope of var is nearest function scope or global (an example of global is when you create a block eg for(var i=1;;){} ... the "i" will be scoped globaly)
+    -- if you dont use var all variables will be global and step on each other
+    var declares a variable as local to ** entire ** current scope -- will shadow any from outer scope.
+
+let -> {update only cant redeclare} {block scope} -- hoisted -- but not initialized so ReferenceError error(not accesible before the line that initializes them)
+
+const -> {same properies as let except cant update} {block scoped}
+const {!reassign !redeclare !hoisted}  -- not initialized so ReferenceError error(not accesible before the line that initializes them)
+                                        -- you can change properties and array values. you cannot make it point into an new obj or array...reasing 
+                                        -- block scoped
+                                        --have to assign a value upon declaration
+                                        -- (from random citizen..the constant is memory address only...not the content)
+
+Nesting/chaining the ternary operator cond ? result1 :cond2 ? result2 : result3
+
+
+Keep in mind taht Objects(Objects ,Functions ,Arrays) are passed by reference. They are known as refernce types as opsoed to primitve types
+Pure function that works on an object:
+    alex --> object containing name and age
+    impure:  changeAge(person){person.age = 30}  //the original person object is changed
+    pure :  changeAge(person){var newPersonObj = JSON.parse(JSON.stringify(person))  }  //the .parse and .stringify create a new object
+
+gray-matter library parse Markdown files /// parse front matter 
+
+primitive values dont get modified eg pasing in variable into a function that increments it..the variable thats outside the func wont change its value
+    -- non primitive values will be modifed tho. eg pass in an object to a function  that increments a property in it...the object outside the func will be modified too.
+Tips: src(https://hackernoon.com/top-12-lesser-known-tips-for-javascript-best-practices-8t26335n?source=rss)
+    Dont compare to NaN i.e if(a===NaN) use Number.isNan(a)
+    Dont use jump statements in a finally block(return, break , throw, continue)
+    set variables to null to 'reset' them instead of undefined so that you can have an unambigous constrast with variables not yet declared   
+    An exception (incluing reject ) thrown by a promise wont be caught in  the try block. either await  it , or chain a .catch() 
+    Dont have an async return an await..its redundant. an async always wraps the return in a promise
+
+(false && 2) => false
+(true && 2) => 2
+
+Objects: the heroes of js
+        use [] to dynamically assign a key for a property. old way was first creating the object, then using square bracets to denote key and value.
+        now just use square when defining the object itself. myObject = {prop1:"one",[dyanmicProp]:"two"}
+
+    Literals:
+        all properties are public -- though you can implement methods for private scope
+        properties can be changed
+        object can be mutated at runtime
+        get and set ; are keywords acting like function so omit function when declaring them in an object."this is important" 
+            eg myObj={  ..., get name(){return this.name}  , set name(name){this.name = name} }
+            and access them as normal properties ie without parentheses
+    
+    Instances:
+        made from Constructor function via "new"
+        any expressions in the constructor func are executed upon instatiation .. like if there was a console.log when you make a new object it will get executed
+        "this" will refer to the new instance object
+        private variables remain privat
+        -- so vars and funcs prefixed with this are accessible via dot notation on the instance object!! yes anyting not this.myObj or this.myFunc is inaccesible!!PRIVACY!!!
+            -- without this they are private and inaccesible
+
+
+
+
+Falsy: NaN, Undefined , Null, "", 0, -0, 0n, -0n, false(obviously)
+
+Expression : fragment of code that produces a value
+Statement : instruction/ action eg if , while, for, const. 
+
+? ":" operator -- aka label operator
+    can be used to label a loop , and used with continue & break to control program flow
+
+? "?" operator:
+    ternary operator - concise if else. good for declaratively assingn Constants, function arguments, array and obj literals
+    
+    optional chaining - check if a property exists before accessing it 
+                        ie. user.write?.code() -- will return undefined instead of throwing err if it doesnt exist
+    
+    nullish coalescing  - set a default value for missing variable/property 
+                        - use "??" instead of || cause of js' trickery on whats falsy or truthy(empty string & 0 will be counted falsy)
+                        -- with "??" only undefined and null will trigger default             
+
+parameters are passed by reference to functions when they are not primitive values(Number,String, Boolean, Undefined , Null,BigInt, Symbol) 
+    ... things like arrays and user defined object will get modified
+    when you copy a primitive ie var a=5; var b = a; b and a are indepedent
+    but for arrays and objects you only get a pointer to the original object ; so changing a property in b affects a as well 
+        -- so thats a shallow copy
+        --sokka  so the thing in redux about "returning a mutated object of the same reference ..will cause component not rerendering" means shallow copies 
+
+    -- So Deep copies  
+        use spread operator
+        Object.assign()  -- empty object as first arg and object-to-be-copied as second arg
+
+        /// wont work on nested objects
+            you can use JSON.stringify-- change to string then JSON.parse -- change back to object  for simple objects(wont work on member functions)
+            ie person2 = JSON.parse(JSON.stringify(person1))
+            
+            --- it wont work on member functions -- so use a Deep Clone libray like lodash (clone & clonedeep) -- require only what you need to reduce size
+
+        for arrays :
+            *spread 
+            *map,filter,reduce (will return an entirely new array)
+            
+ Context v Scope:
+    Context -- Object Based(value of 'this')
+    Scope -- Function Based (ie Global / Block --variable access of a function)
+
+    the only way to create new Scope is through kw "function"
+    execution context means scope// unfortunate JS BS.
+
+Event Loop: 
+        2021-06-02 20:41:44
+        there exits a stack, macrotask queue, microtask queue and an event loop.
+        the stack is a lifo DS containing all synchronous functions where they are executed one by one and popped off 
+        async functions are popped onto the macrotask queue..these include things like setTimeout , data fetching calls.
+            they are popped onto the macrotask queue since they would block the single thread of our js engine
+        Microtask queue is also a thing that handle teh following:
+            promises, queueMicrotask(), process.nextTick(), MutationObserver
+        Once the stack is empty the event loop will execute all microtasks, then macrotasks as long as the stack still is empty
+
+        from own simple experiments ive found the order is clear stack, clear all micro, then handle macro
+        //New Notes https://medium.com/@jain8siddharth8/the-javascript-event-loop-microtasks-and-macrotasks-7db6d918bc03
+
+        so call stack is cleared , one macrotask executed, all microtasks cleared.
+        
+        web workers offer another thread to handle buisness ,has own variable and stuff
+        
+Prototyping:
+
+
+use external scripts
+
+Unobtrusive JavaScript
+        have your scripts fetch elements(by class or id) then provide handlers for events
+Defer-- loading scripts doesnt interfer with the page loading
+        executed after page  loads
+Async -- loading doesnt interfere
+        executed when the script finishes loading
+        order not guaranteed
+or (Place javascript at the bottom ofthe page)
+
+String:
+    myString.replaceAll("oldchars", "new-chars")
+
+Logical Assingment Operators:
+    a && = b // set a=b iff a is truthy
+    a || = b // set a=b iff a is falsy
+    a ?? =b  //set a =b iff a is nullish(ie null or undefined)
+Numeric underscores
+    var aBilli = 1_000_000_000
+Array:
+    shift() remove return first element
+    unshift() adds items to begining of list
+    slice   subarray
+    splice(start ,delcount,[items])  delete section add more elements(if delcount is 0)
+Strict Mode:
+    prevents undeclared variable ie. b = 2 // must be var b = 2
+    ?? Always use strict mode
+
+Call And Apply:(objectthatshallbecomethis,args)
+    lets you call methods of another object on this object
+    
+    if first parameter isnt given it defaults to window scope global this
+    
+
+    other_object.its_method.call(my_new_object,args/[args])
+    so basically use a method that doesnt belong to my_new_object
+
+    difference call --multiple arguments,comma separated
+               apply - an array as argument,[]
+               A for Array C for Comma.
+
+
+
+    Apply can used like super in Java... use a Constructor function in making your own function
+        //was on developer.mozilla.org
+        //example follows
+            JavaScript line 243
+        //apparently methods added via Prototype arent inherited.//check into that
+    You can also use it with a function not attached to any object
+        myFreeStandingFunc.call(myObj, someArgumentsExpectedInMyFreeStandingFunc)
+
+
+Functions:
+        note the diff between var something = new function() and var something = new Function() one makes and object the other a function.
+                good sauce(https://raganwald.com/2014/10/24/fun-with-named-functions.html)
+        they return undefined by default
+
+        Function Declaration: eg function printName() {//do something}
+            using the function kw,
+            they are hoisted , and available for use.
+
+        Function Expressions: eg let myFunc = function(){//do something}
+            not hoisted   
+            declaring funcs with an expression .. like you do vars.. so assigning  func to a var..cant use func kw tho
+            can be named or anonymous..(the topic i was looking for )
+            for named func expresssion the name of the func isnt bound in enclosing environment..ie around it.
+
+            // for a good time name your functions ..debugging stack traces.ALWAYS NAME FUNCTIONS
+            anonymous literally dont have a name..its just function(...){...}
+            you can use named funcs expression recursively(the name is bound inside)...and named will appear in stack traces.
+        
+        ? main diff between func exp and Declaration :
+            in expression the name is optional thus it can be anonymous. Declaration name is a must. with that said..ALWAYS NAME FUNCTIONS
+            func expression cannot be at the start of a statement , ie. preface it with a var x = ... or with  (...) or even logical operators
+            func expressions not hoisted
+
+        Function Constructor:
+            with new kw creating  a function obj.
+            eg var name = new Function('firstName', 'lastName','return firstName + ' ' + lastName')
+            same as making it with function kw.
+         
+         
+         (   the resultant fuction obj is not hoisted. but the fuction itself is hoisted ie  
+                var harry = new Potter() // Potter is a fuction that is define later...so hoisted , harry a function obj, is not hoisted.
+                property new.target -- to check wether a function or constructor was called with the new kw )  -- not sure if this applies here
+
+            doesn't inherit scope(except Global --as all others do). -- so only executes in global scope --so cant make closures
+           not as effecient as other two methods..
+
+        
+          Parameters are simply labels. Fail to add one as an argument its becomes 'undefined' and might mess you up later.
+            - pass in more arguments than parameters they are simply ignored.
+
+            // solutions:
+               -- The argument object that exists in every function.so you can define a function with no params, but you can get an array of args like so /Array.from(arguments)/
+               -- myFunction(params)  -- similar to how props work and how you can destructure it // access via dot notation 
+                    call it like myFunction({firstName:"hey", age:20, message:"hello there"})
+                   Advantages:
+                    - this gets rid of positional ordering of args(!!this is the problem i was looking into !!  Hot damn)
+                    - pass in variable number of args
+                    - easy to default missing args-- use nullish coalescing
+                    - announce function features with well named arguments.
+                    - functions become self documenting
+        
+        ! This is muy importante
+        named arguments: define your function with its parameters as an object;  and then when caling it, pass in an object as an argument
+           
+            eg function myFunc({firstname="defValue", middlename="defValue", lastname="defValue"} ={}) and then when calling myFunc({firstname:"me", lastname:"wamae"})
+                    !  notice how there's destructuring in the parameters - this allows one skip some aguments without braking stuff
+      
+
+        -functions can declare defaults in parameters
+        
+        -you cant have keyword arguments tho eg calling myFunc(a=2) .. instead you have to do myFunc(2) -- i am not quite sure what this means ... i think it means calling myFunc(a=20) wont matter a bit because it positional, such that myFunc(b=40) will stil give you a correct respponse
+
+        so you can have default function parameters but for keyword arguments reach for the destructuring methods
+                        
+        ES6 Arrow Functions:
+            best used as data..ie as another functions arguments
+               ? forEach(), map(), filter(), every() :bool --test all elems, some() :bool--see if some elems pass  test
+               ?   find() passes Tfunc, findIndex()--passes Tfunc
+        array.any_of_the_above(myfunction)
+               - myfunction(array_item/element,[index], [array])
+                                                                 [] -- optional
+            -- some of these methods(like map) return an array. Using them when you dont need the array later on will be bad.use for...of instead
+   
+    reduce() reduceRight()--enumerates from list end 
+        array.any_above(myfunction)
+        myfunction(total,value,index,array)
+
+    can call a func with no args even if it had params
+    can call with excess args
+
+    kw "arguments".....an array in a func containg all args passed
+
+        rest parameter operator:   function (...args) an iterable
+
+    IIFE:
+        (function(){....})() call the function imediatelly. the wrappng parentheses are a must -- they make it into an expression. and then the last () call it
+        above is an IIFE (Immediately Invoked Function Expressions)
+            -- dont need to use them - can have block scope or export a module
+            hide things from the global namespace
+            can return a value.
+
+
+    ?so you can have a function that return a dictionary of all attribs and methods
+        function Person(){return{ name:value, name2, value2, funcname: function(){} }}
+
+    or make a Constructor Function like a real person would. call it with New
+        use function Prototype to declare functions for a class..that way they are shared without new function objects being made with every New Object
+        *  ill have to dive into prototypes..i have done nothing on that topic
+
+
+
+Arrow Function:
+    (dont use for methods)  obj1 = {// parenthesis doesnt make a new scope } but kw function will make new scope and as such an arrow function works well as a callback
+    Succintly describe new functions
+
+    its 'this' is bound to where its creating scope aka lexical scope
+
+    use parantheses () instead of {} when the func returns an object like for map,filter,reduce
+        -- ()=>({my:'object'})
+
+    
+Polymorphism: sharig behaviour and ability to overide those behaviours with specific ones.    
+Prototype:
+    
+    for storing additional properties for a class----its a sort of uniterable enumarable
+
+    Constitutes of some fucking sort of inheritance for js
+    properties addded to prototype after an object has been declared are not viable
+    Object( which all objects inherit from) has a prototype too
+    !!havent done  a deep dive on this
+
+    // New notes from eloquent js
+
+    objects and function have a default inheritance that describes their prototypes....so they inherit from Object.prototype or Function.prototype respectively
+    In addidtion to that they also have a property called prorotype .. you can add new functions or properties to this prototype property.
+
+
+Accesors /set get
+    define them in the method Object.defineProperties(this,{.....})
+        and actual methods like set:function()
+
+for(normal;loops; array.length)
+
+For .. In loops through PROPERTIES in OBJ for (x in obj)
+For .. Of loops through VALUES of Iterable for (x of iterable)  //for .. in will loop indices
+        in o, of i..io.. in object && of iterable
+        ? properties are in an object sherlock.Dont know why you kept tripping on this.
+
+CallBack:
+    simply passing a function into another...idk wwhy the fuck this keeps tripping me up--after coding much callbacks im al good now..so you do things in this function then call the call back.
+    
+
+Closures;
+    def (from javacript.info) a function that remembers its outer varaibles and can access them.in Js all functions are naturally closures.
+   
+
+    when you return a nested function that function keeps a reference to the Scope Object accessing all variables therein
+
+    uses: event-handlers, object data privacy, curried functions, callbacks, partial applications
+        -- seen it in action in StoryBook wiring  in Data and it makes muy sense
+
+        * saw a vid (https://www.youtube.com/watch?v=srQt1NAHYC0&list=TLPQMjcwMTIwMjHzaSlzXmm7Tw&index=2) on functional programming 2021-01-27 05:02:07 and it was insightfull to connect the dots to this random info below.Will definately keep now do more reasearch
+   
+    -- closures require more memory
+
+Curried Functions:
+    breaking down a function that takes multiple arguments into a series of funcs that take only argument
+    //ties in with the concept of closures in that the returned inner function has the scope object of the first function
+    the first function retruns one/more functions that are unary(take only one argument)
+    so first function does a partial application
+
+        //points free style  (function def doesnt make references to funct arguments)
+            you assign a curried function with partial application to a variable.so youve fixed the initial argument , then you can call that function variable providing the other needed argument for the curried function
+            so you've defined a new funtion without stating any arguments
+
+                usefull for generalization and specification-- the argumentless new func is a specialized version of our initial curried func
+
+    // i ahve not fnihe that medium article i seem to always get more shit than i need when i research
+    
+    Module pattern:
+        singleton style objects --only one instance exists
+        usefull for data hiding
+        using IIFE we can have private methods and properties and we can return an object /function
+            that exposes what we want to the outside (Revealing module pattern) -- this exposed functions can then manipulate private properties
+            //works like a closures
+            ie var module =(function() privateProp:myProp; privateMethod(){changes privateProp}
+            ...return{//this is a whole object// priviledgedMethod:function(){return privateMethod() }})(); 
+            !! this example is not understood
+            --Notice it is an IIFE so only one copy of this exists(Singleton)
+
+Object Destructuring; 
+
+        * there is object and array destructuring.. for array use [] and providing a defult value use = (works for obj dest too)
+         
+                eg of Array destructuring :  [a,b] = [10,20] // [a,b,...rest] = [10,20,30,40,50]
+        * object destructuring use {}           
+                // good source https://dmitripavlutin.com/javascript-object-destructuring/
+                // additional fireship.
+
+    
+    unpack value of object without accessing them directly
+        let person = {id:"a", name:"bob", children:{firstChild:"bobbete", secondChild:{"bobbina"}}}
+        let {id} = person  // print(id) === a 
+   
+    Create aliases: ie rename
+        let {id:myid} = person
+        //print(myid) === a
+        // then you can only access via the alias. the id variable doesnt exist.
+   
+    Dynamically get the property:
+        wrapping it in []
+        let propty = "id" // this can be supplied at runtime -- hence dynamically dumbass 
+        let {[propty]:id(OR AN ALIAS)}  = person // the ':id' provides a static varibale name i can use in my code the [prop] is dynamic.
+
+        -- so ill access my variable using the id(its important) and the propty can be anything.
+        //print(id/alias) === id === a
+   
+    Default Value:
+        const {id = "Default ID no eg an inc value"} = person
+   
+    Deep property ie nested obj
+        const {children:{firstChild}} = person  // === bobbete
+   
+    Rest Object after Destructuring
+        const {id , ...others} = person // others ===  {name:"bob" , children:{...}}   
+        // can be used to get rid of properties from an object...eg get rid of id and others now has the rest of the props
+
+    Function arguments:
+        the properties needed are well defined in the functions parameters
+
+    Use in loops: when you have an array of objects
+       const theFam =  [{name:"bob"}, {name:"linda"} {name:"tina"}]
+
+        for (const {name} of theFam )
+            {
+                console.log(name)
+            }
+   
+    Swapping Variables:
+        instead of using a third intermediate variable do this
+        [a,b] = [b,a]
+
+    Regex:
+        the returned values of a match can be destructered
+
+        const [firstVar, secondVar, thirdVar] = myString.match(aRegExCode)
+
+    Function paramter destructuring:
+        myFunction({name,age,date})
+
+Classes: 
+    apparently do exist ES6--2015
+    they are special funcs
+
+    Class Declarations:
+        use class kw 
+        -- not hoisted 
+
+    Class Expressions:
+        name or unnamed
+        name property can be retrieved through the class(not instance)
+        -- also not hoisted
+    
+    code in a class boundary is always in strict mode.
+
+    !! finish this and also prototypes -- im in a coding mood.
+
+Generators:
+    !! To be Read and Written
+
+In: 
+    x in obj
+    return true if property name x is present in  obj
+        -- and it property name not value!!
+    in array it will be for index; not actual values in array
+
+This: Keyword
+    ///NEW NOTES:
+        (Global Context)
+            this references the Global Object -- in browser thats the Window
+        (Function Context)
+            if you have a function and use this to access a property in the func, then later call the func in a global setting, this would refer to Global 
+                and mess you up
+            eg.   function printColor(){
+                var color="blue";
+                console.log(this.color) //this would be global and thus return unefined
+                console.log(color)  // correctly return blue
+            }
+        (Constructor ie new):
+            "this" points to the newly created instance .. made by kw  new
+            Constructor functions works like a clas in that it can make new objects.And so after instantiation 'this' will be bound to than newly minted object
+             // which i believe is how this work in others like py
+             it will create an object instance -- as opposed to an object literal -- see differences under Object
+             a function (not method!) inside the constructor will have its this === window object
+
+             !!! Importante. if you execute a constructor function(as opposed to instantiating an object) references to this will overwrite propeerties in th window object...   so if your window had a age propety and in the cinstructor you have this.age = 20...the widow age will e overwritten.
+            
+            good sauce(https://blog.kevinchisholm.com/javascript/the-javascript-this-keyword-deep-dive-constructor-functions/)
+
+        (Object Context)
+            works as  expected
+        (Apply and Call):
+            A for Array C for Comma
+        (Bind):
+            works once and doesnt execute the function
+            var p = myFunction.bind(myObj) -- bind
+            p() --execute
+        (Arrow Functions):
+            its 'this' is bound to where its creating scope aka lexical scope - lexical scoping uses the location where a variable is declared within the source code to determine where that variable is available. An inner/nested function has access to its parent function variables..but vise versa isnt true.
+                    (aside-- lexical scope aka Static Scope --like when a nested fuction has access to  a variable a level above it)
+                    (further aside -- lexical scope is what allows closure to exist) 
+                -- not sure wether where it defined or where its excecuted
+            work well as callbacks --ST
+            dont use as methods (functions for objects) -- 'this' will be window when called  
+                //so if you have an arrow method,execute it outside the object,'this' will be window object
+
+            --Good Article https://bit.ly/3g7gwtC --- codementor
+                
+    ///OLD NOTES:
+    you can use a wrapper function to maintian scope for this :
+        {line 336 - 337}
+        let say a member function uses this to reference a property..calling myObj.memFunc() in a global env works okay
+        but calling the same inside a function(just function not object) this will have lost its scope.
+        thus wrap it in  a function (or a simple arrow function!!!) and this will keep its scope
+            !!!because arrow functions bind this to where it was created!!!!!! hot damn
+                // but myObj may change so next solution
+    bind:
+        To deal with loosing the context of this
+        -- like when you call a method(object func) inside another function 
+         use binding when you have to refer to a method without () i.e you assing a func to a variable and then call that variable to execute
+        in react component bind in the constructor  -- 
+        let boundFunc = myFunc.bind(context)  --here myFunc is not a method --- its a function duh
+            this=context.....where context is any object you pass in
+            boundFunc can be used as a normal function..can call it, pass arguments as you would to myFunc
+
+             -- for methods {line 345}
+             let boundFunc = myObj.myMethod.bind(myObj)
+    
+    // ive seen inner working of (a) bind -- a closure with apply in the mix (http://howtonode.org/what-is-this)
+     //                                           function bind(fn, scope) {
+     //                                               return function () {
+                                                        return fn.apply(scope, arguments);
+                                            }
+                                            }
+                                            Cart.onClick = bind(Cart.onClick, Cart);
+                                            $("#mybutton").click(Cart.onClick);
+
+
+
+
+        you can create partial functions(functions where some arguments have been given )
+            (line 350 - 356)
+            we provide null for context
+        full syntax of bind is func.bind(context, arg1, arg2, ...)    
+
+        // can partial for object methods code at javascript.info/bind -- good site
+
+
+Spread Syntax: 
+    when a function expects some variable use `...mylist` to pass in an iterable
+            here you can also use apply         
+    also concating lists together newList = [...listone,...listtwo]
+    calling a constructor with new have to spread it d = new Date(...oldDate)
+    copying object attributes onto a new object obj2 = {...obj1}  
+
+
+Deep Copy Shallow Copy:
+    Deep --all values of new variable are copied and disconnected from original variable
+    Shallow -- some value still connected to original variable
+Const -- you can change the properties but cannot reassign
+
+Event Loop:
+    endlessly running single-threaded loop running on main JS thread
+    it accepts callbacks and executes them on main thread
+        if main JS thread is busy event loop is dead
+     // i have better notes on clipboard find them , write them
+
+    Macrotask queue:(FIFO)
+        queue of callbacks waiting to be executed
+        Event Loop pushes callback from Macrotask-queue to main stack when stack is empty or main thread is not busy
+ 
+    Microtask Queue: // Jobs
+        holds callbacks  provided to promises  -- Jobs
+        executed before those in the macrotask
+        all executed at one go after one tick of the event loop.
+        // my understandig : The eventLoop executes one callback from the Main Queue then all functions in the microtask queue are executed. if they propagate more funcs then those 
+            too are executed .if the microtaks queue is empty, the eventLoop goes another round
+            So its a more immediate "later" than the Macrotask  queue.
+        
+
+    Notes from here:
+        https://blog.sessionstack.com/how-javascript-works-event-loop-and-the-rise-of-async-programming-5-ways-to-better-coding-with-2f077c4438b5
+            //There are 3 more posts before the above that would be nice to check out.2020-12-31 12:07:54
+
+            Js runs in a hosting environment could be browser / node
+            All js envs have an event loop.deals with executiion of chuncks of program.each time invoking JS engine,
+            JS engine - execution environemnt &&  Hosting environemnt -- schedules the events(executions)
+            Browser also has Web APIs(setTimeout,AJAX,DOM) - threads you make calls to but cant access.
+            browser schedule calback to be exceted by placing them on the event loop
+            Event Loop's Job: Monitor CallStack and CallBackQueue; if Callstack  is empty, take first callback from the queue and push it onto the stack(thus runing it)
+            // took  break.have to get into promises.3
+
+
+
+Promises:
+    promise constructor recieves a call back function, 
+    call back recieves resolve or reject functions as arguments
+        must evoke either with an optional payload
+            these two funcs can be called from within an async callback (like callback for setTimeout)
+     .then(t) handles resolve(result)
+     .catch() handles reject(error)
+        finally() always called when promise is settled
+
+async await:
+
+    //New Notes:
+        async: added  to functions to make them return a promise.
+        await: put infront of any promise based function until the promise fufills, then return the resulting value.
+
+
+
+
+    //Old Notes
+    return value is always a Promise!! -- so await it intead of then().catch()
+     
+     
+     async keyword before function kw 
+     they turn functions into Promises
+
+     await keyword pauses code flow at this line till it returns but allows other code to be running
+        await only works inside async functions
+        await helps to avoid multiple chains of .then()
+
+    good practice is to wrap them in try...catch()
+    
+        -- if you have many awaits in a row , code execution gets hampered
+            solution store the functions in variables (this starts execution) then call await on them ///-- read somewhere promises are eager , they start executing as soon as you invoke construcor .ithink thats the same deal as here
+                eg (mozilla dev site)
+            
+
+generator , async , async generator:
+
+
+addEventListener(event, function, useCapture[boolean]) --default false = Bubbling  
+                                                                 true = Capturing
+
+Event Bubbling -  handled innermost element then propgated to outer elements
+Event Capturing - captured outermost sent down (trickling) to inner elements
+        trickle down , bubble up.
+
+        event.stopPropagation() will prevent ... propagation!!
+
+Fetch: 
+    use it with await -- and always wrap await calls in an async function
+    so fetch(url,[options -- like headers(without options its a simple get request)])
+    await fetch(url,options)  will return a response object(Response class)containing headers 
+    then await the response with  an apt body accessing method like .text() .json() .formData() .blob() .arrayBuffer()
+            -- you can use only once
+axios: (do a full read up)
+
+    for formdata include headers{ 'Content-Type':'multipart/formdata'}
+
+
+=============BOOK ELOQUENT JS===========================
+    https://eloquentjavascript.net/10_modules.html#h_zWTXAU93DC
+CHAPTER 10. MODULES 
+
+Defination: Piece of program that specifies its dependancies and it interfaces. that is which other pieces i relies on and which functionality it provides 
+
+=============BOOK ELOQUENT JS===========================
+
+
+
+    
+
+ 
+====================================EXPRESS=======================================
+   ref for tutorial Js/Eatout {excelent template in index.j}
+        so we require express, use it to make an app object, app object s, 
+        app object handles the http requests,
+        
+        +we can have a body parser
+        +we can have a path
+        +use a view template engine like pug -- add it to app
+
+    app.listen(port,function(){....})
+
+    app.get(path, function(req,res){....})   --for responding to redirects and 
+            can have res.send(string)
+                     res.sendFile(path to html)
+
+    req and res objects many have methods attached to them
+        req.body -- after parsing with body-parser
+        res.redirect()
+            .send()
+            .json()  // will read json data from the body of the response
+            .sendFile()
+            .end()  //end res without providing data 
+                      doesnt send ETag Header(used in web cache)
+                      use .send and .json mostly --both send and end
+            .render() -- used with template engines 
+
+    fetch(endpoint, options) ---endpoint(page to direct to..resource) options(method,headers(content-type) body(data to send))
+
+    put()  -- to update 
+        findOneAndUpdate {query} , {command/update Operators $get or $inc or $push}, {options }
+
+    app.use() //to mount middleware
+
+    router():
+        you can nest routers 
+            like if you have user/userid/shopping_cart/items --so userid will be varying dependig
+            nest /shoppin_cart in user/userid path and mergeparams:true
+                    be like userRouter.use("/:userId/shopping_cart", cartRouter)
+    
+    
+    next ()
+        calls the next middleware -- so place middleware in good order
+
+        function(err,req,res,next){} -- used to process errors that occurr
+        when you call next(err) execution stops and jumps to the above function(one with 4 params)
+            -- if you have an async that rejects and you have next() after it ,next will be called automatically with the error and so jump to the 4 param handler
+        next(any_arg) assumed to be an error
+
+        calling next() jumps to the next middleware func --after its completion
+            statements after next() are still executed. To avoid this call return next()..like usefull in an if or somewhat
+
+    methodOverride()
+
+        html5 doesnt allow PUT and DELETE so methodOverride works as a way to allow this functionality
+        can set it via a header(x-HTTP-Method-Override) which will indicatewhich method to  implement
+        or include it in the query string in setting action for form eg action="/resource?_method=DELETE"
+    
+    bodyParser():
+        parse income request body and make it available as req.body
+        since its user defined make sure that it exists first before acting on it
+        doesnt handle multipart forms use Multer
+        can handle Json Raw Text URLEncoded
+
+        can have differet parsers for different routes depending on info expected
+
+    Multer():
+        accepts only multipart/form-data
+        you can have single , array(array of files- same name) , fields(mix of files)  or none for text only multipart form
+        OPTS
+         destination(/path) or storage(DiskStorage(destination=folder/to/store , filename = name to call the file) / MemoryStorage(in memory as buffer objects))
+        get files from req.file
+            text-fields from req.body
+        fileFilter(req, file, cb) call cb(undefined/null, true) to accept file after tests of course
+
+                   
+    Error Handling:
+                difference between (errors -- you shouldnt try to handle like memory errors) (exceptions -- should try to handle and recover from them)
+        in synchronous code express handles errors automatically
+        
+        in async code -- pass them to next -- next(err)
+        in Express 5 funcs that return promises(like when you use await) will call next automatically .. next() called with thrown error or reject value
+         
+         !! catch errors from  --database actions  
+                              --route handling itself
+
+PUG:
+    indentations matter
+    tags just normal text  --  children an indent below
+        attributes in () like (name="value" , name2="value")
+    css class given as tag.className.otherClassName
+    block to define som section that you can override in children
+        use extends parent.pug
+        can define more block in children blocks you are overriding
+    variables to be passed in at render time are #{someVariable}
+    can interpolate--i guess have shit in other shit check docs
+
+
+livereload : https://bytearcher.com/articles/refresh-changes-browser-express-livereload-nodemon/
+"ui" : "browser-sync start --no-inject-changes --proxy=localhost:8000 --files='**/*.pug, **/*.css,  **/*.js' --ignore=node_modules --reload-delay 10 --no-ui --no-notify"
+
+
+
+=============HTTP==========================
+
+Client -server protocol that enables sharing of recources on the web
+its an application layer protocol runs on TCP for tansport layer
+http/1.0 each http request woul make a new TCP conection
+in  http/2.0 allows multiplexing - sending seveal mesages on same TCP connection
+    HTTP/1.1 does pipelining(difficult to implement/superseded by 2.0) and Persistent Connections
+
+HTTP/2.0 encodes shit into binary frames but content is still HTTP/1.1
+
+Stateless but not sessionless
+Cookies ae use to keep state though HTTP is stateless itself
+        -- they allow statefull sessions
+
+
+Based on Request Response 
+    Request :-Method GET POST PUT HEAD OPTION
+            Resource
+            HTTP version
+            Header 
+            Data -- for like POST method 
+    Response: HTTP version
+              Status Code 
+              Status Message
+              headers
+              Data
+
+    Proxies--can be application layer like maybe SOCKS(runs below http to encode stuff) or the machines that lay between a client and server
+    Authentication --stored in cookies to maintain state,user info
+    Caching -server can set some data to be stored(b proxes) , client can refuse
+
+    HTTP can be extensible by just adding Headers that client and server agree upon
+stateless
+
+
+HTTP APIS: /// read more on this    
+    XMLHttpRequest 
+    Fetch -- modern , flexible, more features
+
+            .then(response=>response.json() )
+                    --reads a response stream to completion, parses the body and returns a js Object
+                        !!-- important to note .the return value is not JSON but a JS object
+                    -- others include .text() .arrayBuffer() .formData() .blob()
+    Server-sent Events -- no idea what this is
+            one sided, server sends events to client, which trigger preregistered event handlers
+ 
+JSON.stringify() -- turn a js Object to Json text 
+JSON.parse() -- turn Json text into a valid JS object
+
+// --ST I think the nitty gritty isnt that important--you can always look it up.Being aware a concept exists is important
+CORS - Cross Origin Resource Sharing
+        Enable a site to access resources from another --is typically dissalowed due to security reasons
+        We have a  Simple and Preflight request 
+            -Simple -Browser sends  a XHR (GET,HEAD,POST)to a Server, Server responds
+            -Preflight - Browser first asks for permision for a certain request(using OPTIONS), server says its possible, browser then sends actual request, server responds 
+
+            can also send credentials(cookies) by setting some flag
+
+
+    --facing an error accessing resources from a server thats on a different domain
+        (CORS request not http)
+        -- whats happening:
+            browsers implement "same-origin policy"
+                browser will send origin: 'the relevant domain'
+                server response  can be Access-Cotrol-Allow-Origin: * or if strict"the relevant domain"
+                browser then compares the response key with it own origin key  if they match all is good..if not it throws the error
+                
+            -- so one fix is a plugin that changes the reponse key from strict to *
+
+            --the other two fixes work on the basis that server-server comm doesnt apply same-origin policy
+        fixes use  proxy server(slow) proxy make the request on clients behalf then attaches the access-control-allow-origin: * to the response header and sends that to the client
+        
+        make a proxy server with express
+            : how it works  
+                set up middleware that sets res.header(Access-Control-Allow-Origin:*)
+                (set this middleware at the top you remember quite well how these things work.)
+                then youll have and end point that does its own request internally and responds with the body from the response it gets
+
+
+===================REST=====================================
+    HATEOAS:
+        response have the object plus actions that may be taken depending on 
+        the state of that object(Engine of Application State)
+        client transistions through application state by moving through those links
+===================REST=====================================
+
+===================THREE.js====================================
+
+when adding children to a parent node, seting position (x,y,z) will utilize the parent node as the origin.
+    --positions will be set relatively in respect to the parent node's position'
+
+there was the unpleasntes of centering text objects and i finally grokked it.
+    -- i had not but now with the right iaam i have. we treat the bottom left f the bounding box like (0,0) , position the text mesh  in the mile of the box, then multiply the text/mesh by -1 so it shifts and its center then lies on (0,0)
+!! easier way : after defining the textGeometry call .center() on it.
+
+
+===================THREE.js====================================

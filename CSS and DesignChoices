@@ -1,0 +1,559 @@
+ Resources:
+ 	Ui Icons
+	ColorSpace --- generate palletes
+	FontFlipper
+ 	canva color wheel
+	unsplash -- for high uality images
+
+
+	
+	
+	the bs that was setting a background image in index.html and that damn background-image: url('') accepting nothing other than damn single quotes,,,, not backticks, double quotes, nope only gd single quotes -- i think this was in html page.
+
+	including images in html dont have a leading backslash . <img src="images/photo.jpg"
+
+psuedo-classes - select regular elements but under certain conditions -like postion relative to siblins,or when hover
+pseudo-elements - create new elements that arent specified in the markup ::before,after,first-letter,last-line,maker,selection -- (thats all 6 of them)
+
+
+
+!! Newly Learnt HTML tags:
+	datalist - "an autocomplete " for an input tag. but one can still input unique value
+	details - the right looking arrow you click and more info is shown
+	dl, dt ,dd - description list, description term, description details
+	output - represent result of a calculation like one performed by a script
+	kbd - represent keyboard keys like ctrl , cmd ,
+
+	
+!! Things learnt from design course HTML and CSS tut for 2021
+center something responsively horizontally -- margin: 0 auto 
+in sass  -- &:before { }
+make a button's width shrink to content size --width:unset
+html tags blockquote and cite
+grid-template-columns:repeat(auto-fit , minmax(lowValue,highValue))
+difference auto-fit and auto-fill (auto-fit will grow the column to take up new space; auto-fill will add in new empty columns not populated with any data)
+
+!!New things Learnt
+Radial-gradient(circle at center/top/bottom/px values[starting position,,],red 0, blue,green 100%) start red transition to blue end green
+
+Conic-gradient
+
+Linear gradient - can define sharp edges by having the nest start point be the same as the last start point.
+
+background : background-size -> can appear immediately after position by adding a / eg center/80%(w) 50%(h)
+			 background-attachment -> scroll(default) : image scrolls with page
+			 						  fixed : image doesn't scroll with page (used to create parallax)
+				
+									   local : image scrolls with elements content(set overflow:scroll on a div,as you scrll the p image moves with you )
+			background-repeat : repeat(default) has clipping 
+ 								no-repeat: single image appears
+								space : repeated as much as possible without clipping. clipping happens when there isnt enough room for one image
+								round: repeated stretched squished to fill spaces
+								(can have two values for x  and y)
+
+Width instead of media queries:
+ 		width : clamp (min,preffered,max)
+(from css secrets)
+line-height: always use unitless value eg line-height:1.5; - it will be calculated using the elements own font-size
+ 			if you use em it will be calcluated from parent font size
+
+For text specify less padding for top and bottom sides.
+Things mathematically centered seem off place them a bit above geometric center
+for typograph em bases itself on parents font-size. For other measurements em bases itself on the elements font-size
+
+
+Implement a counter in css:
+ 	counter-reset:headings -- i think to initialize it
+ counter-increment:headings (in an element eg h1)
+ h1::before{
+	content : counter(headings)
+ }
+
+Focus within: stays active whenever any children still have focus unlike :focus
+Aspect-ratio : says it all maintain an aspect ratio
+
+
+// react-hook-form page looks awesome
+You can dynamically add / remove??  a class from an elements classlist in JS.should prove handy.
+
+Resetting:
+	Bringing all elements back to a baseline
+		check /JS/Storybook/taskbox in the css for good snippet
+
+//* Start - Remove Scrollbar and disable Scrolling
+body{
+	overflow:hidden;
+}
+//* End - Remove Scrollbar and disable Scrolling
+
+//*Start - remove Scrollbar and enable Scrolling
+//for chrome,safari,opera
+body::-webkit-scrollbar{
+	display:none;
+}
+//for IE,edge,firefox
+body{ //if body doesnt work apply to html
+	-ms-overflow-style:none; //IE and Edge
+	scrollbar-width:none //Firefox			
+}
+
+//*End - remove Scrollbar and enable Scrolling
+
+Reset: https://www.joshwcomeau.com/css/custom-css-reset/
+
+//// Just use the extension in vs code
+
+//*Start Reset
+
+
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+/*
+  2. Remove default margin
+*/
+* {
+  margin: 0;
+}
+/*
+  3. Allow percentage-based heights in the application
+*/
+html, body {
+  height: 100%;
+}
+/*
+  Typographic tweaks!
+  4. Add accessible line-height
+  5. Improve text rendering
+*/
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+/*
+  6. Improve media defaults
+*/
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+/*
+  7. Remove built-in form typography styles
+*/
+input, button, textarea, select {
+  font: inherit;
+}
+/*
+  8. Avoid text overflows
+*/
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+/*
+  9. Create a root stacking context
+*/
+#root, #__next {
+  isolation: isolate;
+}
+
+//* End Reset
+
+
+
+One can add classes dynamicaly or even toggle them eg this.classList.toggle(className)
+
+Title font 34/32 -- 17 when scrolled but heavy
+Regular 17
+
+line height for readabity --  increase it 
+max-width-prose -- for readability of text elements..look up in tailwind
+Heading San serif
+p serif font
+make header bar translucent
+
+when using dataset : in js it will be {.dataset.myNameHere}.
+					in css / html {data-my-name-here}	
+					// camel case gets translated to hypheneted names. and notice change from dataset to data.
+					
+html{
+	box-sizing: border-box;
+}
+
+*,*:before,*:after{
+	box-sizing:inherit;
+}
+
+
+overflow:hidden -- prevent things jutting out of their divs
+
+overflow-wrap: break-word
+
+
+":" single-colon = psuedo-selectors
+"::" double-colon  = psuedo-elements
+
+you can hide checkbox and use the label associated with it.
+
+Set images height and width to prevent layout shifts..or you can use the new aspect-ratio attribute
+* aspect ratio not well supported : use the top pading hack
+
+margin is outside space, padding is inside space
+
+Transition vs Animation:https://blog.hubspot.com/website/css-transition-vs-animation
+ Transition:
+ 		needs a trigger , like hover
+		only run once , then reverse when trigger is removed
+		works well with js
+		move only  from initial to final state
+
+ Animation:
+ 		Multiple intermediate states can be included
+		run a variable amount of times
+		triggered or run automatically
+		run forward, reverse, alternate directions
+		more difficult to use with js
+
+side note:
+ 	transform is the property : skew,rotate,translate,scale , ... are the values
+
+
+rem - a percentage of root font size of html document-- default 16px
+em - relative to font size of parent element
+vw or vh : the value will change according to the viewport
+source for when to use which: https://webdesign.tutsplus.com/tutorials/comprehensive-guide-when-to-use-em-vs-rem--cms-23984
+ 	-rem for font-sizes ; everything that should scale depending on browser font-size setting
+ 			 and for media queries -- research this
+	
+	-em for sizes that need to change according to element other than root, margin, padding, width, height and line-height when used on elements with non-default font sizing(menu-items,buttons,headings). Then the font size the em is based on should be in rem
+!! look into clamp() for values
+Directional settings go clockwise top right bottom left, top right+left bottom, top+bottom right+left,
+
+myClass p { //thats a space // all children
+	target all p { all descendants of myClass}
+}
+
+.myClasName.mySecondClassName{
+	target the elements which contain both classes myClasName and mySecondClassName
+	good for specificty
+}
+myClass>p{   //direct children
+	all p in myClass (direct children only)
+}
+
+myClass+p{ //adjacent sibling --only next sibling
+	target p that is sibling of myClass and comes after it {but just next p, not all}
+}
+
+myclass~p{  //general sibling --all next sibling
+  target all p that are sibling and come after myClass
+}
+
+:first-child{
+	psuedo-selector can be combined with other selector
+}
+
+:only-child{
+}
+
+:last-child{
+	   myElement:last-child -- selects all last-child myElements 
+	   :last-child -- selects all last child elements - irregardless of nesting
+}
+
+:nth-child(A){
+	select element that is nth child of another element
+}
+
+:nth-last-child(A){
+	same as nth-child but counting f
+	
+
+:first-of-type{
+}
+
+:nth-of-type(A){
+	can have a number or even || odd
+}
+
+:nth-of-type(An + B){
+	will start count from B(inclusive)
+	select every An-th element eg 6n = every 6th instance
+}
+
+:only-of-type{
+	selects only element of its type within another element...
+	eg plate orange:only-of-type - will select an orange thats the only element within a plate
+}
+
+:last-of-type{
+	same as above but the last element.
+}
+
+:empty{
+	select elements that dont have other elements in them
+}
+
+:not(X){
+	negate X which can be .classs #id so forth
+}
+
+@media only screen (max-width:620px){
+	means less than or equal to
+}
+
+myElement[myAttribute]{
+	select all myElements which have an attribute called myAttribute
+}
+
+[myAttribute]{
+	select all elements with attribute myAttribute
+}
+
+[myAttribute="myValue"]{
+	specify a value
+}
+
+[myAttribute^="myVal"] - begining with
+[myAttribute$="lue"]  - ending with
+[myAttribute*="yVal"] - wildcard - containing
+
+
+Get actual screen resolution:
+		var dppx = window.devicePixelRatio;
+		var screenWidth  = screen.width  * dppx;
+		var screenHeight = screen.height * dppx;
+
+Css Variables
+	define a variable using --variableName: "property", fallback
+
+	in an element 	
+		attribute: var(--variableName)
+
+
+
+box-sizing:border-box
+	//make the size of an element not to grow bigger with padding or borderwidth
+	//padding + border included in total width + height
+with box-sizing:content-box added padding and borders will  stick out
+
+
+:root higher precendence than html
+
+em vs rem:
+	em - uses the font size of the element its attached to. the font size has to be set in px; you can hav a div,give it a font-size of 16px and then em's will be based off that 16px for that particular div element
+	rem - based of the font size of the root element (html)
+Neumorphisim 	
+		box-shadow : h-offset, v-offset, blur, spread ,rgba/#fffff
+
+
+Transition: property timeInSecs, otherProperty timeInSecs, (if needed)transform timeInSecs
+	myElement:someaction{new properties}
+
+
+flex: https://stackoverflow.com/questions/31250174/css-flexbox-difference-between-align-items-and-align-content
+
+
+
+Positioning:
+	https://leannezhang.medium.com/difference-between-css-position-absolute-versus-relative-35f064384c6
+	static:
+			its default
+	relative:
+			relative to its normal postion -- the position it was in intially
+			other elements not afffected -- it will leave a gap where it previously was ...other elements will behave as if it s still there taking up space
+			remains in the render flow(elements are added from top-left headed towards bottom right)
+			move it around with (top left right bottom)
+	absolute:
+		other elements affected -- will behave as if this element doesnt exist anymore so the space is free
+		takes it out of flow and then you place it with (top left right bottom)
+		if its a  child it uses the parent as its origin coordiates
+		--above point -- it gets it coords from parent be it an element or the browser window
+		* i think maybe the parent has to be relative for the child to be absolute
+		* quick tests say no.but if the parent doesnt have positon set it will be placed absolutely in relation to browser
+	// well i think that has finally sunk in.
+	sticky:
+		behaves as relative then  when you scroll along it becomes fixed
+	fixed:
+		removed from flow
+		only relative to html doc
+		not affected by scrolling
+
+
+	Theres  a z-index for placing elements on top..z axis 3d 
+		--doesnt work for postion:\ static
+		-- must have postion attribute
+
+Display:
+	Block:
+		will add a line break after it
+		you can set width and height(you cant set height/width on Inline)
+		eg. <p> <div> will be  <p>
+							   <div>
+	Inline:
+		start anywhere on existing line...so the width depends on content
+		the content comes up right to each other..ie doesnt add a line break
+			ie width and height not respected. 
+			also other outside elements will encroach on the padding... tf does this mean??
+			but margin will be respected.
+
+	Inline-Block:
+		like inline ... but you can define height and width and also margins and paddings are respected(unlike inline)
+		the elements will sit next to each other peacefully cause it doesnt add a line break after 
+	
+
+
+
+	Inline-Flex:
+	
+	Grid:
+		{google grid-garden}
+		block level
+ 			to remove space between elements add an empty multi-line comment from first elements closing tag to second elements opening tag
+	
+		grid-template-rows: specify number and heights of rows;
+						none|auto|max-content|min-content|length|initial|inherit;
+						some lenght values:pecentage px repeat(no. of columns , size of columns) fr(each fr allocates a fraction of available space ) [you can mix values eg 100px 3em 40%]
+		grid-template-columns: specify number and widths of columns
+	
+		grid-template-areas:  allows one to define and name cells in a grid container; you use the name defined 
+				the grid-template-area to name specific grid items using grid-area property.
+ 				define rows in string eg "logo menu icon" "sidebar-1 content sidebar-2" -- create two rows with three columns each
+ 				repeat an area name for it to span
+				have a dot for an area to be blank but still take up space
+				you can define sizes using grid-template-rows and grid-template-columns
+				rows must have same number of columns
+			
+
+		grid-template: shorthand for rows/columns/areas
+		
+		grid-column-start:(numbers indicating from first border line) (can be negative numbers to start from the right)
+		grid-column-end:(number indicating ending column border  line) 
+ 						:span 2 (indicate how much it should span)- also works with start 
+		grid-column:  shorthand for column-start/column-end or column-start/span-number
+
+		grid-auto-column/grid-auto-row: set default size for column
+		grid-auto-flow: either  row or column ; dictates how items will be added ; column wise or row wise 
+		grid-area: shothand for  row-start/column-start/row-end/column-end
+		order:number (-2,-1,0,1,2) default is 0 . it will be relative an element at 3 will be further right than at 
+
+		auto-fit vs auto-fill:
+ 			* auto-fit: when you have space for new columns with no new content to go in the existing columns will stretch to use up that space.
+			* auto-fill: new columns will be added even if they have no content. They will take up empty space.(I think this is good behaviour, columns wont get super fat like with autofit)
+ 		
+			grid-template-columns: repeat(auto-fit/fill,minmax(250px,1fr)) -- minmax(min,1fr)[ensure minimum width on column so they dont get too narrow] [having 1fr means: incase a fraction of a column fits- that space will be distriuted to the already existing columns so theres no free space at the end]
+
+		!!check masonry a layout to make items fo disparate heights autofit each other https://www.smashingmagazine.com/native-css-masonry-layout-css-grid/
+	
+
+
+ 	Inline-Grid:
+ 		Will make the element inline, unlike grid that makes the element block level.
+
+	Flex:
+		{google flexbox froggy}
+		block level
+		default flex-direction : row
+		(axis depend on flex-direction ie column or row)
+		*-Content - handling of the space between items
+		Justify-content - how to handle extra space main axis {flex-start,flex-end,center,space-between,space-around}
+		align-item --cross axis on  individual containers {start,end,flex-start,flex-end,center,baseline}
+		align-self -- for individual item 
+		align-content - how to handle extra space cross axis -  only on multiline flex containers - determines spacing between lines.when there is only one line align-content has no effect
+		order:number(-2,-1,0,1,2) default is 0
+		for items(not container):
+ 			flex(short for flex-grow, flex-shrink,flex-basis)
+			flex - how to proportinatly divvy up space 
+			flex-basis - set initial length of an item - (gathering it will be like the minimum but it can grow with flex-grow)
+
+		-- new notes
+			main axis(set by property flex-direction) and cross-axis(perpendicular to the main axis)
+			
+			flex-direction: row(default) row-reverse column column-reverse
+			flex-wrap : wrap no-wrap wrap-reverse
+			flex-flow = flex-direction +  flex-wrap
+
+			justify-content -- alingment on main axis	-- distribute free space and such
+			align -items -- alignment on cross axis	 (how items as a whole are aligned in the container)
+			align - content (for multiline containers only)  (defines spacing between the lines)
+
+
+	None:
+		completely remove element and its children
+		--- to make element invisible but to make it still take space use property visibilty:hidden
+Float:
+	place element to left /right and the rest of the content takes up the space beside it
+
+Custom Properties:
+	allows you to define your own variables 
+	Declare:  
+		--my-color:#202020
+		(can place it in the root element) 
+			:root{--my-color:#202020}
+	using it: 
+		background-color: var(--my-color)
+				or with fallback options
+		background-color: var(--my-color, var(--fallback), fallback)
+
+TIPS AND TRICKS:
+(src: ishadeed uncommon-css)
+for display:grid use place-items:center	
+	//combines justify-items and align-items
+
+for display:flex -- margin:auto(child items)
+	center horizontally and vertically
+
+for li::marker{ color:#color}
+	//for making the bullet points for lists to have color
+
+display:inline-flex
+	//display a list of things inline an each should be a flexbox element
+
+p{columns:3; column-rule:solid 2px #222}
+	//split up the element into columns and and a divider
+
+background-repeat: round	
+	//prevent clipping of background image
+
+img{(width..;height...;object-fit: contain}
+	//force image to be contained in the given dimensions
+	
+	//use this for browsers that dont support object-fit
+	@supports (object-fit:contain){
+		img{
+			w..;
+			h..;
+		}
+	}
+
+pseudo-elements ::before ::after
+	they add content to an existing element  , dont actually select anything
+	// came across glyphs and their awesome power. Like adding a checkmark or alpha or copyright (https://css-tricks.com/snippets/html/glyphs/)
+
+Filter:
+	Grayscale,sepia ,huerotate, blur,contrast,brightness,opacity,saturate,invert, url(location of an xml file that has an svg filter )
+	DropShadow -- gives the whole figure a shadow -- also better perfomance resource wise 	
+			BoxShadow only the rectangy prt of a figure get a shadow...not ideal for elements with sticky points 
+	Filters are animatable.
+	also backdrop filter...applied behind an element.like blurring the background to make glasmorphisim.
+
+Negative Margins:
+
+	Static elements:
+		T / L : the element gets pulled into that direction.
+		B / R : any succeeding elements get pulled into our elements space by that many pixels.
+		if element doesnt have width set.. L / R : pulls element in both dirctions increasing its width ...here margin acts like padding.
+
+===================================================================HTML============================================
+
+There's a difference between adding an event listener via a html attribute(they always start with on.. ie onClick, onEnter) and via Js with selector an addEventListener(eventName(eg "click" , "drag" , "enter"), myFunc) 
+ntTarget.
+	happens when event bubbling is true.
+	so with multiple nested elements all with the same handler registered curretTarget will change to who ever is currently handling the event, but target will always be the element that originated the event
+
+	you can stop bubbbling with event.stopPropagation . event.stopImmediatePropagation will go further and  block all other handlers attached to that element from firing
+
+	the  phases move from Capturing->Target->Bubbling to
+	you can set an event listener to fire on Capturing phase by adding a true boolean when regitering a listener with addEventListener() , (i think this is the only mean of adding an capturing event listener, the alternat method of addign an onEvent attribute inside HTML isn't available)

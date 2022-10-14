@@ -1,0 +1,897 @@
+======================REACT===============================
+!!! All components must act like pure functions in regards to their props...sooo Dont Mutate Props
+!!! Give alist of objectss an index -- helps in rerendering..remeber the example yo looked at.That day with he painting.and then you wen took a break for  abit.
+
+
+
+functions ...return <div> </div>, Classes... render(return())
+props are read only
+capitalize your components
+
+function  components can return ( some element) that will be rendered in ReactDom.render outside  the func scope
+    or they can have ReactDom.render in func body and 
+
+all componets must act like pure functions(do not modify arguments,no side effects) in regards to props
+    props are read only------ so we use State instead
+
+any thing thats js like wrap in {}
+
+render doesnt belong in functions
+
+passing props to a function.define the function with a parameter props and access the needed props as properties.  ie props.user 
+
+cannot modify props..props is an object and coded values appear as key:value pairs in them
+    Default props
+
+React.Fragment or <> </> instead of <div> less memory and faster
+
+Lists and Keys
+    
+    have an object holding the list items. provide keys for each item ie   return <li   key={menuItem.toString()}>
+            {menuItem}
+        </li>
+
+    dont use index for keys(last resort)
+    can use .id above ie menuItem.id ---not a func
+
+    you can return the map itself ...wrap it in <ul> and outer braces
+    
+
+
+
+State:
+    private and controlled by the component
+    assign state only in the constructor
+    use setState to modify
+        props and state maybe update asynchronously
+           so to modify state based on  state/prop use setState method accepting an arrow function ie
+            setState((props, state) =>({mysate: mystate}))
+
+    Data flows down: so you can pass a Parents state to a child and access it as its prop
+
+LifeCycle Methods:
+    render() -- pure , dont change state here
+    componentDidMount() --- initiate API calls , can assign state but best place is constructor
+    componentDidUpdate() ---    update DOM in response to prop /state changes
+                            can compare current prop to prevProps
+    componentWillUnmount() -- clear timer, cancel api calls, clear caches in storage
+                              cannot modify state here 
+
+    shouldComponentUpdate()  return bool answering "should i rerender my component"
+                                anytime setState() is called a rerender happens...this method can
+                                avoid a rerender
+Event Handling:
+    * Ive obsered that the callback fr the event handler is coming form the parent component and being passed in as a prop
+    *.. and then assigned to the proper event handler ie onSubmit/onChange.
+    * * i now(like 10 mins later) believe this observation to be ducking wrong
+    camelCase
+    important to bind the event handling method becuase "this" looses scope
+        //whenever you use afuncton literal like myFunc instead of myFunc()
+    bind your event handler callback in the constructor:
+            ie this.handler =  this.handler.bind(this)
+        or in the callback:
+             ie. itself <button onClick={this.handler.bind(this,addParametersHere)}>
+    assign event handlers to tags like so  onClick={myMethod}
+
+    if you want to pass arguments do with the second binding way
+        or an arrow function for the first way  ie onClick={(evt) =>this.handler(evt,"message")
+
+    event.preventDefault()  prevent default action from occuring ie refresh page on submit button click 
+     or prevent a link form navigating and instead call a method
+
+     event.target -- the component that the event fired on/originated -- access value with event.target.value (is a String)
+
+Conditional Rendering:
+    // i was facing an error of onClick not getting called on my defined component..
+    ...make sure to supply onclick as a prop and then supply a function for it later
+        {line 441 447 492 495}
+
+    can use a variable
+    inline if else ---- condition ? true : false
+    or && operator  -----------  true && expression /component ... then epr/component will render
+
+    prevent component from rendering 
+        return null
+    
+    some new notes: Conditional Dos and Donts. (https://thoughtspile.github.io/2022/01/17/jsx-conditionals/)
+
+        1. number_conditional(eg Gallery.length) && <MyComponent> 
+            -- if number_conditional is 0 , 0 will be rendered instead of nothing as we wanted.
+                coz a falsy left hand side is returned immediately(remembe rthe deal on short circuiting).what about two truthy sides?
+            
+            fixes: make the first part explicitly boolean
+                1.Boolean(number_conditional) && <MyComponent>
+                2.(number_conditional > 0) && <MyComponent>
+                3. !!number_condtional && <MyComponent>
+        2. Dont nest the ternery operator.Leave it at a sane one level.
+        3. && has a higher precedence than || , so Brackets people!
+            eg (my_cond || my_cond_2) && my_cond3
+        4. Dont use jsx as my conditional eg. if(!props.children) return null else {..wrap the chilldren in a div..}. wont work. some reasons it fails and one way to do it instead
+            1. props.children can be an empty array
+            2. children.length can fail too cause it can be a single element
+            3. React.Children.count(props.children) supports single and multiple elements.
+                Prob-> will evalute <WrapingComp>{false && "hello"}{false && "world"} </WrappngComp> as having two elements instead of none
+            4. React.Children.toArray(props.Children) will get rid of invalid nodes such as false but will still leave in empty fragment like so  <Wrap> <></> </Wrap>
+            5. You can move conditional rendering inside component.like so <Wrap> <Div hide>  </Wrap> define Div as Div = (props) => props.hide ? null : <div> .
+            it will fail because children are rendered after parents..so Div rendered after Wrap..and then stateful child can rerender separately from parent... so Div can rerender at any time.
+                -- all the above prove that you cant tell if props.Children(or an interpolated element...im guessing point 5) actually has content - CSS:empty is best bet
+
+         Workaround: use CSS :empty pseudo_c
+        5. {condition ? <MyComp id=1> : <MyComp id=2>} wont remount in case of change in condition.It will simply update.May cause problems in case of lets say <input> one being for phone and the other name ...it will leak into the other.
+            solns: 
+                1. Give a key to the two components.This will mark them different to React.
+                2. Have them on separate lines instead of a ternary eg 
+                {condition && <MyComp>}
+                {!condtion && <MyComp>}
+Render:(think of how UI should look at a given time intstead of how it should change)
+    is called upon instatiation, when state changes(setState()) or when prop changes
+    avoid changing state /props in render() cause that might trigger an infinite loop of renders //its already happened to me once... i think i setState in a fuction return
+
+    you can mess about with shouldComponentUpdate to make you own custom rendering laws
+    * i see no use now for class components..am i wrong?
+    optimization tips:
+        - add new elements at the bottom of a tree (like in a list or the contents of a div) -- if you add at top there will be a rerendering of all the elements that  
+            follow so costly, addign at  the bottom means only one operation.
+        - or use keys and even if you add at the top react will know the other elelments havent changed and thus execute only one operation
+
+Render Prop:(more notes further down)    
+    a prop whose value is a function
+    a function prop that a component uses to know what to render
+    instead of hard codig a component you supply it as a a prop to the parent component while rendering.
+    it can have arguments supplied by the parent component and then plugged in easily.
+ 
+Forms:  --use Formik --finish this tut -- it works
+    controlled components: react component that renders a form and also controls what happens to it  (so you controll the value attribute of the different elements in the form)
+            on user input
+            -- later definition : input form whose value is managed in the components State property (creating single source of truth).(cause apparently browsers can also be ued to access info in forms. through formData , a point i made below)
+                .. so the component that renders the form also keeps the state 
+    Uncontrolled - form data is handled by the DOM
+   
+      having event handlers for every state change --makes it easy to validate input
+
+        input/text , textArea , select -- all controlled components
+                #########-- multi select do an example######### -- What i mean here? implementign a multipart form? using multer ?
+
+    mutiple inputs -- add a name attriute to each element. Then you can access it like event.target.name
+
+    ? for checkboxes and radios we need event.tartget.checked not ...(.value) as other input eleelmentsI
+    formData(issa web API)-- the way to get user info entered as  key value arguments.. also file input will be encoded -- and then you can XHR that info 
+
+        src(https://medium.com/@adostes/validating-a-form-in-react-cc29d47e140f)
+
+    return value of all input fields is a string - you may want to turn it into number for number fields
+        and you dont need to parseInt. the unary + will parse things into type number .(bools, null(0), strings, +hex(positive hex))
+        so do a check on type of field and iff number +value. 
+            // it can eve change hex to number. This is awesome!! first Bang!Bang! now this
+
+    Form-errors:  
+        error messages being placed in the same div as input and in the label element (after the input element)
+        to display errors before submitting think were first loking if its been interacted with... i see errors are being stored in an errors object and then being accessed 
+            -- display errors onTouch a boolean that is true if value has been modified/ onBlur triggered(onBlur opposite of onFocus)
+            -- on the above point -- being interacte with. a touched boolean is important. True if the field has been edited..not simply focused and unfocused.
+                    -- without a touched boolean , you would display errors on field that have had no iput whatsoever.
+
+    Formik:
+        formik wraps the form you want to present.You supply the formik component props initialValues,Validate, onSubmit  you 
+        just kind of implement these without worying how they hook up later. it just providing impelemntation for initial values , onSubmit and a validate function
+        
+        Then the actual form you give it props of value, handleChange, handleBlur, errors, touched, isSubmitting- which is a bool thats toggled in onSumbit n formik props.
+        
+        or next example Formik comes with its own components Form, Field ,ErrorMessage imported from 'formik' of course which you can use i  to save you a lot 
+        boilerplate code. all you need to pass in is isSubmitting which will disable the button accordingly
+
+        theres a useFormik hook which i can supply the needed propeties initialValues Validate, onSubmit.. and then access them in
+        ...the form via a formik object as in formik.values.firstName and the such
+
+        by default formik validates  after keystroke, blur event and before submission 
+
+        Formik component calls useFormik hook internally and supplies the formik object as before ; and then a Field component will render different input
+            forms supplying them with (given the 'name') {...formik.getFieldProps()} which will be  onChange, onBlur ,value, checked(for check boxes which uses checked instead of value.)
+
+        useField  -- allows us to build reusable input components 
+                    our custo components have the input element an error display element bundled up into one div
+                    we also do our styling here.. classNames and such
+                    //// This is the best way for sure. Things remain very clean when composing your form with the different input fiels and such
+        ?-- im not entierly comfy wit how Context Mangament is working but i can live with that or come back to it late rif needed
+
+    React-hook-forms:
+            we have a useForm hook  it typicaly gives us {register, handleSubmit,errors , watch}
+                - register -- pass this into the ref of an element. register can also have an argument  of an object describing HTML (or other library like Yup) validation.for HMTL its the things like required,min,max,pattern(regex),maxLength
+                - handleSubmit -- pass this to onSubmit for the form. it gets an argument of user defined function to handle submissions..so instead of passing our own function we pas that to handleSubmit from the hook, which is subsequntly pase to onSubmit on the form
+                - watch -- you can pass in an the value of a  name attribute to watch and it will give bac the current value of that dom element.
+                - errors -- object taht  you access via dot notation with the name attribute of the dom element, and returns a true boolean if an error exists, 
+
+            as with formik the name attribute matters . used as key
+            
+            For my own defined components , have them accept props, seeing register being important(others : label, required,), and the pass them in ffrom useForm when composing the form.
+                - you can use React.forwadedRef to supply the register as a ref.
+            
+            External Components from UI libs and such: options.
+                - use Controller wrapper - Controller is a wrapper component that you pass in attributes , important control={control(/from useForm)} and a render prop that you can pass in onChange and Value as arguments to the component you want 
+                - check if component exposes a ref so you can  pass in register
+                - set up a custom register with useEffect and then update value via setValue
+                        register a field inside useEffect() by using a the function register('nameOfComponent'), wathcing for changes in  [register] 
+                            then setValue('nameOfComponent', value) is our onChange callback
+                        // the nameOfComponent is key for regiter and setValue , just like in normal situationscheck when register is set using a ref
+            Reset:
+                You can reset fields.....obviously.
+                get it from useForm like everything else
+            
+            
+Lifting State Up:
+    make the state of a child component reside in the parent
+
+    we give the make the child controlled ie giving it its needed attribute  and functions from the state of the parent
+        just like for cotrolled component <input value = myState onChange=myHadler> 
+
+    if two compnents need same data , dont try to sync the variable ,lift it up to closest common ancestor
+
+
+
+Compostion:   use Comp over inheritance:
+    
+    First example when adding components dynamically. like to a sidebar,dialog box
+        -- use props.children
+        declare what you need inside the parent component tags and access/render them with prop.children automatically
+
+      or add whole other components as props , and render them in the parent like you did with child
+
+    Specialization:
+        a more specific component renders its generic parent but provides specialization as props
+    
+
+React.memo
+    if the component returns the same thing given same props do React.memo(myCompnent) 
+    this will prevent rerenders and thus save execution time muy bueno
+
+    Learnings from w;eruch:
+        When the state changes a component renders;all its children components also rerender.
+        Use Cases:
+            - pure functional component 
+            - component renders often 
+            - Re-renders with same props 
+            - Medium to big size
+
+Styling:    
+    //clever tip - have the state of an element as  a className, that is provide  className that  matches an elements state..like elements which change
+   1.  Inline
+            use <p style ={{backgroundColor: "red"}}> </p>   Note double brackets
+   2.   JS Object:  
+            make an object containing styles ie mystyles = {... }
+            <h1 style={mystyle}>
+    3. import a style sheet
+        then the (class selector!!) will match the tags in the jsx and be applied
+    4. import the style sheet(with a myVariableName) that employed modules ie .myParagraph {...}
+            <h1 className={myVariableName.myParagraph}></h1>
+            * I remember struggling on this now...it makes sense.Experience the only way.
+Hooks:
+    New Hooks: react 18:
+
+      * useTransition()
+        [isPending,startTransition] = useTransition()
+            tell react that some state updates have lower priority than the rest
+            
+            -> isPending - tells you theres some state updates that are pending. usse it to update UI to show some fall back content
+            -> startTransition - wraaps state updating function
+
+      * useDefferedValue()
+        does same function as useTransition() making a slow and laggy interface faster
+        used when the value comes from above and we dont have access to the corresponding setState call/state updating code
+        
+        Dont utilize both at the same time;they accomplish the same thing
+        DOnt wrap every state update wth these two.
+            -> consider pagination,lazy loading, work on worker threads or the backend
+
+    use State and other react features without writing a class
+    they dont work in classes,,in fact they get rid of the need of classes    functional components for everything !!!
+    Rules:
+    call hooks at top level(not inside loops or Conditional)
+    only call from function components
+
+    * useState()
+        [state,setState]= useState(initialState)--returns  a state object and a function that can be used like setState
+        rerender happens after state change
+        so in our case of history.listen we "change an empty state to cause a rerender"
+        
+        //new Notes
+        1. We can have Lazy initialization of our state.
+            eg const initialState = expensiveFUnction();
+               const [myState,setMyState] = useState(initialState)
+
+            -- the heavy computation to get initial state will be called every render,but we only need it
+            initially on the first render to set state
+            
+            -- solution : wrap expensiveFunction in a function and pass that to useState().
+                it will be called only once on the initial render
+            eg  const getInitialState = () => expensiveFunction()
+                const [myState,setMyState] = useState(getInitialState)
+
+        2. Function Updates.(always use function updaes to prevent mess ups)
+            if we need to calculate new state based off of prev state call setState() with a function
+            eg setState(prevCount => prevCount + 1)
+            Just make it rule of thumb. the function will always recieve a freshest state value.
+            without the function update you may use a state thats been closed upon... so stale.
+                    -- lets say if you have setState in a callback for an eventListener and inside this callback theres async code.
+
+        
+    * useEffect()
+        provide fuctionality of componentDidMount() , componentDidUpdate componentWillUnmount
+        gets called on every render -- ie onMount & onUpate()
+
+        for cleaup code (onUnmount)  have useEffect return a func -- that func will get called when unmounting and before rerenders too (to clean up effects of previous renders)
+
+        have a second array argument for useEffect(()=>{}, [anArray])  for values that should be watched for changes --  the effect will only be applied if those values in the array are different between rerenders
+            -- make the array empty [] if you only need the useEffect to be called onMount and onUnmount
+
+           
+        
+        you can have multiple useEffect, they will be called in declared order
+
+        --an important use of the cleanup function is when using useReducer() and having async calls  in an useEfect scenario (obviously) .. the component might be umounted and then you attempt 
+            set state using an action.. so you can use the cleanup to toggle a boolean and chec it before dispatching an action 
+            (in case you are reading this and calling me names.... read the end of this article..youre welcome. https://www.smashingmagazine.com/2020/07/custom-react-hook-fetch-cache-data/)
+        
+    * useRef()
+        1.allows you to get a mutableobject that will keep same reference between renders
+        2.wont trigger rerender when value changes  
+        
+        common use grab html elements from DOM
+        you can also use it like an instance field in classes .. just to store a value.
+    
+    * useContext()
+        Context API- allows me to share data without pasing props/ scope values for the whole tree
+           how To // create a ContextObject(eg myContextObject) with React.createContext
+            // set value for this context object with <myContextObject.Provider  value ="x">
+            //now a (any ))component thats a descendant of <myContextObject.Provider> can get the value "x" by saying var neededValue = useContext(myContextObject)
+            // if the value "x" changed a rerender will be triggered
+
+    * useSWR(key,api_request_func)   -- similar lib react-query
+      
+        will fetch data to the component... you can then make another call to it using just the key and if the data isnt stale(2 sec expiry (read stale-while-revalidate)) it will be fetched from the 
+            cache instead of an expensive network request
+
+        // think usefull for data streams not what i need right now--like feeds and such
+
+    * useReducer() -- so i dont even have to mess about with redux huh..it will work like how useState does, but now we get a dispatch method instead of a SET_VISIBILTY_FILTER
+        // notes from fireship
+          instead of changing state directly : dispatch action , goes to a reducer function , reducer calculates how to change state in store ,then ui is updated       
+          const [state, dispatch] = useReducer(reducer, initialArg,init)
+          Then define a function reducer(state,action){switch statement}
+        good for complex/  interdependent states -- like for async where you need to set loading or fetche states while actualy loading the things via promises
+        const [state, dispatch] = useReducer(reducer, initialArg,init)
+                -- reducer = normal reducer function that take state and action
+                -- initialState=an object  // state=initalState is a Redux term -- dont do that here
+                -- init= an optional method that can be used to set(or Reset) initial State
+                    -- for calculatig initial state outside of the reducer -- like a user provided value or somesuch.Good counter example in docs.
+                        the initial counter value is supplied as a prop, and then in the reducer the init func is called with an argument thats is the initialCouter value.-- so this counter value is dynamic.
+                    -- lazy initialization
+        you can pass  dispatch down to nested components via Context.. instead of callbacks
+            an advantage over callbacks is that dispatch context doesnt chage so components wont rerender, ul=less they are also using state.
+
+        if the hook returns same value as current state , react will bail out without rendering children or firirng effects
+    * useCallback
+         will return a memoized callback - you pass it a fuction and dependecies and it gives you a function that will only be called
+          when the dependencies change.. an typically these dependecies should be values used in the function you passed it
+          // when componenets are re-rendered everything is new new..the functions and such-- so we use useCallback when we need a function object to be   
+            //the same across rerenders
+
+         //good use case: when multiple child components get the function(eg a big list). without use callback the children will be rerendered
+         // .. any time the parent is rerendered...expensive
+
+        New Notes:
+            when optimizing code by applying memoization ,the process may be broken if one of the props is a callback
+            Everytime a parent component defines a callback for its child it creates new function instances, thus memoization will fail.
+            solution: useCallback()
+
+   * useMemo:   
+         like above but it for values instead of functions
+         used to avoid expensive calculations across rerenders
+         // maybe for list again as above
+         var myValue = useMemo(()=>{//expensiveCalc},[valueToWatchToTriggerThis...just like useEffect])
+
+    * useImperativeHandle
+        -- rare 
+        i thin be able tto get a ref to a DOM element of a component and be able to change its fucntionality ..the DOM element that is
+            ...modify behaviour of exposed ref,,change methods of the native DOM elemnent
+            -- saw a function called forwardRef()
+            // Ref forwarding allows a chid component access to  a Dom element ccreated by their parent component.so the 
+            // kid can read and modify that element
+    * useLayoutEffect 
+        works like useEffect but callback will be run after render but before painting(user doesnt see changes untill after painting)
+        --so will block visual updates ..so donthave heavy computations here
+        use when you need to mutate DOM or perform measurements.or updating a ref and making sure its upto date before other code runs
+
+        DomMutations ...useLayoutEffect...painting...useEffect.
+            -- useEffect might cause a flicker on the screen eg when relying on refs to perform an animation
+    *useDebugValue
+        for when i make my own custom hooks ...the name that will be dispalyed in the devtools
+        placed in the custom hook. 
+        it will show a label of the custom hooks name and a value that i want . eg the state 
+        useDebugValue(value, optionalFormattingFunction)  formtingFuction will take in the value and  return it formatted like toString() toDate().
+                -- also the formatting function isnt called unnecessarilly ,, defered i guess. the function is only calle if the hook is inspected
+ 
+ 
+    * Building Own Hooks:
+    //its simplicity itself!!
+        a way to share logic between different components   (could do it via render props or HOC)
+        starts with "use" and may call other hooks
+        return whatever you want from it  [variables,functions]
+    
+    Redux Offline:
+        will test for network presence before handling actions or in the baence queue them and keep polling at intervals.i fnetwork completley fails it has a roback action to postion
+
+    Redux-persistence:
+        apparenlty keeps a  copy of state and returns it in such cases as page reload or launch of app
+    
+        Memoization techniques;
+            -a simple property to hold our data and you get the  things like cache[data-i-want/an-url] .. and a simple if to check if to check if it exists  else a network request
+            - a useRef() -- it will persist throughout the compnents lifetime myCahce = useRef({})   and the access it like myCache.current[data-i-want/an-url]
+            -- a useReducer() -- see slightly above  for notes
+            
+    Redux Hooks:  
+        (yet to come)  
+
+   ?  Optimizations  
+    Times rerender is called:state change & Parent rerenders
+
+    1.[for optimization of re-renders](https://kentcdodds.com/blog/optimize-react-re-renders)
+	 basically pass in the expensive component as a prop.It wont be rerendered needlesly.
+	 with normal compositon(the expensive compnent placed as a tag in another one) - the expensive component will be rerendered even if it has expeience no changes.
+	 so pass in the componets as label prop
+
+    2. Be careful where yoou place state.Only lift it up as high as necessary.
+        eg. if you hae two child compents, one utilizig the parents state and the other not, both will get rerendered whe the parents state change.
+            .. so the second child component is unnessarilly re-rendered
+    https://medium.com/evolve-technology/hide-that-da6264a7e1f -- read this again with a foucsed mind
+
+
+React Portals:
+    usefull in creating modals/overlays
+    the element declared in a portal will be rendered in a div that is not root(which is for main app) ... so just a seprate div that you declare in the index.html file... a sibling to root.
+    The element declared as a portal can be a child of another element, but it wont inherit that elements styling (important) eg it wont inherit the z-index of the parent component.vv
+    -event bubbling will still work tho. 
+ LittleStateMachine:
+    my experiments:
+        you create only one store object... you can do it in a separate file then import to main index files
+        StateMachineProvider to be used as a top level wrapper 
+        useStateMachine can get arguments of functions that will be used as actions to change state  
+
+Ref:
+    Basically give you a handle to a  dom element or a  instance of a component(must be a Class component tho, cause function compoennts dont have instances)
+    You can use it in a function component if it refers to a dom element or a class component.
+    Allows us to modify without using props.
+
+    for class components the example shows use wrapping our class component in another clas component.
+    the wrapping class defines the ref, its assigned to our inner class in the rendder and then using that ref you can calll methods inside the inner class
+
+    callback refs: 
+        instead of passing the ref created by React.CreateRef you pass a function.
+        the functions reacive an component instance or a dom element as it argument. able to be stored and accesse elsewhere
+            -- havent een the advantage so far
+
+Ref Forwading:
+    enable one to declare a ref and have it passed to a child component's dom element.
+    so you can control the element from the parent component.
+    you create a ref in the parent component, pass it as a prop to the child component.the child then passes it to dom element in it 
+    the  component recievig the ref has to be made like so const mycomponent =  React.forwardRef((props,ref)=>{})
+    forwardRef accepts a render fuction and returns a react node.
+
+    for the Hoc we have a wrapping component, that does modification and return the passed in component thats enhanced.
+    if we give it a ref, the ref wil go to  the wrapping component not our passed in component like we might like.
+    so we use forwardRef to give make sure our passed in component gets the ref object.
+    so inside the wrapping component render>return, we deconstruct a forwardedRef from the props, then we just give into the passed in component as a ref together with the remainder of the props
+    the trick is in the returning of the wrapping component. instead of just of returning our WrappingComp , we return a React.forwardRef . and its render functions which gets params (props,ref) will return our WrappingComponent which we shall give {...props} and  forwadedRef = ref(which is what we deconstructed above) 
+
+
+    -- theres more  bs about naming our forwaded refs, for devtools purposes ..yeah maybe no.2
+
+Render props:
+    a function prop that is called in a render method
+    advantage over children prop: we can pass data to it as arguments since its a function, and vice versa!!
+        - the parent can be pure..not returning any divs thus no extra divs to account for.it can just return this.props.render
+    in the parent / wrapper component we have {akin to {children} }  {this.props.render(someArgument- which is a property found here in the parent component)}
+
+    and then actually implementing it   <Parent render={(someArgument) => <MyComp argu={someArgu} /> }
+
+    with  PureComponent having your render prop as  an anonymous function will negate the benefits of Pure which does a shallow prop comparision to determine if a render should occur. An anonymous function, the render prop wil be a new value on each renerner
+        -- to mitigate this make you anon function into a named function. This helps especially if the function is expensive.
+    // Later Notes 
+    you want to give some unknown chidren components some value as a prop. in the parent have this.props.render(Value_i_Want_to_pass_in)
+    then pass in a function to the parent's render property ie <ParetComponent render={(value_passed_from_parent)=><Child someProp={value_passed_from_parent}>}
+
+    You can also pass a value to children componets eg this.children(some_value)  and then when rendering have 
+    
+    <Parent>   
+        	{(someInput)=><React.Fragment>
+				<Child msg={someInput}></Child>
+			</React.Fragment>}
+    </Parent>
+
+
+Higher Order Components: HOC:
+    //  i gt the vibe that they are working a bit like closures
+    A technique for reusing component logic. A pattern emerging from reacts compositional nature.
+    fucntion that takes a component and returns a new component.
+
+    The HOC will have common functionality that needs to be applied to functions..so its stil just composition.
+    And also currying.good stuff.
+
+    * getting my head around the explanation in React docs...how the function is passed in.I get its a callback.-- 20 years later. Its is a callback provied as 
+    * an arrow function.Its not executed as i thought, the body of the arrow function is what is called when the callback is triggered later on.That was what was tripping me up
+    * and the fact that DataSource is a global variable.
+
+Code Spliting:
+    Create multiple bundles that can be dynamically added at run-time
+    
+    1. Dynamic Imports
+
+        before: 
+            import {add} from './math'
+        
+        With dynamic imports:
+            import("./math").then(math => console.log(math.add(2,3)))
+
+    2. React.lazy
+        render a dynamic import as a regular component
+        the bundle containg the component will e loaded when he component is first rendered.
+        React.lazy takes a function that must perform a dynamic import
+        That modle eing loaded must have the component we need as the default export.
+
+        before: 
+            import OtherComponent from "./OtherComponent"
+        
+        With React.Lazy
+            const OtherComponent = React.lazy( ()=> import("./OtherComponent") )
+
+        The lazy component can then be rendered in a Suspense component 
+        You can wrap many lazy components with one suspense.
+
+        eg. 
+
+            import React , {Suspense} from 'react';
+
+            const OtherComponent = React.lazy(()=> import("./OtherComponent") )
+
+            function MyLogin(){
+
+                return (
+                    <div>
+                        <Suspense fallback={<div>Loading</div>}>
+                            <OtherComponent/>
+                        </Suspense>
+                    </div>
+                )
+
+            }
+
+Redux:
+    Actions:   
+        payloads of information  that send data from app  to store
+        only source of information to the store
+        must have type property (typically defined as string Constants -- for accuracy)
+    Action Creators:
+        functions that create actions
+        they simply return actions
+
+        and then call dispatch() -- access it thru react-redux's connect()
+
+    Design State Shape:
+            you may need to store data and UI state -- just keep them separated
+
+
+            Problems of deeply nested data: 
+                - hard to make sure all instance of a given property are updated
+                - since theres no mutations, all ancestors will be updated causing unnecessary UI updates
+                - reducer logic becomes very complex very fast
+
+            //normalizr -- keep each state as an object with an ID as key..so treat part of state like it was a db and keep that data normalized.
+                coz they may need to reference each other -- as in relational
+            
+            Guidelines to normalize:
+                - each data type gets its own "table"
+                - each "table" should store individual items; ids as the keys & the items as values
+                - references should be done by storing the ids 
+                - arrays of ids should indicate ordering eg a video with many comments  comment: [comment3,comment4, comment2] 
+             
+             Advantages of normalized  state: 
+                - updates are easy : localized that is
+                - reducer logic is not convoluted
+                - logic for retrievingand updating is easy
+                - reduced rerenders
+                
+             We have connected parent components that pass id's to their children, optimizing UI performance 
+
+            Normilzr will flatten the deeeply nested data gotten from API's so you can intergrate it into thestate tree without hassles
+
+
+                // read about normalizr. it flattens nested entities out..like if  you have a key whose value is a whole type eg "somekey": {"keyA: "ValueA","keyB":"valueB"}it ca be redrencd just by the id
+                //break it down into entities such that each entity has a unique key(that is an id relevant to the value of that pair)
+                //normalize() will do that all i need to do is come up with entites
+             
+             
+               --no actual practise as of yet
+                so flatten instead of nesting
+                eg     "users":{
+                    "1":{"id":"1", "name":"Mo"},
+                    "2":{"id":"2","name":"Mdx"}
+                } intead of 
+                      "users":{
+                    {"id":"1", "name":"Mo"},
+                    {"id":"2","name":"Mdx"}
+
+     Reducer:
+        specify how app state changes in response to actions sent(dispatched) to store
+        
+        a pure func that takes previous state and action, returns next state
+        
+        (previousState,action) => nextState
+
+        -no api calls, no mutating arguments, no side effects, no calling non-pure functions
+           these should happen before dispatch(action)
+            -just calculation
+            use Object.assign -- it creates a new object by merging an old old one with new properties given
+
+        reducer composition -- break down into small separate functions that deal with a specific slice of the state(ooh like UI and Errors and actual data -- three separate funcs)
+                        in the typeout we have visibiltyFilter() function for action SET_VISIBILTY_FILTER- dealing with filter changing -- this doesnt touch on todos array at all -- so ui moification
+                            and the todos which deals with  actions ADD_TODO  & TOGGLE_TODO these modify actual todo array
+        
+                    --so like reducer_1(state.property_1, action)
+                              reducer_2(state.property_2, action)
+
+                        -- each reducer manages it own part of global state
+        combineReducers() -- calls your reducers with slices of state selected acording to their keys, returns a single object
+                    returns an object from those two seprated reducer funcs above
+
+
+                    myReducer = (state=[],action)
+                        // empty list as default argument. First time redux will call reducer with undefined state
+                        //paue and thin what the code is i javasctipt--you arent that strong in js and its costing you a bundle
+       
+    Store: 
+        always singleton
+        holds app state
+        allows access via getState()
+        allows updates via dispatch(action)
+        register and unregister listeners via subscribe(listener) 
+            subscribe() returns func for unregisterig listener  
+       
+       made by const store = createStore(object from combineReducer(), [optional]initialStateFromServer [optional])
+    
+      --ST we can access parts of state through state.reducerName
+
+
+    
+    Redux Hooks:
+       
+        useSelector()
+            Extract data from the store with a selector function
+    
+    
+    Data Flow: 
+1
+    Presentation and Container Components:
+        
+        How things look / How things work
+        Not aware of redux / Aware of redux
+        Read data from props / Subscribe to redux state
+        invoke callbacks from props / Dispacth redux actions
+        written by hand  / Generated by redux (using connect()  function)
+
+    ownprops are the props presented to the container component that we may access in mapDispatchToProp as the second argument first being dispatch
+      (a non batshit explanation some 20 years later) if you need the props that the component recieves in order to assist in your efforts of getting state..ownProps are the answer; eg some datat like ids, timestamps, search queries. you get them as an optional argument in mapStateToProps
+
+   
+    mapDispatchToProp:
+        
+        with bindActionCreators we hook up wanted action creators to dispatch inside the mapDispatchToProp functions ..
+            --aditional benefits any arguments supplied are impicitly passed onto the action creators
+
+        --- we recieve dispatch as a prop too, so what happens with mapDispatchToProp is we map a specific dipsatch call to a function, recieve that fuctions as a prop and use it in the components 
+                so like onButtonClick : () =>{ dispatch(someActionCreator(relevantData))}  --dispatched to Store and relevent reducer is applied
+                
+                --- what i wrote above was a whole lot of gibberish honestly.. map is a way of providing State and Dispatches to a component - changing it from a   Presentational to Container component
+
+    ---(RECOMMENDED METHOD) - object shorthand
+        if you supply an object of action creators to connect () all the above will be handled automagically
+
+    --NOTE  
+        you will miss out on having dispatch() as a container prop in some classes
+            if you want it:;
+                1).connect(mapStateToProps,null)(myComponent)
+                2). mapDispatchToProp(dispatch){
+                    return{
+                        my,
+                        various,
+                        funcs,
+                        dispatch   
+                    };
+                3.) mapDispatchToProp(dispatch){
+               
+                    return {
+                        dispatch,
+                        ...bindActionCreators({some,action,creators},dispatch)
+                    }
+                }
+ASYNC ACTIONS:
+
+    two important moments in API call-- starting the call ,recieving the answer
+        they need change in application state,so we dispatch Sync/normal actions
+            usually 3 norm actions:
+                1).informing reducers request has begun
+                        reducer can toggle isFetching flag -- UI shows spinner
+                2.) ...request has finished succesfully
+                        reducer can merge new data to state and toggle isFetching (hides spinner) displays data
+                3.) informing redQucer request has failed
+                        reducers may reset isFetching and display error data to the UI
+    
+    so an async action returns a function. the function is excecuted by thunk middleware(havent read on it)
+    this function can have side effects(API calls ) and can perform dispatches
+
+    THUNK:
+        middleware that lets you call action creators that return a function instead of an action object
+        added when initializing the store
+        const store = createStore(rootreducer, applyMiddleware(thunk))
+    proccess of async actions:
+        1). in container dispatch action (creator) as usuall
+        2.) the action will return an (async--if you use await obviously) function  instead of an action object per the norm
+            you can dispatch action to indicate isLoading or isFetching
+            in returned function will have the api call ie fetch or axios
+                --this function also recieves (dispatch , getState)
+            with the response to the api call - a success (you can dispatch an action to the store with it)
+                                         - an error (dispacth an error to the store )
+
+REDUX-TOOL-KIT: 
+    
+    
+
+
+
+ROUTER:
+
+        ??Some revision notes
+        - pass in 'exact' for the '/' route: otherwise home will be rendered everywhere. Even when using switch
+        - Advantages of wrapping our Routes with Switch: 
+            - ONLY render first route that matches.
+            - allows nested routing 
+        - The more specific a path is the higher up on the switch list it shoud be.
+            and then have '/' as the default. the fallback.
+        - there are url parameter(:user) and search parameters (myurl.co.ke/home?user=me)
+        
+        - diff between match.URL and match.Path: the url can be anything ,the question is will it match the path.
+            like for the topics example in the docs ... it doesnt matter what the url is after /topics/  the Route will just try to match it with /topics/:anytopic 
+            //match.path is "the path pattern used to match a url"!! so its just pattern.
+        -- fro a SO answer. "inorder to nest Routes you need to place them in the child component of that route" as i have a route with SmallCats as the component...and then inside that component nest further routes.
+        -- upon further reading, use component={myComponent} in Route. iff its an inline function then thats when you place it in render={}
+                //this had been causing me some degree of confusion .
+        
+        -Im not sure tho... the vibe() im getting from nested routers...is that the route /whale will be chosen even if i click /whale/orca ...and then further specificity(url params) will be handle inside /whale component
+        
+           
+            //i do not feel much achoven with these here second gander at react-router..i dnt like it at all.heh.
+
+    <Router> will do inclusive rendering eg  '/' '/login' '/About' 
+            if you visit '/' all  the rest get rendered
+            use exact path="/" to avoid this
+            uefull for like when you need that componet everywnere  
+                ie a header place it first  a footer place it last 
+    <Switch> only exact matches --useful nested routing
+            wont do inclusive rendering -- (but still need to use exxact path?? ) --yes still use exact for like '/' it costs nothing
+            --remember put more specific routes first,and generalize whilst descendig
+    -- remember to match /home same as '/'
+    -- remember to provide NotFound as default for Switch--make it last one with no path
+
+    <Route path="" component/render/children>
+
+      nn-- Recomended is having our component as a child of the Route.
+            eg <Route path="/mypath">  <MyComponentAsAChild>  </Route>
+        
+      (nn === new notes)  
+        
+        
+        
+        
+        use only one on a given Route
+          
+        use only render or children for an inline component
+        using component with an inline compnent will cause it to be remounted on rerender insted of just updated - so use render or children
+
+        so for component best is <Route  component={myComponent}></MyComponentAsAChild>
+        
+        all 3 get route props (match,location,history)  -- for "children" its match will be null if the route doesnt match the url
+        children will always get rendered match or no {so you can have different UI }
+
+        precedence Children> Component > Render
+
+
+    // we have {component:Component, ...rest} whats happening is destructuring of object props , property component gets renamed to Component , the rest of the 
+    properites are placed inside rest.
+
+    <Link> <NavLink> --navlink prodides styling thatis applied if current url matches its path  
+        <NavLink path="/some/path" activeClassName="navClass"
+    <Redirect>
+
+    match.url -- will give you actual matched part  --actual param instead of placeholder  -- home/2 instead of home/:userid
+            -- use it for nested Links
+    match.path -- matched path without the specificity of the URL parameter
+                --use it for nested Routes
+                ie <Route path = {`${match.path}/:userId`}
+        //? the above notes are accurate but of zero help.
+        //! there are
+    History   we need to manage history with authentication like log out you make sure
+    you push home page onto history  history.push("/")4
+    Location --use location from props not the one in history(this is mutable)
+    History.push() will add on top of stack
+    History.replace() will replace top entry so that you cant go back to an invalid page
+    Authentication make protected by making a custom route..a component that s just a route..if authenticated give needed page if not <redirect>
+
+
+    creating custom links jsut make a cutom components passing in props as needed that would be used in a ormal Link object the format it as seen fir 
+    useRouteMatch() -- creates a match object used when you need a route
+    useRouteMatch({location}) when you ned a match without necessarily the route
+
+
+
+React suspense --havent read the full article. I will.https://css-tricks.com/react-suspense-in-practice/
+    A way to have a backup component to dispaly when a refresh is happening or data still loading
+    For redirect we have to make sure the component rerender using history.listen that fire a bogus state change, place this inside useEffect()
+
+
+
+
+REACT-TRANSITION-GROUP:
+    Transtion:
+        entering -> entered  & exiting -> exited
+        props:
+            in -- if true the transtion starts
+            timeout - the amount of time a certain stage will last
+                    -- shift to 'entering ' stay there for duration of timeout the switch to 'entered'
+            mountOnEnter - by default child component is mounted  when Transition component is mounted
+                            -- set to true and then when 'entering' is accessed the child component will then be mounted
+            unmountOnExit - by default the component hangs about after exiting just taking up space and resxouces
+            appear -- set to true if you want transition effect to happen immediately on mount 
+                    -- like first mount when the element originay mounts, like initialy in he begining
+                     - for CSSTransition it will have three as per norm
+    CSSTransition :
+        for effects based on css
+        you provide a prop classNames that takes in the css classes to be applied as appropriately
+        take a pair of classes(classame-enter, classname-enter-active, classname-enter-done,) for : appear, enter, exit
+           done is optional and applied at the end and remains there
+        done
+            dont forget done!!k
+        Some prop Callbacks
+            onEnter (after 'enter'/'appear') 
+            onEntering(immediately after 'enter-active'/'appear-active')
+            onEntered (immediately after 'enter'/'appear' classes are reoved) -- wtf does this means
+    
+    Switch Transistion:
+        for managing effect of transition 
+        can be in-out(new child inserte then  old remove) or out-in (wait till old child leaves then inserts new child)
+        Takes a child of CSSTransition or Transition    
+            -- that child then has a property key--important keeps track of  -- state i think then whe that state changes the transitioi is trigered
+                -- the example is using true/ false -- does it function like "in" prop?? no its to identify which component is transitioning so effects can be applied to it
+
+    TransistionGroup   
+        to manage a list of Transition or CSSTransition elements
+        can be used for changes i routes / images  -- provide a key prop to the child that chages and TransitionGroup will handle the shifting
+                                                    --change key prop as the content changes-- many ways that keys change location.key for example
+        --Key is super important for TG could say its...Key.
+
+        
+        -- on location being passed to switch
+                transitioGroup keeps a pair of elements iternaly exitig and entering so giving a location object to switch means the exiting mathces to the old url and the entering matches to the navigate to url
+
+    With React Router
+        its Route> CSSTransition> Component
+         so CSSTransition will use match object to caculate the in prop
+         use postion: absolute or postion :fixed to remve them from doc flow...otherwise they will still appear whilst exiting
+            -- so give the Component postion:absolute or positio
+            n: fixed
+         DONT use switch  ()in React Router animation transistion they did use it with  useLocation )
+
+
+
+
+
+
+         
+=====================================REACT============================================

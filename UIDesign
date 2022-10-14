@@ -1,0 +1,542 @@
+2020-10-26 11:48:39
+    That picture of a door with a circular attachment on top (https://www.reddit.com/r/woahdude/comments/ji3owj/im_scrolling_through_my_home_feed_and_i_see_this/)
+        Like that door is still functional yes, but it as quite literlly broken the mold on doors its no longer just a rectangle to pass through you know
+            its a work of art, it form hasnt been limited by its function, in fact its form has enhanced it.its become more than just a door..The limitation of function meets the ambition of art
+                to expres this.in fact i feel that it being a door has become a secondary characteristic.its a door not defined by its doorness per say.its a pleasing piece of
+                    architecture that just so happens to be able to let people in and out.
+2020-10-26 08:32:29
+    Good Aspect Ratios for Web
+        1:1  for p pics and such
+        3:2  1080x720 or 6x4  35mm film and photography
+        4:3  1024x768 or 8x6  TV displays, monitors, digital camera models
+        16:9 1920x1080 1280x720 Widescreen TVs   // (this  does look good )
+
+2020-10-23 20:09:33
+    Adobe xd: 4 Rules for UI Design
+
+        1. Put users in control
+        2. Make it comfortable to interact with product
+        3. Keep UI consistent
+        4. Reduce Cognitive Load
+    
+        1)  
+            - make actions reversible- provide undo button
+            - easy navigation  - a sense of where they've been, where they are now, where to go to next
+                    -- page titles and highlight current navigated page
+                    -- cues to predict outcome of action  
+                        eg Stepper in a purchase process, sign up, data entry, even just a simple  arrow showing what will happen next
+            - provide feedback for actions 
+                    -- like  a button press changing color , tick marks on correct entry of info, a field getting a highlight to show engagement
+                    -- progress indicators , loadig bars, spinners,that progress bar at the top as you scroll down- i saw an article that had a stepper 
+                        for the chapters--i dinnt like it..
+            - acccomodate users with different skill sets
+                    -- provide tutorials, explanations(tooltips or like the question mark thats next to stuff), onboarding screens 
+                        but make them skippable too for experienced users
+                    -- meaning also providing text with icons
+                    
+        
+        2) 
+           - eliminate information that is unnecesary - reduce cognitive load ... less is more
+                    -- all elements on screen should be valuable and relevant
+           - dont ask users for data theyve already entered
+           - avoid jargon / system oriented terms, use easy familiar language
+           - Fitts law for interactive elemefamints, make them large and near   
+                    -- Fitts law - time taken to aquire a target is a function of distance to and size of the target
+                -- so reduce distance, increase sizes and also try to reduce the total number of interactions required to complete an action
+            - make things accessible , like for hard of hearing or any imparements of any sort visual or the such or physical
+                -- be concsious of the color choices you make, for color blindnes,
+                -- like alt tags for screen readers -- this is necessary for all images
+                -- dont use colors as the only means to convey information -- and buttons next to each other have one with fill the other without.
+            - use real world metaphors  , like trash can for delete functionality, a full trashcan for deleted items
+            - errors are inevitable, handle them   
+                -- give good feedback, suggest ways to fix, display error messages close to the source. (explicit error + possible fix = good error message)
+                -- better yet check for common errors before a user commits an action and show a dialog (dynamic processing of a field--not the name but ill confirm further down)
+                             like the one asking if you really want to leave a page 
+                        -- or a user trying to submit a form with some blank fields
+                -- excellent recovery + excellent prevention == excellent UX
+            - protect a users work
+                -- like refreshing a page in the midst of completing a form or internet problems 
+                    --- so i guess commit stuff to local state even before the whole form is complete
+      
+
+        3) (helps Usability and learnabilty, helps users transfer their knowledege from one part of the app to the other/ from different app to this app)
+                (Jakobs Law)
+            - Visual Consistency (Style) 
+            - Functional Consistency  (Principle of Least Surprise)  
+                -- things should work the same  throughout the app
+                -- have interface behave how users expect it to
+            - Consistent with user expectations
+                - like platform conventions
+                - dont reinvent patterns
+                - dont reinvent terminology
+
+          
+        4)  (dont make users think/work too hard)
+
+            - Chunking for sequences of information/ actions  
+                - break down phone numbers (according to region / country)
+            - Reduce number of actions required to complete a task
+                3-click-rule - get any info with at max 3 clicks
+            - Recognition over Recall
+                 make information and functionality easily visible and accessible
+                 use tooltips , context sensitive details
+            - Promote visual clarity 
+                form follows function
+                Display just the needed info at a time (KISS) -- progrressive disscovery
+                Content organization - group similar items, number items, headings and prompt text , visual hierarchy
+
+
+2019-10-20 23:14
+
+    12 principles of animation...
+        Antici....pation  -  indications that a move is about to occur
+        Solid Drawing - account for 3d  space, indicate weight and volume in the drawing
+        Secondary movement - movements that reinforce the main move
+        Follow Through and overlap - things dont stop at once
+        Appeal - quaity of charm , charisma of the action
+        Squash and Stretch - gives illusion of weight and volume as the object moves 
+        Staging - center..orient things .captures the attention
+        Timing - more drawings at ends fewer at the center indication of speed -- the interpolation
+        Straight ahead and Pose to Pose - drawings from begining to end / drawings at key stages
+        Slow in Slow out - more drawings at start of actions . . fewer in mid. Few drawings = fast action / more drawings = slow action
+        Arc - all actions  move in arcs(few exceptions)
+        Exagarations - remain true to reality but add flair and style
+
+
+2021-09-19 17:11:46
+
+Watching luca vs raya... pixar has tons of charm. the eyes especialy so wel done..they are alive.the become the focus they express emotion.
+the plot doesnt matter much coz every scene is complete in itself
+Raya trying to imitate life  with animation 1and failling.....Luca embracing animation and using it to enhance life.. and winning.()
+
+Pixar StoryTelling Rules: 
+    1. You admire a character for trying more than for their successes
+    2. You gotta keep in mind whats's interesting to you as an audience, not whats fun to do as a writer.They can be very different
+    3. Trying for theme is important but you wont see what the story is actuallyy about til you are a the end of it. Now rewrite.
+    4. Once upon a time there was .... Every day... One day .... Because of that .... Until finally .........
+    5. Simpilfy. Focus. Combne characters. Hop over detours. Youll feel like your losing valuable stuff but it sets you free.;
+    6. What is the charachter good at , comfortable with. Throw the polar opposite at them. Challenge them. How do they deal.
+    7. Come up with your ending before you figure the middle. Seriously endings are hard, get yours woking up front.
+    8. Finish your story, let go even if its not perfect. In an ideal world you would have both, but move on do better next time.
+    9. When stuck make a list of what wouldnt happen next. Lots of time the material to get you unstuck will show up.
+    10. Pull apart the stories you like.What you like in them is a prt of you. You have to recognize that before you can use it.
+    11. Why must you tell this story in particular. What's the belief burning in you that your story feeds off of.that the heart of it
+    12. Discount the first thing that comes to mind. and the 2nd 3rd 4th 5th get the obvious out of the way. Surprise yourself.
+    13. Give your charachters opinions.a charachter being passive or malleable is easy for you as a writer, but its poison to your audience.
+    14. What is the essence of your story. Whta is the most economical way of telling it.If you know that you can build from there.
+    15. If you were your charachter in this situation,how would you feel.Honesty lends credibility to unbelievable situations.
+    16. What are the stakes. What happens if he doesnt succeed. Stack the odds against him.
+    17. No work is ever wasted. And if its not working let go and move on- if its usefull it will show up again.
+    18. You have to know yourself and know the difference between dong your best and being fussy. Story is testing not refining.
+    19. Coincidences that get charachters into trouble are geat. Coincidences that get them out of it are cheating.
+    20. Excercise.Take the building blocks of a movie you dislike. how would you rearrange them into what you do like.
+    21. Identify with you situations/characters. What would make you act that way.
+    22. Putting it on paper lets you start fixing it. If it stays in your head,a perfect idea you will never share it with any one
+    
+
+    "What youre trying to do,when you tell a story,is to write about an event in life that made you feel in a particular way. And what your trying to do when you tell the story is to get the audience to have that same feeling"
+2019-10-22 14:18
+    HNoon. how to create a logo
+    Medium 10 UI timesavers 
+        Build a color palette 
+
+2019-10-22 23:29
+    Blood Bag..LifeLine...Icon
+
+2020-10-29 18:37:48
+    Add delays to some things so the user doesnt feel that it was too fast ...like a spinner for a couple of secs just for show
+    --  When processsing stuffs that seems importante.
+
+2019-11-20 10:45
+    The mind is an attic
+    UX animation --key points and inbetweens 
+
+2019-12-09 17:32
+    Nothing is hard twice.//Nothing is hard twice.
+    Nothing is hard twice.
+
+
+
+    "You see what you aim at."
+
+2020-01-08 19:01
+    (psychology of ux design medium)
+
+    Dual coding. pairing images with text.iconography
+    
+    Isolation Effect(Von Restorff Effect) -- attention is drawn to an element thats different in a group.
+            like a solid red in a range of pinkish hues.making the target larger/brighter/more distinct.
+            Guiding navigation (like dont have the exit button as the most eye catching element on your page)
+
+    Cognitive Load
+        intrinsic -- inherent part of dificulty of task by iteslf
+        extraneoud -- external,manner of presentation,ie describing a square visual vs verbal
+        germane -- prccessing constructin and development of schemas
+                    ---allows one to make sense of info presented and easily stored
+
+        reduce cognitive load
+
+    Visceral Reaction  + Aesthetic- Usability Effect
+        First impression / gut reaction
+        appealing interface ,minor issues will be tolerated
+
+    Pattern Recognition:
+        Increases engagement and awareness
+        interface becomes invisible/ not drawing focus away from task at hand 
+        Be different...in similar ways :)
+
+
+2020-01-13 01:51
+    Data visualizations/observabilty instead of data tables
+
+
+        js + css files into one
+
+2020-02-04 00:20:
+    UI design: (2019 UI Design Crash Course)--watch video on converting mockup to html
+        Color and contrast --have two main colors and their hues
+        Typography-- dont mix serif and sans, proper weight font 
+        Whitespace -- alignment of elements--like border and padding
+        Visual Heirarchy -- using typography and color to draw distinction
+                        call to action elements shoould pop more
+        consistency
+        complexity vs simplicity
+        scale
+
+
+        -- use a grid to keep position elements
+            page doesnt need to be wall to wall in most cases (exception content heavy site ) -on desktop
+
+
+
+
+2020-02-17 10:49 (Design) mobile
+    
+    Limit form fields
+    Avoid splitting data fields---have formatting placeholders to guide +
+    Appropriate Keyboard ---
+        7 of them email,text,tel,number,date,datetime,month
+    Autofill -- SMS OTP --inputing verifications codes without trouble
+    simplify data input
+        geolocation for "from" field
+        biometric for unlocking apps
+        card scanning for credit cards and such
+    break down long forms into chunks (only visible one at a time)
+    finger friendly components -- in between space of 8dp or more
+    provide feedback
+        focus state for field --like glowy halo around
+        visual feedback--
+        success state or error messages
+
+
+
+
+2020-03-24 20:09
+    storytelling for my product:
+        through presentation -- the advert, the impact on peoples lives 
+        through form -- hero elements(green), cancelling elemnts (red) sidekick -- (color pallete for  a site maybe)
+        through Feel -- arc plot of a story 
+                        Exposition, Conflict, Rising Action, Towards Climax , Falling Action, Resolution
+2020-03-31 18:36
+    UI Design
+        law of locality --- put control where it affects change
+                        --- control affects larger area put it above that area
+                                --for violations seperate from left to right
+                        -- farther away a control is from control area more it should pop
+
+        Anything But Dropdowns
+                        Radios , segmented buttons(vertical --mobile, horizotal), cards, typeahead control, visual option , switch
+
+                        Dont use drop downs for dates, calenders or textbox
+
+2020-04-04 00:53
+    Dont skip heading classes eg move from h2 to h3 not h5
+
+2020-04-13 13:25 
+ 
+    Printing set up media queries and such
+        -for receipts/invoices recipies directions and maps, tickets
+
+        css page
+            fragmentation
+
+2020-11-10 10:23:30
+    
+    Make  sure the text contrast against background is high enough for readability -- theres a site you can check with 
+    Make elements defined (like cards)- multiple shadows / a subtle border( just a shade darker than the shadow) - dont make muddy shadows 
+    Use one typeface in concert with different weights, sizes and colors 
+    Give 20pt to long content - blog posts , descriptions -- any wall of text 
+    Improve user onboarding - place skip close to thumb.. place things close to thumbs honestly
+    Shadows come from one light source
+    Constrast between text and images - have that sutle gradient overlay
+    Use centered text only for headlines and small passages of text
+    Use Whitespace well allow things to breathe - spaces between icons , between different sections of text
+
+    -- Im noticing theres great wide spaces between paragraphs in medium articles and the paragraphs themselves are quite short
+
+
+2020-11-10 11:51:23
+    Truncate long names. Always. Dont be like Thunar
+
+2020-11-12 19:35:02
+    On boredpanda the comment thing in address bar  jiggles slightly and it draws attenion even though its small and unobtruive... 
+        -- movement no matter how small raws attention
+2020-11-13 11:12:39 
+    hover on some element s like buttons in desktop let them change color.
+
+    -- i had another thought about ui but its slipped. Attention .. was it howthe dodo has a visual efect for dogs or cat sund s  those smalish waves.
+    !!ive remembered . When writing something dont force people to add lines to the very bottom of the screen. like alow one to scroll inot blank
+        areas!! Have a scroll overflow!!!
+    
+    -- for resizing have a point whee you can anymore.like a baseine where a textbox refuses to 
+        be squished further like example whe youre sizing windows/columns a search box will refuse to get smaller than acertain point.
+        -- also the reverse .. know that something wont get bigger than a certai poit.
+
+
+2020-11-13 21:06:53 
+    Micro Interactions - communicate feedback to user for actions taken , button pressed 
+
+    Trends needed - Storytelling , Asymetrical layouts 
+
+2020-11-20 09:31:39
+    Text-On-image
+        1. Tint the whole image any shades you want -- just thought i can also grayscal an image
+        2. White Text -- A must!!
+        3. Full page images
+      hapip  4. Text in a box ie. white box & black text or black box & white text  css box-decoration-break:clone
+        5. Blurring - ca use a color bar and blur it - can bur the image itself soften it (caled a scrim)
+        6. Floor fade -- i like this one.. doesnt have to be as drastic as ive done rn.                          
+
+2020-11-27 04:29:28
+
+    LAWS OF UX (Psychology): -- visit laws of ux.com
+                            -- a good site too.havent gone through it too much (https://www.interaction-design.org/literature/topics/fitts-law)
+        1. Jakobs Law -- users will expect familiar functionality to sites they already spend a lot of time on.
+                        // so observe highest traffic sites and apps have done things . Like you did with twitter.Nice observation skills guy.
+        2. Fitts Law -- time taken to locate an item is proportional to item size divided by distance
+                      -- distance between attention/task area and task related button should be short.
+                      avoid long drop downs
+        3. Occamz Razor -- The solution with the  least assumptions is the better one
+        4. Aesthetic Usabilty Effect -- things that are aethetically pleasing work "better" // i think its called Halo effect
+        5. Doherty Threshold -- the amount of time taken to recieve feedback from  an interaction should be less than 300ms. So employ things like spinners/loaders to give some feedback on long running events.
+        6. Hicks Law -- time to make a decision increases with number & complexity of choices. So break up forms. Make things simple for users
+                        -- employ progressive disclosure(where apt), highlight best option for users,  reduce no of choices, use steppers, 
+        7. Law of Common Region - things placed in a similar looking area will form a group
+        8. Law of Pragnanz -- objects will appear to take the simplest form to an observer
+        9. Law of proximity -- objects physically close together form a group
+        10. Law of Similarity -- objects that look alike form a group
+        11. Law of Uniform Connectedness -- elements visually connected appear related than if  not.Use  of color, lines,frames
+        12. Millers Law --average person keep 7 (+/-2) items in working memory.So keep the cognitive load low. Organize elements into 5-9 elements at at time
+        13. Paretto principle / 80/20  -- 80 percent of output comes from 20 % input.So choose wisely where to invest time and energy
+        14. Parkinsons Law  -- work will expand to take up all the available time
+        
+        15. Serial Position Effect(Primacy & Recency) -- object at beginning and end of series are more readily recalled.So place important stuffs there
+        16. Postels Law (Robustness Principle) -- liberal in what you accept, conservative in what you send. Originally in a messaging system like TCP. Also.. Accept a wide range of input(ie user actions,data) in different formats(ie for dates just palce an arbitrary restriction of  dd/mm/yy), this was in DOET too.The feedback you return should be exact. Also in functions....for functions to be compatible(Liskov Substitution Principle) have them Contravariant in input type and covariant in output type(this isnt internalized) 
+        17. Teslers Law  (Waterbed Theory) -- Theres a certain amount of inherent complexity that canot be reduced/removed....(however people resist over simplification.Too simple an application, users attempt complex stuff)
+                            -- (much)Complexity burden should be on the system/product, not on the user.
+        18. (Hedwig)Von Restorff Effect(Isolation Effect) -- multiple similar elements,the one that differs will be most remebered. Make important things visually distinctive
+        19. Zeigarnik Effect -- people remember uncompleted/interuppted tasks better than complete ones. (for studying: interrupt with different subject or game,instead of powering through at once.Better retention that way)(yaay !! for ui have steppers,..)
+            .. or progress bars,checkmarks, or circles(that circle taht fills up),step indicators to show indicate a progressing task. And users will be happy for visual feedback of a job completed.like educational apps
+        20. Peak-End rule -- experiences are judged based on feeling at peak and end, rather than average. identify when product is most  helpfull/valuable/entertainign and pour your focus there.Maximum effort!
+
+
+2020-11-27 04:52:20
+        * Input Font Size => 16px  // muy importante.
+        * Make Sure your dropdown are typeable/searchable... forcing someone to scroll down a list of years is criminal.
+
+2020-11-29 20:19:28
+    i think dont have a background of just plain blinding white you know.
+2020-11-29 20:08:19
+    COLORS - all my favourite ones
+        use corectly :
+            guide users eyes
+            tell a story
+            set a mood
+        Schemes * Monochromatic  
+                * Analogous - 3 colors next to each other 
+                * Complementary - opposite sides of color wheel -- noticed this in a movie ..use it
+                * Triadic - 3 equally spaces around color wheel
+                * Split Complementary
+                * Double Complementart
+
+                the softer colors should be the majority .Dot have a 50/50 split in your colors
+                Saturation for emphasis . Dot oversturate stuff
+        60 - 30 - 10 Rule:
+            60% for primary color 
+            30% for secondary color
+            10% for accent
+        Gray isnt gray:
+            Add a tint of color to your grayness eg a bluish gray instead of jut an ashen pale gray
+            Makes thngs look natural
+        Dark Color Variant:  -- in HSB format
+            -lower brightness
+            + increase Saturation
+        Light Color Variant -- in HSB format
+            + Increase brightness
+            - lower saturation
+        Accesibilty -- Aka color blindness
+            - you can use Stark plugin to simulate color blindness
+            - make sure button sure things are distinct when thus grayscaled 
+                -- eg a conform and cancel button shouldnt be filled(with color dumbass) coz they'll both just appear as grey buttons no contrast whatsoever
+           ////DO NOT FILL BOTH CANCEL AND CONFIRM BUTTONS//-- you wil be relying only o color for distiction
+        Pastels:
+            * peacefull calming
+            * romantic
+            * spring time
+            * bebes
+
+2020-12-15 22:46:18
+    Design for Mobile:
+        * No clutter
+        * progressive disclosure -- show more feature on a neede basics
+        * Reduce cognitive load
+        * Ofload task -- use previously entere data
+        * Autocomplete for things ike location
+        * break tasks into chunks -- steppers Millers law
+        * familiar screens -- Jakobs Law
+        * minimize input
+        * use input masks --formating dates, phone numbers, emails
+        * Dyamically validate field values
+        * Customize keyboard 
+        * Anticipate user needs -- tooltips and such
+        * Weight important features
+        * Consistency :
+            - Visual , Typeface, buttons, labels
+            - Functional , interactive eements work the same throughout
+            - External , design consistent across multiple products
+
+2021-02-16 16:26:23:
+        INTERACTION DESIGN:
+            src = https://outline.com/j2kpfw
+            good-site: https://www.nngroup.com/articles/interaction-cost-definition/https://www.nngroup.com/articles/interaction-cost-definition/
+
+            -Interaction Cost = sum of mental(MIC) + physical(PIC) effort users must exert to reach their goals. 
+             supporting a wide range of use cases increases complexity of navigation and Information Architecture(IA), and IC increases
+             Focus on target users cases and work to reduce IC for them. paretto prinicple.
+             Red Route Analysis - finding the primary use case interation of the product.typically these are critical,end-to-end tasks, multiple steps, high usage, provide most value
+            
+            IC matters because: 
+                    - its a direct measure of usabilty 
+                    - comparision tool between alernative designs.
+
+            IC is not just the number of clicks..theres a mental aspect to it  and a physical as well
+
+            Teslers law comes into play; but good design ensures complexity is on system not on the user.
+                you can shift compexity from primary use case onto secondary and tertiary use cases
+            
+            MIC: 
+                poor usabiltiy=(complex navigation, unconventional mental model & interaction patterns,dense instructions )
+                a high MIC might come as an unfortunate side effect of trying  to lower PIC - simplifyig to the poit of excessive abstraction.
+
+                Attention & Memory:
+                   
+                    A high demand on attention and memory = a high MIC 
+                    causes of high demand on attention .modals,popups, distracting graphics, animations/motions unrelated to users current task
+                    Observe Millers law to avoid overloading working memory.
+                        Employ chunking like breakdown of phone numbers xxxx-xxx-xxx instead of xxxxxxxxx-
+                    Hicks law also comes into play
+            
+            PIC:
+                Fitts law applies here
+                Important to do  Task Analysis - number of tasks to achieve goal,frequency of those tasks, physical requirements and task time. 
+
+            Factors That increase IC:
+                - Excessive reading and scrolling
+                - Relevant information is hard to access
+                - Inormation not easy to comprehend
+                - Physical user inputs
+                - Much typing -- i think same point as above
+                - Clicks or touches that result in errors due to poor design
+                - Attention Switches 
+                - High memory load
+                - Slow loading/processing durations.User has to wait...for...it.
+            
+            other factors to keep in mind:
+                Dyslexic user may find it hard to read-- see font below for
+                Users with motor impairments may find it harder to cick than to read.
+                loading on cellular may  be slower than wireless
+
+            in the face of multiple Interaction paths user will base their choice on "Expected Utility"( =  Expected Benefits - Expected IC)  eg clicking an 'x' to clear a text field or hitting backspace multiple times.
+            users will choose a familiar path, even if a lower  cost one exists, due to lower MIC
+            Users with high motivation(benefit to be gotten from the site) will put up with high IC - eg an essential service providers site, a company with great marketing & branding, maybe one wit giffen / unique products, monopolies that is
+            for a generic product there is very low motivatio to put up with a complicated checkout process. Users will bounce to a competitor
+            
+            (Own observations) - swiping right to reveal more information isn't that obvious to some users tho.always include a drawer icon.
+                    -- and this isnt simply for websites i think.Just product in general.Product design
+                    -- a simple modal for  sign up instead of navigating to a new page. on web. obviously
+
+
+2021-02-17 19:38:28
+    10 Usabilty Heuristics for UI Design.
+        src- https://www.nngroup.com/articles/ten-usability-heuristics/
+
+        1. Visibility of System Status. ie Feedback, communicate state. Maps with "You are here"
+        2. Match between system and real world. - Words,concept, phrases familiar to users. Natural mappings of controls and outcomes.
+        3. User Control and Freedom  - Undo's , Exits , Cancel buttons. Let users recover from mistakes. Remember the site where you couldnt edit your own posts,had to contact and admin....whack.
+        4. Consistency and Standards(Jakobs Law) -Learnabilty(internal and external consistency),   breaking platform and industry standards increases cognitive load on users.
+        5. Error Prevention - error messages good, error prevention best. two types of errors Slips(unconsious, due to inattention) and Mistakes(mismatch between users mental model and the design).
+                            - avoid slips by providing with proper constraints and defaults 
+                            - prevent mistakes by: reducing cognitive load, undo functionality, warnings.
+        6. Recognition rather than recall  - again reduce the cognitive load. provide labels for fields or  menu items. Provide help in context rather than a lengthy tutorial. sort of game like.
+        7. Flexibilty and effeciency of use - cater for novice and veterans alike , accelarators(kb shortcuts) , personaliztion, customizations
+        8. Aesthetic and minimal design(Elegant simplicity over needless featurism) -  Dont cluter interface with extraneous info.prioritize content and features needed for primary goal.
+        9. Help users recognize, diagnose,recover errors - plain language(no error codes), tarditional error feedback(red , bold text) , offer solutions for
+        10.Help and Documentation -  if possible provide it in context(right when user needs it ), easily searchable, consise and with concrete steps to be followed.
+
+
+    Writing for the Web:
+        src- https://www.nngroup.com/topic/writing-web/2
+
+FONTS I LIKE: good site Font Flipper.
+                        awwwards best fonts
+
+        Source-code-pro - saw it on bundlephobia. i like it
+        Accessibilty : Dyslexia - dyslexie font(https://www.dyslexiefont.com/en/typeface/)
+
+    random:
+        merriweather -- super readable, serif, full weights - used on web and articles and the such
+        futura -- sans , wes anderson uses it so yeah
+        proxima nova -- apparently overplayed on web
+        canela -- inspired by stone carving, so good for inscriptions..
+        dekko -- good handwriting
+        abeezee
+        amaranth
+        oleo script
+        Averia Sans Libre              
+        Dia -- super clean,super readable,sort of authoritative,i like it. - https://www.januarythird.co/tourism-marketing-campaign
+
+    Geometric:
+        Didact Gothic
+    
+    Humanist:
+        Delius
+        Ceaser Dressing
+        Give you Glory
+        Rouge Script
+        KAlam
+
+    Old Style:
+    
+..
+    Traditional:
+
+
+    Modern:
+
+    Slab Serif:
+
+
+Back NAvigation: 2020-12-19 19:46:55
+    https://baymard.com/blog/back-button-expectations
+
+
+Get correct screen Resolution  :
+    var dppx = window.devicePixelRatio;
+    var screenWidth  = screen.width  * dppx;
+    var screenHeight = screen.height * dppx;
+               
+
+
+
+
+    

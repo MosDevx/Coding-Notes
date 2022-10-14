@@ -1,0 +1,176 @@
+
+CQS Command Query Separation:
+    methods should either change state(Comand) ie setMethods
+    or should return a value(Query) ie getMethods
+    avoid side effects 
+
+Mutations:
+    changing values in functions either the arguments or local variables.
+    look into functions like map() reduce() filter() to solve things 
+
+SLAP:
+    single level of abstraction principle
+    functions should do only one thing
+    no storing/file reading/IO operations
+
+SOLID:
+    S - single responsibilty
+            A class should only have one reason to change.
+            a class with a lot of side effects breaks this
+            eg a module that compiles and prints report--it can be changed coz content changes or  format of report changes ---these two should be separated coz totally different
+
+            ////heh after reading this shit for so many times it finally sinks in
+            
+    O - open/closed 
+            open to extension.closed to modifiication.like instead of hardcoded values in a method,they should be recieved as arguments...if needed.ties in with DRY
+    L - Liskov substitution
+            subtypes must be subtitutable with base types
+    I - Interface segregation
+            create thin cohesive interfaces than an interface that contains more methods
+            than a client needs.If more functionality is needed implement more interfaces
+    D - Dependency Inversion
+            High level modules should not depend on low level ones.Both should depend on abstaractions(interfaces maybe??)
+            Details should depend on abstractions not the other way round
+            //i dont reallsy get this and id read about it before.ill get it this time
+        - Explicit Dependencies.
+            a class needing other classes to work should  get them in its  constructor,or the
+            methods parameter list, or via a property setter.
+
+
+===========================APIS========================================
+
+API definition.(https://blog.hubspot.com/website/application-programming-interface-api)
+    Application Programming Interface
+    Software to Software interface.
+    Secure communication method without user intervention
+    Set of definations and protocols that allow software components to talk and interact with each other
+    Acting as messengers API's deliver one applications request to another and return a response in real time.
+    response can be requested resource or error message.
+
+Api Calls: 
+    process of client application submitting call to server's API
+
+Request Methods:
+    Basic functions that the clients want he server to accomplish.
+    written out as urls so that communication is dictated by HTTP protocol.
+    GET,POST,PUT,DELETE
+
+Uses:
+    Data Sharing
+    App intergrations - two applications talking to each other
+    Emebeded Content - like embeddding youtube videos 
+    Internal systems - software divided into smaller components that talk to each other internally through apis
+
+
+    =====================REST====================
+      
+      Set of guidlines that softwsare can use to communicate over the internet()
+      Representational State Transfer. This means when a client makes a request,server transfers back current state of resource in a standardized representation.
+      Rest APIS work by fielding request then returning all rellevant information about resource
+      All HTTP verbs are supported.
+
+      6 RULES FOR A REST API:
+        
+        1. Client-Server Separation
+            All interactions initiated by the client.Clien can not respond and server cannot make requests.
+        
+        2. Uniform Interface
+            All request and responses must follow a common formatting protocal for their messages.
+            In this case HTTP Protocol.
+            usually responses are in JSON format
+
+        3. Stateless
+            Every interaction independent, all information needed is sent with every request/response.
+            No session connections.every request is a brand new task
+
+        4. Layered System
+            There are typically more servers between the client and server.
+            messages formatted so that the layers in between do not affect interactions.
+
+        5. Cacheable
+            caching - storing media on client device when visting a  website.
+            When a REST API(which are created with data caching in mind) sends a response it should indicate wether data should be cached and fr how long
+
+        6. Code on Demand(optional)
+            can send code empowering client to run code in its own backend.
+        
+    =====================REST====================
+
+
+
+===========================APIS========================================
+
+
+===========================DESIGN PATTERNS======================================
+    Creational , Structural, Behavioural.
+
+    
+    Good articles coming from refactoring.guru
+
+    Factory Pattern: https://www.oodesign.com/factory-pattern.html
+        
+        (creational)
+        when the subtype of an object will be declared at runtime.
+        Actually the Factory class can be separate from the inheritance hierarchy
+        call factory during runtime with a variable and it returns the needed subtype
+
+        dont hav to use if else 
+            solution factory having a dict and product ids/classess(register), and registering new classes when defining them or in main
+
+        /////reflection MyClass.instance() -- brilliant
+
+        To avoid reflection have each subclass impement the creating method(from abstract class)
+            the factory class too
+        register the classes to the factory in a static call in their bods
+        factory uses productId to make new obj --see the fucking site above
+
+
+        Use the superclass name to operate on the objects made in your code
+
+    Bridge Pattern: 
+        
+        (structural)
+        Split closely interelated classes into Abstraction and Implementation, so that you can develop them independently
+        Abstraction/Interface : high level control layer for some Entity , eg a GUI
+        Implementation/Platform : actual worker , maybe OS code(API)
+        solves by applying composition instead of inheritance(in a monolithic fashion)
+        so different implematations are iterchaneable as long as they follow a similar interface. And the Abstaraction has a reference to this interface.
+
+        you can switch implementations at runtime
+
+        all concrete implementations must follow the implementation interface
+
+        make sure to define a method that returns the built object at the end of each builder implementation
+
+    Builder:
+
+        (creational)
+        create different types and represantations of an object using the same construction code.
+        we move object construction code from the class into it own separate class called a builder. Good when construction is similar steps on differing in te datails of those steps
+        (instead of having constructors with million params or overloading constructors or extending a base class into a million subclasses)
+        the builder organizes construction into series of steps.
+        you then call these steps to make your object
+        you can have multiple builders executing same steps but in different manners
+
+        you can have a Director : the director gets a builder and you define the steps you want to call in the director
+            so instead of calling the builder method yourself each time ou need, they can be predifined in the director(grouped into diff methods for different configurations) and then you simply get the object you wanted.
+
+
+
+
+
+Sequences and Series:
+    AP: terms have a common difference
+        nth term = a + (n-1)d
+        no of terms = (l-a)/ d + 1
+        sum of n terms =  n/2[2a + (n-1)d]
+        harmonic progression = if inverse of terms are in AP
+
+    GP: terms have a common ratio b**2 = a*c
+        nth term = ar^(n-1 )
+        sum = a(r**n -1) / r - 1 if r>1 2020-01-03 12:122020-01-03 12:12
+
+Divisions and multiplications are  expensive ops.
+    bool is_odd(int n) {
+        return n & 1 != 0;
+    }

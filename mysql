@@ -1,0 +1,208 @@
+
+DDL - Data Defination Language - Define data structures
+DML - Data Manipulation Language  - Manipulate data itself  UPDATE INSERT DELETE MERGE
+
+Transaction - mechanism that databases use to ensure the integrity of data
+        defination a- sequence of statements perfomed as one logical unit of work
+   * Atomicity - All statements in the transaction are executed or none
+   * Consistency - Each transaction can only bring the database from one valid state to another
+   * Isolation - Intermediate state of transactions is invisible to other transactions. Thus transactions whic run         concurently thus appear to run in a seriallized manner
+   * Durability - After transaction completes, changes to data persist and are not undone
+
+            =============SQL================
+reset pword mysqld_safe --skip-grant-tables --skip-networking &
+            flush privileges
+                
+
+Compound key--attributes are simple(foreign) keys in themselves
+Composite key-- attributes may or may not 
+
+Normalization:
+    1NF:
+        each record unique
+        each column one entry
+    2NF:
+        be 1NF
+        single column primary key
+        (every non key attribute depends on the whole key)...like you might have composite key that has columns dependent on on part of it and  other columns dependent on the oter par of the composite key)
+    3NF:
+        be 2F
+        have no transitive functional dependancies
+        (Transitive Functional Depedencies...change in nonkey column cause change in another nonkey column)
+        eg have genreid and genre in the same table(book table)
+    BCNF:
+        every attribute represents a fact about the key(super)
+
+    4NF:
+        remove multivalued dependencies 
+        ie resturant,pizza type,location, we have r->>pt and r->> l,make the  two separate tables
+
+    prevents update insertion deletion anomalies
+
+    Functional Depensency A->B ..A can uniquely identify B...B is functionally dependent on A
+    Trivial FD B is a subset of A
+    Non Trivial FD B isnot a subset of A
+    Multivalued Dependency...two or more attributes independednt but dependent on a third attributre
+
+M:N relationships are made via an intermideary table that contains foreing keys.
+DDL-Data Definition Language,DQL-Data Query Language,DML-Data Manipulation Language,DCL-Data Control Language
+            FROM WHERE SELECT GROUP_BY HAVING ORDER_BY LIMIT
+
+    UPDATE ....a WHERE is necessary??
+
+    WHERE(LIKE ,BETWEEN,IN,IS NULL) .....   ORDER BY.. field(column,'names','names','names')]
+
+    WHERE evaluated before HAVING
+
+    IN can have its list of values from subquery    
+
+    SELECT DISTINCT..(GROUP BY  is similar)  AGGREGATE FUNCTION(DISTINCT) .... NULLL will appear once
+
+    JOIN: inner,left,right,cross,self 
+        inner: INNER JOIN table2 ON/USING col_name  aka join_condition
+             get common values,set intersection
+             can join multiple table....even with join condition of an already joined table
+             > / < applicable as needed
+        left: LEFT JOIN table2 ON/USING col_name     
+             gets left table + intersection
+             use where table2.col IS NULL to get data exclusive to left table
+             position of where clause matters..outside the joint_condition to truncate the data  set        returned or as a part of join_condition..will change the rows matched to columns
+
+
+        right: same as above but on the right dimwit
+        
+        cross: no join_condition
+                will rerutn n*m rows
+                find some examples of this here fucker
+
+        self: use INNER JOIN --return structural.hierachical data on same table. use aliases.
+            to compare succesive rows.like ordering people in the same city
+            !!!avoid duplicate in case of ordering using </>!!!!
+            can also use left join
+
+                
+
+    CAST value AS DATATYPE....use for dates mostly.mysql has SIGNED or UNSIGNED no int.
+
+    LIKE % wild card for any number _ for one charachters
+        can provide ESCAPE  'symbol' at end of LIKE statement
+    LIMIT offset,rowcount
+        use with ORDER BY for consistency since shit is returned randomly by default
+        use it for pagination...increasing offset fixed rowcount
+
+    ALIAS col/table AS aliasname
+        cannot be used on WHERE
+
+    
+    EXISTS: used for a subquery.   WHERE (NOT)EXIST(SELECT 1.....)
+            INSERT
+            UPDATE
+            DELETE
+        EXISTS is faster than IN for large  tables/sub queries
+
+    GROUP BY returns a row for every unique combination in the group by argumnets
+             or defines how to apply  aggregates 
+             or use with an expression (that must be similar to the one in the select)
+             in mysql you can use alias and desc or asc
+             //use any_value() on a colum giving toubles..fuck
+                all columns in SELECT should be present in GROUP BY  or functionally dependent
+
+        HAVING apply conditions to groups or aggregates of rows
+            ///WHERE will apply to individual rows
+            
+        WITH ROLLUP  will give grouping sets based on columns in GROUP BY clause.
+                provides totals and grand totals
+                eg GROUP BY c1,c2,c3 ...we have c1 > c2 > c3
+                rollup will give a total when c1 changes
+
+    COMMON TABLE EXPRESSIONS CTE:   WITH cte_name(column list) AS (query)
+
+        similar to derived tables but can be used recursively / referenced multiple times in same query
+            better performance and readabilty
+
+
+    UNION ALL ..the queries must return same number of columns
+        better than union reason in optimization tips
+
+    IFNULL(col_nmae,'alternative')
+
+    IF(evaluated,'iftrue','iffalse')
+
+    CASE  use a comma before..dipshit
+         ,(CASE WHEN...condition...THEN CASE.....)
+
+    NULLIF(v1,v2) return null if equal else return v1,v2
+
+    STRING comparision to prevent duplicates...< or > dont use !=
+            strings compared by first character where b>a and 2>1
+
+    Short circuit evaluation of logic statements...precedence AND OR use () for clarity
+    avoid sorting and calcutalions within queries
+    
+    cardinality higher==more uniquness
+
+    OPTIMIZATION RULES:
+
+        use where
+        dont use COUNT for table rowcount
+        use constraints not triggers
+        dont do calculations or ordering
+        return only needed columns
+        use views and stored procedures
+        avoid HAVING
+        avoid DISTINCT
+        use SELECT with TOP or SET ROWCOUNT
+        UNION ALL instead of UNION since the latter looks for dulplicate irreagrdless existence   
+
+            optimization on sofware level:
+                -have proper structer..corecrt column datatypes,few columns for tables with many inserts/  
+                    updates,many columns for tables with 
+                -right storage engine innodb or myisam
+                -indexing
+                -caching frequent data
+                -row format compressed tables
+                -locking strategy
+
+    TRIGGERS ....for INSERT UPDATE DELETE....two types row-level(for each row), statement-level(excecuted 
+    only once)  
+
+    SUBQUERY 
+            derived table should be named
+            correlated subquery is dependent on the outer query and is evaluated on every row
+            
+
+    DELIMITER // set it when you need to execute ,ulmtiple statement
+
+     SET @myvariable = STATEMENT/value;
+
+    IF cond THEN 
+        statements;
+    ELSEIF cond THEN
+        statements;
+    ELSE
+        statements
+    END IF;
+
+    LOCKING prevents different session from R/W on a table.
+        operations by diff sesssion on a locked table are executed after reales..
+        Mutexing maybe idk.
+    ///how to create that unique id.after insert update.
+
+    VIEWS:
+        storage of queries to ease calls by users,not stored but query is excecuted when needed.
+        abstraction,security ..hide certain columns from users.
+            simple: from one table,basic querie,no functions,no GROUP BY,yes DML
+            complex: can have GROUP BY,multiple tables,no DML
+            inline: aka temp table,a query that has SELECT..FROM SELECT..//instead of a JOIN
+            materialized: data fetched is stored physically..snapshot.reused without another execution
+                            used in Data Warehousing
+
+    Foreign Key constraints UPDATE DELETE------RESTRICT,CASCADE,NULL.....is this referential integrity?
+        eg..ON DELETE CASCADE 
+    Transitive Functional Depedencies...change in nonkey column cause change in another nonkey column
+
+    Modality wether a relationship can be null or not.
+    | one
+    <- many
+
+    SQL INJECTION

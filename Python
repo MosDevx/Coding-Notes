@@ -1,0 +1,1331 @@
+ wirte down requirements 
+
+write down tests needed.
+WRITE DOWN TESTS!!!
+Be carefull writing conditions with <= / >= off by one error
+dont use mutable default values as arguments ie myMethod(mylist=[]) 
+    instead use none as default and asing mylist=[] in the body
+        ad. coz changes made to it in the func body persist
+class inherit (object) ---good practice for p2
+
+a function can return a function(return func) or it can return the result of executing that function(return func())
+
+https://foobar.withgoogle.com/?eid=ikvVj  google challenge
+
+=======================NEW FEATURES=======================
+
+f-string:
+    f"some words { some varaibles}"  some expressions
+    //read later https://realpython.com/python-f-strings/#python-f-strings-the-pesky-details
+
+3.8
+1. Walrus Operator : assign and return a value in the same expression
+    eg print(myvalue := "Hello world")
+    in a while loop   while (current := input("Enter something: ")) != quit:
+                            print current
+
+2. Positional  Arguments :  arguments that must be included in the correct order ; as opposed to keyword arguments that you  call expression like with a equal sign ;
+    def myfunc(a,b, /):  --- the slash denotes that the parameters preceeding the slash are positional only
+    for keyword arguments use "*"  def myfunc(*,argument)  ---- any argument after "* " should be keyword
+    use cases : 
+        1. when you have arguments that have a natural order but are hard to give good descriptive names.
+        2. Easily refactor functions.change names of paramaters without worry that those names are depended /referenced elesewhere
+
+3. Precise Types;
+    continue from django.urls.resolvers import URLPattern
+from here:
+
+
+=======================NEW FEATURES=======================
+
+
+
+
+            ==============RANDOM BITS========================
+generator expression vs list expression:
+    use generator expression if you only need to iterate a list once: you can't call list methods on it.so better space time effeciency.
+    use list comprehension if you want to store and use the results
+
+dunder/magic methods double underscore... like __init__
+    __str__(readable ) __repr__(formal)--can be used in eval
+    implement __repr__ as second nature
+
+Truthy : 
+Falsy: None, False, 0 and its many incarnations, empty everything,range(0),where obj.__bool__() 
+    returns false,where obj.__len__() returns 0.
+
+reversed() return iterators// can cast it to list() 
+    splice it instead
+
+slicing and range second argument not inclusive
+
+return a meanigfull value from your functions eg false / true from your Functions 
+    -- because otherwise default return value is None which helps noone 
+     -- an aspect called composabilty one of the advantages of functional programming       
+
+multiple ways to solve a problem fibonacci -- simple iterative(see dynamicfibonacci.py)
+
+Enumerate(iterable,startindex=0)  -- get an index for list or any iterable
+
+====================================================================================
+
+print:
+    print("something",end='') end can be any char you want or \n \t
+    
+    format:
+        print("my sentence {0} is cool {1} ").format("replaces pos 0","replaces pos 1")
+        {0:conversion_data_type} : s,d,o,f,c,b,x,X,e(exponent notation)
+        {0:int_for_padding} before int can add < /> / ^(center align) can make good 
+
+        print("%s for string %d for decimal" %(my_string,my_decimal))
+ immutable (Strings,numbers , tuples,frozenSets )
+    mutable (dicts,sets)
+Strings:
+    Slicing 2 methods:
+        1. Extending Indexing = myString[start:stop:step]
+            slicing of string using : and an index [start = 0:excusive-end:stride=1] eg MyString[0:10:1]
+        2. slice constructor
+            s1 = slice(start,stop,stride)
+            print(myString[s1])
+    
+    Strings are immutable.
+    comparing: make a hash/ or use difflib
+    print string backwards
+    print string in steps
+    split(),replace(),partition(),rpartition(),
+        myString.partition("A_Search_Term") --splits string into tuple with 3 parts : string before search_term,search_term , string after search term.
+            only looks for first ocurence of search term
+        rpartiton get the last occurence of search term 
+    split() return a list
+        mySttring.split()[1][1]   -- split list into string then use indexing to return 2nd letter in 2 element of string
+    rstrip(characters) remove trailing chars(space is default) cant choose some middle cahr!!
+    .isspace() true if char is space
+    .isalpha()
+    aseparator.join(alist/iterable) will return a string  -- usually "".join
+
+    working with glob ------new_string = my_string.replace("[", "[[]").replace("*", "[*]").replace("?", "[?]") -- for handling file paths and such
+    or this  
+            function glob_quote($str) { 
+                $from = array( '[', '*', '?'); 
+                $to = array('[[]', '[*]', '[?]'); 
+                return str_replace($from, $to, $str); 
+            }
+    because glob matches like regex and [ is like openning a charachter class so make  a correct one with [[]
+        also when current working directory has [ and shit do 
+
+            glob(glob_quote(getcwd()).DIRECTORY_SEPARATOR.'*.txt');
+
+sort(key=lambda/func, reverse = Bool) its a List method,only sorts in place,returns None: order not maintained ie the original list is changed.
+sorted(iterable,key,reverse)    returns a new sorted iterable[lists, tuples,sets], creates a new list in other words
+
+Lists: [] (like arrays sort of)   
+	are mutable
+	can contain different types
+	access the different values like an array
+	nested lists.create vectors
+	functions such as sort return NONE. NONE
+    append()..will add argument as a single object
+
+    extend()...add individual elements from a list
+
+Tuples ()
+    immutable
+    similar to lists
+    access different values like an array
+    for data integrity
+    can have tuples in tuples
+
+Dictionaries {}
+    key value pair  ..use OrderdDict for maintaining order.
+    access with []...like everything else
+    duplicate key values most recent declared will be used  
+    mutable 
+    dict.fromkeys(x,y[optional])  ... create a dict from keys x(can be iterable) with values y[optional](can be a list or a single value , will get assigned as a single object regardless)
+    can contain diferent types even lists
+    for k,v in my_dict.items() tuples of all items
+     for x in dict.iterkeys() .itervalues() .iteritems() 
+     dict.viewkeys()...as previous
+
+     merged_dict = {**dict1, **dict2} duplicate values in second overwrite
+
+sets: set()
+    unordered collection of unique items
+    mutable
+    apparently add() takes one argument
+    update() takes multiple items
+    operation of maths sets: union() intersect() difference() or simply -(subtract a set from another)
+    can cast a list into a set.
+       Dictionaries give ony  unique keys...(but dicts dont support similar keys tho)
+       strings give unique characters.
+       not so for ints(non iterable data types)
+
+frozensets():
+    immutable
+
+booleans: false or true
+    nothing new about this shit you know
+
+range(start,stop(exclusive),step):
+
+bytes():
+    made from const bytes() or from literals ie using b prefix on a norm string ie b'pyhton'
+    immutable
+    for string byte(my_string,'encoding')
+    to change numbers to bytes put them in a list
+    byte(an_int) will create an empty byte object of size an_int eg bytes(2)  => b`\xOO\x00`
+
+    can be used to read a lot of data from a stream where it arriives in chunks becaus
+        because concating a string is expensive
+    or storing data recieved from a network transmission
+bytearray:
+    made from bytearray () function
+    mutable
+    to reconvert from bytearray  function  
+        myByteArray.decode(encoding='ascii/somethingorother')
+    
+    why? 
+    mutate data(Strings(ayk strings are immutable), sequences of integers) without additional space
+    updating data in middle of list - minimal memory allocation.Middle of string - near doubling
+
+    65 will get converted into 'A' and so forth
+
+Files: myfile = open(tx)    
+    myfile.read() moves cursor to end of file so reset  it...myfile.seek(0)
+    read() whole file at a go.
+    readline() one line at time
+    readlines() all the lines as a list
+    'w+'' to write.reminds one of chmod +x....overwrites existing files..
+    'a' to append
+    'r' to read
+    you can iterate through a file ....for x in open('x')
+    myfile.close().....close the file duh
+    //theres a name for keyword with functions yo...also in threading lookit up.morning.fuck im tired
+    !!Context manager!!
+    with open('myFile.txt', r) as f:
+        print(f.read())                     
+                                      | r   r+   w   w+   a   a+
+                    ------------------|--------------------------
+                    read              | +   +        +        +
+                    write             |     +    +   +    +   +
+                    write after seek  |     +    +   +
+                    create            |          +   +    +   +
+                    truncate          |          +   +
+                    position at start | +   +    +   +
+                    position at end   |                   +   +
+    + ie r+ means updating(read and write) 
+
+    ================COLLECTIONS=================== //Continue revision from here
+    
+    from collections import  ...
+
+    defaultdict:
+                dict = defaultdict()
+            gives a dict a default value in case a key is called and it doesnt exist.wont throw Key Value error.constructor
+            x = defaultdict(args)..mandatory
+            arguments are function objects like int or str or list or lambda: 0...not int() or str() or list()  arg lambda : 0 will return 0 as default value
+            int - determine or give type 
+            int() - convert a non int variable to an int
+    OrderedDict:
+            dict = OrderedDict()
+            The order of items  willstay the same as initialized.
+            comparision with another OrderedDict the order will mater too.
+            changing value of a key wont change order
+            deleted and reinserted  key will be placed at the end
+            can be used as a stack(method popitem())
+
+
+    namedtuple: classname = namedtuple('typename', 'members name age sex date') //yes spaces btwn attributes
+            eg Person = namedtuple('person', 'first_name', 'last_name)
+            p1 = Person('Em','Wamz')
+            immutable
+            typename comes into play when using type(p1) === person
+
+            can access values via index or fieldname(eg first_name)
+            name & index for elements so easier to call later on
+        
+            //constructor is a factory function..pattern is Client Product Creator
+            creates new object/class with attributes
+
+    Counter: 
+        //realpythons
+            its dictionary subclasss --- stores objects as keys and counts as values
+            can initialize from string, list, set, dict, keyword arguments,
+            myCounter.update(same args as above , or even a new counter)
+            if you try to access an unavailable key you get a 0 instead of key error
+            // [x] means x is optional
+            myCounter.mostCommon([n]) -- get most common n values
+            !! Finish reading the realpython article https://realpython.com/python-counter/
+        //Old notes
+        Counter(hashable object(lists string))
+        returns a key value pair with value being the count of elements
+        c = Counter(object)...methods you can apply on c:
+            sum(c.values())....c.clear()//reset....list(c) //unique elements...set(c) //convert to set ....dict(c)....c.items//give list of (elem,count)...c.most_common()[splices]...
+            c += Counter()// exclude negative/zero counts   
+	 Deque:
+	 	for queue like operations
+	 	append, appendleft,extend,extendleft,pop,popleft,rotate
+
+       ===========CONTROL STRUCTERS===========
+
+for x in [range , list]:
+
+    tuple....unpacking.the item beeing iterated can be a whole tuple.
+    for k,v in mydict:
+        can have tuples in tuples.
+        two for loops too get individal items
+    Dictionaries....use generator(.generators dont store just present data as you step through it)
+            py 2 .iteritems()
+            py 3 .items() ....items() was original.works in py 2 
+    break - stop loop before it goes through whole List
+    continue - stop current iteration of list and continue with next 
+    pass - plaeholder when for loop doesnt have a body.For loop cant be blank
+    else: block to execute after loop is finished. Wont be executed if there was a break that happened
+
+
+
+while:  // (has else condition-- only executed when else becomes false ..not ex if you break
+ out or exception raised)
+	python increment has only x += 1...be carefull where you place it//i meant no post or pre..
+        for breaking out of loop
+	Break...exit the loop post haste. control goes to statement after loop (if is not a loop!!dammit)
+	Continue...start the loop from the begining with next iteration/value
+
+list comprehension: [x(this is an expression) for x in sequence (conditions)]
+	a one-line for loop
+
+range: range(start,stop, step)
+	objects immutable...use as dictionary keys
+	not inclusive of final member
+	or just one argument for last member.
+
+Try,Except,Else,Finally: 
+    try: block will test expected error to occur 
+    except: here you can handle the error
+    else: if there is no excepion this block will be executed 
+    finally: will always be executed wether exception is raised or not
+
+   ===============Generator and Iterators============
+    looking into send()....send a value for next yield to use..prolly.
+
+    ///REAL PYTHON LESSON////
+
+    Iterators:
+
+        objects that have __iter__ and __next__ aka iterator protocal support for..in loops.
+
+        iterator: object that can be iterated upon..by call method iter() on it
+                    (iter() calls __iter__ internally returning an iterator)
+        iterable: an object that can give an iterator
+            my_iter = iter(my_list)
+          (iterator)     (iterable)
+
+        !!!!   usage next(my_iterator)    or    my_iterator.__next__()  !!!
+
+        __iter__ return the object(self)
+        __next__ return the value need. raise StopIteration to break
+        implement iterator protocal......use next() for python2
+        //finally fucking sunk in!! Nothing is hard twice.
+
+
+    Generators:
+        using yield  in a function results in generator object.can have multiple yields.
+
+        uses: processing large files,producing infinite sequence
+
+        gen expressions use () ..return an gen object that you call next on
+
+        yield pauses the generator
+
+        send() returns a value // called on the generator object
+            both sends a value and returns the value yielded
+        .throw() throw exceptions,stop gen(close more elegant) //above
+        .close()  stop gen.raises StopIteration
+
+    Itertools:
+        use itertools to save space.due to lazy evaluation
+       
+        diff between zip and zip_longest..latter will fill up mising elems caused by longer
+        first list zip_longest(iter,fillvalue=None)
+
+        combinations: n!/(n-r!)r!
+            it.combinations(iterable,n)
+            it.combinations_with_replacement(iterable,n) allows elements to be repeated
+
+        permutation: n!/(n-r)!
+            it.permutations(iterable,)
+
+        it.cycle(value,value) -too toggle values
+            eg toggle = itertools.cycle(['red','green','blue']).__next__
+            toggle() >> red ; toggle() >> green
+        it.count(start,steps) ///accepts step = floats,start = negative
+            produces infinite sequence
+        it.repeat(value,count=optional)
+        it.product(iterable,iterable,...) cartesian product of the input
+        it.tee(iterable,n) returns n copies of an iterator for the iterable
+        it.islice(iterable,start,stop,steps)  returns an iterator
+        it.chain(iterable,iterable) join arguments
+        it.chain.from_iterable(args) flatens  args  = iterable with iterable elements [[list],[list]] or infinite like repeat()
+    
+    
+    urllib:
+        import urllib.request urllib.parse
+
+        data = urllib.parse.urlencode(values_in_a_dict) ...have your extras here for post etc..
+            things that comes after the '?' 
+
+            headers to spoof the source of the http request  {'User-Agent' : user_agent}
+        request = urllib.request.Request(url,data,headers)
+            create  a url to open  with data sending too
+        page = urllib.request.urlopen(request)
+            return a page.call .read() on it and also .decode()
+
+        Errors:
+            from urrlib.error import URLError
+            we can have URLError(no network or server !exist) or HTTPError(responses from server)
+
+            try:
+                urllib.request.open(something)
+            except URLError as e:(way to deal with both http and url error)
+                if hasattr(e,'reason') # http
+
+                elif hasattr(e,'code') # urlr
+        save file temp location:
+            tempfile
+                    shutil
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        for info getting the realm and such
+            dict(response.info())
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+    Pickle:
+        dump() for writing to open file
+        load() read from open file
+
+        dumps() /loads()    returns bytes object..instead of w/r from file
+
+        Compression: bzip2(slower)  gzip(output file *2 of bzip2)
+
+        unpickle from P2  pickle.load(file,encoding = "latin1"/"bytes")
+
+        import  dill    for lambda functions
+            dill.dump(lambda: ,file_handle)
+
+    zipfile:
+        import zipfile
+
+        my_zip = zipfile.Zipfile("archive.zip","mode_=r, a, w")
+
+        can access specific file with my_zip.file_info("filename") 
+            get comments// exists for file and whole zip
+
+        my_zip.namelist()
+
+        create new file in zip (mode above = w) my_zip.write("filename")
+        my_zip.writestr("filename",just_a_string) //file name did not exist before...writing data from other sources
+        read specific file my_zip.read("filename")
+
+        appending: set mode as 'a' and do a normal my_zip.write("filename")
+
+        throw in try
+        and always close...or use a context manager prolly
+
+    Zlib:
+        compress shit like zipfiles
+
+    os:
+        os.getcwd()
+        os.popen() similar to open()
+        os.rename() only if it exists
+          .mkdir() rmdir()
+    glob:
+        filename pattern  matching
+        glob.glob("pattern.something")
+        "*/" all sub in currnet dir
+        "*/*" all files in all subs
+        "file?" match single char
+        
+        goddamit more   regex for this
+
+
+    Factory Methods..
+    Methods or classes that provide an interface to produce different objects based on calling arguments
+    instead of convoluted if...else statements
+    theres a client, product 
+
+          =======FUNCTIONS=========
+
+Functions:
+
+    def my_func(sstr1, *args, **kwargs)
+   
+     *args:
+        list of undefined arguments..non keyword..just single value like.can loop through them..duh list
+     **kwargs:
+        Unumbered keyword arguments...like a key:value pair.
+
+    lambda: my_func = lambda x: return x*2
+        Creates annymous functions
+        return a function object
+        no need to define a function with def
+        multiple argument posible
+        single expression(no statementsts know the difference)    
+
+    filter: filter(my_func, list)
+        my_func has to return boolean
+        with filter(None,list) it will return if element in list is truthy
+        filter() will return an iterable...so you can loop through that
+
+    map: map(my_func, iterable)
+        applies my_func to all elements in the iterable
+        can take many iterables but must be ssame length
+        return list        
+
+    reduce: reduce(my_func, iterable/sequence)
+        from functools 
+        apllies my_func to elements of iterable one by one
+        can take operator functions ie operator.add ,operator.mul
+        return single value
+        apply function on element1 and element2 get result.. apply function on result and element3
+        ///reduce very usefull function avoid loops to apply a function to sequence
+
+    accumulate: accumulate(seq,fun)
+        from itetools
+        will return a list containing the values at each step the last one being end result,first one = first list value
+	 
+	 slice: s=slice(start,stop,step)
+			 then access them with like s.start,s.stop,s.step
+			 use it like my_iterable[s] instead of my_iterable[start:stop:step]
+
+Scope:
+    L local
+    E enclosing function
+    G global
+    B built-in
+
+    global x....makes x(in the current scope) to be the same as a variable x defined in the top level of the program
+        changes to x in the function will be applied throughout
+        Using global makes it clear that the variable has been defined in the outermost block
+    
+    nonlocal variable:
+        when used in an nested function the variable's scope extends to the outer function
+        changes made to it in the nested function persist
+
+    closures:
+        binding data to a function without passing them as parameters
+        function object that remembers values in enclosing scopes even if they
+            are not present in memory
+        an enclosing function returning a nested function...the return stored as an object
+        ...that function object has references to variables in the enclosing function..even if the outer function is deleted.
+
+        uses:
+            data hiding as they are used in callback function.reduce global variable
+            replacing hard coded constants
+            effecient when we have few function in our code
+        ////you had learnt all this.why do you forget.because you wrote nothing down!!!
+
+==============CLASSES===========2019-12-26 19:41
+    class: class MyClassName(object)    
+    
+         create class with class keyword
+         class names begin with a capital letter
+         class Myclass(object)....//object coz its an object??//No and Yes.coz it inherits from object
+         def __init__(self,my_arguments)...//the constructor
+         
+         _myvalue
+
+         @property
+         def myvalue()
+            return _myvalue
+        @myvalue.setter(self,value)
+            _myvalue = value
+
+        or define getter and setter funcs, then
+        myvalue = property(getter, setter)
+
+         self takes the place of this....//self referential
+
+         Classname.attribute to access class object attribute...//same to all instances
+
+
+         instance methods(self)  and class methods(cls)--can be accesed without an instances & modify class sate
+
+
+      ///some new Notes for Class and Static methods
+         
+         Class Method:
+            made with @classmethod decorators 
+            recieve class as an implicit first argument --- similar to how instance methods recieve self
+            eg
+                @classmethod
+                def myFunction(cls,arg1,arg2):
+                    pass
+            bound to class and not an instance
+            have access to the state of the class..coz it take the cls parameter that points to the class
+            can modify class state(a class variable) and that change will be applicable to all instances
+            generally use class methods to create factory methods.Factory methods return class objects(similar to constructors) for different use cases
+
+        Static Method:
+            made with @staticmethod decorator
+            similar to class methods its bound to the class and not instances
+            cant access or modify state
+            present in class because it makes sense to be present in the class. Utility type methods 
+
+            !! ive discovered static methods can still access&modify class variablels through using the class name eg. MyClass.myVariable -- do research to figure this out
+     
+        Instance Methods:
+            can modify class and instance varaibles
+     
+        //////end of new notes on class and static methods
+         @classmethod -- make a method tied to a class instead of an instance object
+            you can use a classmethod to return an object of that class ie student = Student.class_Method(vars,vars)--where classMethod can verify things internally and call the init method  using its internal cls parameter and finall return student
+    can be used to make inehritable alternative constructors..like Student.from_string(#get info from string) Student.from_csv(#ditto)
+
+         @staticmethods canot modify state,ie do not need an instance to work..they are utility methods mostly
+         has neither self nor cls
+            immutable via inheritance
+
+            
+     
+     Inheritance: class Myclass(Baseclass)
+
+            derived classes override or extend functionality of base classes
+            //so class Myclass(object) ...is inheriting from object !!awesome
+            to override just define a function with the same name
+            //..i dont know why were calling base constructor in the derived..to initialize those methods..duh
+
+            super().__init__(my,args,here)....
+
+    Special Methods(Dunder Methods): __init__(), __str__(), __len__(), __del__(), __getitem__()
+         allow to use python specific functions on objects created through classs
+         like you can call methods like len() del() on your objects.pretty cool
+         
+         __getitem__():
+         	what enables indexing [] of elements in an an enumarable object.
+         	also splicing of an enmuarable
+         
+         //i thinl its just overriding functions found in object class
+
+
+    Public Protected Private: //ill get back to ths in the morning yo
+static
+        Normal everything is public
+
+        Protected....single undescore before name _
+
+        private.....they cant be changed..but its  more like conventions other than restriction
+
+    Modules and Packages:
+        modules gotten by....import command
+        after an import command it is initialzed only once..so the variables in the module become a singleton 
+        ///even if import command is issued again
+
+        print(dir(modulename))
+        help(modulename.attribute/method)
+
+========ERRORS AND EXCEPTIONS=========
+
+    try:
+        statements
+    
+    except errorname(//not needed):
+        handle it hereto start the while loop again
+        //can add a continue 
+    else:
+        excecute if everything is fine
+
+    finally:
+        always excecuted no matter what//even in  a loop it will be executed all the time
+
+
+========UNIT TESTING========== /// i can confidently say i need to learn more on this..
+
+    Concepts:
+        test fixture: -- data created as input
+            baseline for running test.make sure environment is same so results are repeatable.
+        test case:
+            set of conditions to determine wether the system works correctly
+        test suite:
+            collection of testcases
+        test runner:
+            component that sets up execution of tests and provides outcome to user
+                like unittest
+
+        import unittest
+        create class inheriting (unittest.TestCase)
+        make your test methods --with first word test
+        use self.assertEqual --- and it equivalents as needed
+
+        handling expected errors .assertRaises(TypeError/Any Exception) as ContextManager
+            the test will pass if the expected error is thrown
+
+        travisci black tox--testing different envs
+
+        mocks for simulating function returns
+
+
+
+
+            ========DEBUGGING========
+
+    pdb allows you to pause execution look at values and see program executio step by step
+    
+    pythhon 3.7 > breakpoint().../
+    right now just use:
+        import pdb
+        pdb.set_trace()
+
+    ================DECORATORS==============
+
+        able to pass a function as an argument to anothe function..coz everyhing is objects
+
+        can manipulate local variables of the function in the wrapper function
+
+        must return an encasing function from the wrapper function
+
+ 
+
+
+    ================================GUI=====================================
+
+    Tkinter:
+            creatig a class inheriting from frame allows for spawning of more windows as importing from Tk
+            only only one instance
+            master attribute gives access to root window
+            Frame contains Window
+
+    WxPython:   
+        always add a panel to your frame
+        panel access frame through parent
+
+
+===============================GUI======================================================
+
+
+==========================DATA STRUCTERS AND ALGORITHMS=====================================
+
+    ==DYNAMIC PROGRAMMING==
+        A problem with overlapping subproblems
+        trades space for time
+
+        steps:
+            1)identify sub probem in words
+                identify subproblem that buids up on previous subproblems
+            2)recurrence mathematical representation of subproblem
+                    base case
+                    what decision at every step
+                        what info at i to get i+1
+                        what info needed at i-1 to get to i ..needs to know future decisions
+
+            3)find order to fill memo table(from front or back)
+            compute value of optimal solution in bottom up manner
+
+        Memoization:: storing computed values to avoid recomputation in the future
+            tabulation of DP??
+            memo[]
+
+
+
+    Master Theorem: figuring out asymptotic analysis of divide(recurrence) conquer algos
+            subproblems > splitting/combining O(n^logb(a))
+            subproblems == s/c O(n^logb(a * logn)  // nlogn
+            subp < s/c O(f(n))
+
+            a and b important..wikipedia but wtf is k (from below im getiing value of param or no of element in param)
+
+    MISC:
+        (techiedelight.com)
+        Kadanes algo: maximum subarray problem T O(n) S O(1)
+        Lees Algo: shortest path in maze
+                    based on BFS    
+        Flood fill: BFS 
+                    DFS
+        Detect cycle in linked list: Hashing: -- traverse place each node in a set.if encountered before,cycle detected
+                    Floyd's Cycle detection: /tortoise and hare algo. two pointers moving at speed x and 2x
+                        if they point to same value theres a repetition
+                    // i havent understood
+        Longest Increasing Subsequence: 
+
+    for big O notation you can take n as the number of elements and k like the value of parameter
+    or number of elements in the parameter
+
+    linked list:
+        be careful when insterting or deleting not to lose reference to next node.
+        keep track of previous node to help with deletion
+        learn to write good while conditions if current is present and counter
+
+        Node:
+            value
+            next node
+        linkedlist:
+            first Node
+            append()
+            instert()
+            delete()
+            return_position()
+
+    Stack:
+        FIFO
+        implemented with an Element and Stack class
+        ///tutorial used a linked list but thats just overkill yo.
+        methods pop() and push()
+        nothing surprising about stacks..so yeah
+
+    Queue:
+        LIFO
+        methods enqueue() and dequeue() and peek()
+        
+        deque:
+            genrallized version of both stacks and queues    
+
+        priority queue:
+             enqueue insert elements with a numerical priority
+             when dequeue remove element with highest prority first
+             same priority oldest element goes first
+
+             implemented with a heap also
+        
+        ive implemented a list based queue.easy enough
+        //look into a deque and a priority queue later
+
+    binary Search:
+        complexity O(log n)...sets a search point halfway through
+        lo =0
+        hi =len(arr)-1 (cause count from 0)
+        mid = (lo + hi)/2
+    Interpolation Search:                                        Come back to this
+        improvement on binary
+        while(low <= high & value>= arr[low] & value <= arr[high])
+        pos(mid above) =low + (high - low)*((search_value-arr[low])/(arr[high] - arr[low]))
+
+        while (low <= high & value)
+    Recursive Functions:
+        a base case to terminate the function
+        a call to itself
+        change of input parameter
+
+        each recursive call pushed onto stack the when base case reached  stack is unwound
+
+        Tail Recursion:
+            the last statement executed is the recursive function call 
+            no other computations.no values held for adding or multiplying
+            //sort of like what you did by including results as parameters..state threading
+            GfG shows an example with a wrapper fucntion which just provides a default argument??
+
+        ///spliting a list for recursion..if you want right order give second half first..coz
+        ///the first one to get done will be at the bottom of the stack.unwinding will put it in
+        ////the last position
+        keep state via threading  ie as param call..so much better.//remember to return the else recursive
+            or keeping it in the global scope ..not so good
+        pen and paper your recursions
+
+        @lru_cache(maxsize=None) ....to avoid recomputations
+
+     ++SORTING++
+        memorize the runtimes..wwrong figure out the runtimes from the implementation..and visa versa   
+        in place or not.....in place--low space complexity
+
+        Bubble Sort:
+            O(n^2)
+            In place
+            each iteration the largest  element moves to the top
+            my implementation wasnt quite there..check the complexity next time 
+            for( i in length  for(j-lenght-i -1))
+        
+        Insertion Sort:
+            (check /JS implementation)
+            in place
+            divide two sub arrays...[element0] and the rest
+            take next element and find where to place it in first list
+            better than selection sort
+            Time O(n^2)
+            Space O (1)
+
+            //new notes 
+                has two indexes i & j 
+                trick comes in that j moves backward comparing elements till it gets to zero.
+                    cause if the key element is smaller than predecessor
+                and then small element is held and INSERTED into correct position
+
+        Selection Sort:
+            O(n^2)
+            divide two sub arrays,,sorted, unsorted(entire list)..find smallest/largest element place in sorted list.proceed.items always placed in sorted format
+            advantages: max no. of writes is n better than insertion sort(n^2)            
+        
+        Merge Sort:
+            complexity O(nlogn)
+            space O(n)...creating new lsit at each step
+            theres a lot on mergesort..
+            top down spli and bottom down sort...focus on those
+
+            def split:return left, right
+            def merge(left,right)
+
+            def merge_sort:
+                if len <1:
+                    return list
+                else:
+                split list
+
+                return merge(merge_sort(right),merge+sort(left)
+                    // is this some double recursion??
+                    //merge sort will run till its one and then each split get splittier
+                    at the bottom both list will be 1 then merge joins them
+                    return a list of two ..just draw it out
+
+        Quick Sort:(partition exchange sort)
+            best O(nlogn)  best...average
+            space O(1)
+            O(n^2)  worst case ..rare
+                optimizations by getting the median of the three last elemnents and using that as 
+                the pivot..
+                   s plit array run both halves at same time
+            i do not get that code..i sort of buut i wouldnt be too sure..
+            in words 
+                i = one less than start element
+                partition takes a list start and end element
+                loops from beggining  with j comparing if element is smaller than the pivot
+                    if  smaller 
+                         i ++
+                         swap element [i] with current [j]
+                         sometimes i and j are equal and nothing changes
+                    finally swap pivot with current elemnt i + 1
+
+                    return i + 1  
+                    //becomes either high(i - 1) or low(i+1) for next recursive call
+
+                recursive:
+                    get index from partition()
+                    call itself above rules
+                    //it stops when partition 
+
+                surprise surprise this is partition scheme 
+
+                Above is Lomuto i think
+                Hoare is best?? 
+
+
+    
+    Hashing:
+        what do i remember of hashing.immutable objects have a hash function
+        hash value depends on the value stored not the identity of the object so same values stored same
+        hash value
+        changing an object to an integer based on the content
+        python uses more than the hash value to make keys for a class
+        instances of a custom class have different hash value that changes on each call..because its based on the id of the instance
+        dictionaries use the hash value of an object and also the value of the keys to see if an object is the same.if not theyre assinged to a new element..or hash value and equality.//even if the equality has been forced to be true
+
+        run a value through a hash function.use that hash value as the index of an array to store original number.This gives us a constant time look up.
+        collision:
+            same hash value for two different inputs
+            solutions..
+                1 separate chaining/open hashing
+                ...each element in the hash table is a linked list.in case of collision add a node to that linked list
+                2 linear probing/ Open addressing
+                    the hash value is not the hash index.the hash index is computed.if the slot in the array is occupied it proceedes in a probe sequence till an available slot is found.
+                    linear pribing the interval is fixed.usually one
+                3. quadratic probing..
+                    take a wild guess.
+                4. Double hashing
+                    similar to linear and interval between indices is computed by using two hash functions
+                    but the second one is 
+
+            ways to solve it://udacity course.
+                1 Use a bucket//which i havent quite gotten the grasp of yet...what in Gods greeen earth is a fucking bucket!?
+                    i think a bucket is like that implementattion of an array of linked lists
+
+                2 change the hash function.
+        load factor:
+             = number of items / number of bucket
+             aproaching 1 means less slots for our values to go into and a higher chance of collisions
+             around 0 means a lot of wasted space in terms of excess buckets
+        ++++++++++++++++++++++++++++++++++++++++++
+        ~~~~~~~~~~~~~~~
+        ###########################
+        /// i have skipped the excercise on hashing ill come back to it in a little while
+        ######################################
+
+    TREES:
+        like a version of a linked list.they contain nodes
+        trees must be connected
+        trees must not have cycles
+        terminology: level - how many connections it takes to reach the root plus one-root == 1
+                     leaf - last nodes with no children(external node)
+                     height - number of edges between it and furthest leaf count from 0
+                     depth - inverse of heigth.number of edges to root node count from 0
+        Traversal:
+            DFS:prority explore children node first
+                --Pre Order Traversal (Pre check off node before traverse any further)
+                    check off left children first till you hit a leaf.go back up and check off right children
+                --In Order(because we check of nodes in order from left to right.lot of up and down mvmnt)
+                    check off node only if youve seen left child  
+                    first one will be left most leaf  
+                --Post Order
+                    check off node if youve seen all of descendants.Again start off left side leaf
+ 
+
+            BFS: visit all nodes on the same level
+                --Level Order Traversal...a bfs
+                    convention start on the left moving right
+
+        Search and Delete:
+            search is O(n)...since lack of order
+            deletion is O(n)...dealing with a parent.either a promotion of its child.
+                            or if the child has descendants keep traversing till you find a leaf
+                            and just slot it in the deleted nodes sot
+        
+        Insertion:
+            if tree is not ordered just tack it anywhere.
+            //some long winded explanation that i didnt quite get the significance of here
+            //i got it.shitty kind of explanation
+            relationship between levels and number of elements is logarithmic
+                (nice)
+            total elements = 2^(levels) - 1
+            number of elements on level = 2^(level - 1)
+
+        Binary Search Trees:
+            sorted such that value left of node is smaller than it
+            value right of node is larger than it.
+            Search runtime O(log n)...its the height of the tree.
+            in unbalanced bst the worst case is O(n)
+            //ive done the exercise without much pain.night times are the best
+
+        Heaps:(dont need to be binary trees)
+            values are arranged such that they are in decreasing order (MaxHeap)
+                                                      increasing Order (MinHeap)
+            Max or Min  value look up O(1)
+            search will be O(n) no tricks to pick branches
+                average cas will be O(n/2) coz value comparison can lead to an early quit.
+            Heapify algorithm(MIT OCW youtube)
+            Insert or Delete: O(log n)
+                we can simply insert as at a leaf then heapify
+                extract or delete..remove and heapify to maintain heap properties
+
+            Implementation:
+                represented as trees but generally stored as arrays
+                because we know the number of nodes at each level we can easily convert this from indices
+
+                storing as an arrays save us space since we only need to keep track of value and index of each "node" as opposed to the memory overhead of left and right pointers.
+
+                but the values in the array should be sorted in an order that makes sense to the heap
+
+        Self Balancing Trees:
+            insert delete algroithms condense nodes to a few levels.nodes may have additional properties
+            eg.
+            
+            Red-Black Tree:
+                has BST propeties
+                is self balancing BST
+                rules:
+                    1. Nodes coded either Red or Black
+                    2. Every node (if not full) must have null leaf nodes(black)
+                    3. Red node both children are black// a red node cannot have a red child or parent
+                    4. (optional) root node must be black
+                    5. Every path from node to descendant null node must contain same number of black nodes         
+                Insertion: O(log n)
+                    insert a node as a red node:
+                       case 1... if root change it to black
+                        case 2...if parent is black..all is good no need to do anything else.
+                        if parent is red..
+                           case 3... if parent and unlce are both red change them to black and flip grandparent to red.(done to maintain number of black nodes) 
+                                ///--grandparent changed back to black because it is root
+                            if parent is red and uncle is black..do a rotation(shift to change structer but not order of nodes)
+                                case 4...if parent and insertion are not on same side do a left rotation
+                                case 5..if parent and insertion are same side so a right roatation..which involes the grandparent.
+                                //i have understood this shit.left left case...do a rotatiation
+                                                              left right case-- change to left left case and solve. also color swaps
+                Seach and Delete O(log n)
+
+                good for frequent insertions and deletions
+
+                n = nodes 
+                height <= 2Log(n+1)
+    TRIES:
+            Tree like data structer,nodes store letters of alphabet and whole words/strings reTRIEved by 
+            traversing down one branch2020-01-08 19:40
+
+    GRAPHS:
+        A form of tree.it shows connections between nodes.
+        edges (the connections between nodes) can also contain data.
+        graphs can have cycles so there is no root node as in trees.
+        edges can have a propetry of direction...connotating action of one node to the other
+        
+        Directed Graphs..can be used when appropriate like denoting distance,travel,
+        Acylcic graphs..so one isnt trapped in an infinite loop through out.
+        DAG...
+        node degree..number of edges connected to a particular node.
+        Connectivity--- All nodes are linked.
+        As a metric minimum number of edges that need to be removed for a graph to be disconnected
+
+        Disconnected ... a lack of connection between some nodes
+        Weakly Connected..in the context of directed graphs where only by replacing all the directed edges with undirected edges can it achieve Connectivity
+        Connected.. only for undirected graphs.a path between one vertex and every other vertex
+        Strongly Connceted..directed graphs..path from every node and every other node.A to B and B to A
+
+        Representation:
+            Objects: of Vertices and Edges ...Vertex object can hold a list of edges and visa versa 
+            
+            Edge list..a 2d list whose elements are a pair of node ids indicating and edge[[1,2],[2,3],[1,3]]
+                    -- Loop trough edges and fetch from_node value and to_node value into a 2d list
+
+            Adjacency List... each vertext has an id that is its index in the adjecency list.each element in the AL is a list that shows id numbers of nodes  connected to that particular node
+            
+            Adjacency Matrix.... each row represents a node..the array on the row  has either 1 or 0 
+                for columns. 1 indicatesa a  connection and index of the column is the id of the node.
+                good for indicating node degree
+            Matrix(array of list each list same length)
+
+        when insertig and edge be sure to cater for (to and from) nodes first -- check if to a nd from nodes exist, if not make them and append them to the graphs node list
+                add to the to and from nodes the new edge
+                add to the graphs edge list the new edge
+
+       
+
+
+
+================================DATA STRUCTERS AND ALGORITHIMS=================================
+
+
+
+
+=========================PATTERNS===============================================
+ 
+
+ =======================ARCH======================
+
+ MVP:
+    Model and View are separated. Presenter connects the two
+    P contains UI buisness logic
+        i think the difference with MVC is connection existing between M and V
+    eg a save button calls methods in P, P interacts with M, returns to V to show success
+
+    interactor deals with events from view and translating them to calls to the presenter
+
+    View  and Model expose methods to P 
+MVC:
+    eg url methods(C) feches site data(M) displays in HTML(V
+
+    using pub sub pattern:(/Patterns/MVCExample)
+
+        on value change:
+            view sendsMessage to controller onvalue changed Controller updates Model
+            
+            Model sendsMessage to View to reflect new value
+
+
+
+MVVM: 
+    like for data binding in android
+    Model be data store
+    VM be class that binds data to the UI
+    UI be the V
+    Model is wholly unaware of the existence of the other two components
+
+
+========================VISUALIZATIONS====================================
+matplotlib numpy
+
+
+    
+
+
+
+
+
+========================VISUALIZATIONS====================================
+
+           
+===========================DJANGO============================================
+
+                    %%%%%%%%%%%%%%FOLLOW UPS%%%%%%%%%%%%
+                    1. Having a default main page (https://stackoverflow.com/questions/3204060/django-how-to-set-main-page)
+                    %%%%%%%%%%%%%%FOLLOW UPS%%%%%%%%%%%%
+
+
+
+
+
+Web framework for rapid development with clean pragmatic design
+Its a MTV design Model Template(Acts as the View here presents the html pages) View(acts as the Controller)
+Django provides a development server. Dont use it in production
+difference project and apps :app is a web application that does something eg weblog system,database for public records, small poll app. A project is a colllection of confiigurations and apps for a website
+
+SOME COMMANDS
+    [] - optional part or extended command
+    "" - variable name - dont include "" in the actual command
+    
+    django-admin startproject "project_name"
+    python manage.py runserver [0.0.0.0:PORT]
+    python manage.py startapp "app_name"   
+SOME COMMANDS
+
+
+MAKING VIEWS AND LINKING THEM TO URLS
+
+There are Function Views and Class Views.
+
+Create a view. To call it we need to map it to a Url,for this we need a URLconf. create a file called urls.py in the appropriate app directory.
+
+Point root URLconf(loacted in the top level dir) at the needed app's URLconf
+in the root URLconf we'll use include to reference whatever other URLconfs we need.
+always use include -- only exception is admin.sites.urls
+include chops off the part of the url that has matched so far and sends the rest to the needed URLconf
+
+
+path(route,view,kwargs,name) -- used in the URLConf files
+
+    route - string that contains a url pattern  eg polls/
+            when processing a request Django goes dowwn the URLPatternslist looking for a match 1
+    view - when a matching pattern is found it calls the specified view function, with an HttpRequest objetc as the first argument. also with any values form the route as keyword arguments
+    kwargs - additional arguments passed as a dictionary to the view
+    name - naming the url makes it easier to call/refere to it from else where. enables you to make changes to url patterns and only touch one file.
+
+Typically create templates and link them to the views
+
+Shortcuts that make work easier inlude:
+   - return render(request,template_path,context_dictionary)  instead of loading in the template and doing return HttpResponse(template.render())
+   
+   - question = get_object_or_404(Question,pk=question_id)  instead of a try: except block with the whole query inside
+            (use this helper method cause it reduces coupling between model and view)
+        ie try:
+                question = Question.objects.get(pk=question_id)
+            except: 
+                raise HTTP404("Question Does not exist")
+instead of hardcoded urls in the templates we can simply say href={% url 'app_namespace:name attribute given in different path in url_conf' url_parameter_to_pass_on %}  
+
+in our urls.py we add namespaces for specific apps. It comes in handy for things like the above point of not hardcoding urls
+
+The arguments recieved by the different functions in our views file are passed on from  the urls.py paths. 
+The angle bracktes capture part of the url send it to the function
+by defining a part of the url in angle brackets,it gets sent to the requisite function eg path('<int:question_id>/',views.detail,name='detail')   the "int" is a converter that determines what patterns should match this part of the url path
+
+DATABASE SETUP and MAKING MODELS:
+
+Model - single definitive source of information about my data
+        contains essential fields and behaviours about data im storing
+        migrations derived from models, models used to update database schema 
+
+        have each model subclasses models.Model
+        each class variable(note its class variable not instance) is a field in the Database
+        each field is an instance of Field class eg CharField or DateTimeField
+
+        always add __str__ method: convineient for dealing with interactive prompt. and also theses str representations are used in the automatically generated admin
+        
+        some Field class hae required arguments eg CharField needs max_length -- used in making the schema and validation too
+
+        Django support all relationship mamny to many , one to many and many to one
+
+
+
+
+    Activating Models:
+        with that model expamle Django is able to :
+            * Create a database Schema 
+            * create a database access API for accessin the objects
+
+             _id eg question_id denotes the foreign key
+             DEFFERABLE tells the db not to enforce primary key till end of transaction
+
+      Commands: 
+                            //  <means variable>
+        * python manage.py sqlmigrate <appname> <a number i guess migration_no> 
+            - Outputs the sql command that will be executed in response to the model youve made
+        * python manage.py migrate
+            - Actaully creates the models in the database     
+
+    The API:
+        make an object with the clases from the model.
+        call .save on that obect eg my_question.save()
+
+        some_property__lte --- for less than / equal to
+        this above example the double underscore is called lookup . it teanslates to the conditions given to an  SQL WHERE
+        clause
+
+        Question.objects.create() will hit the database. it creates,saves,and returns that new object with one fell swoop
+
+        QuerySets represents a collection of objects from the database
+            - can apply (multiple) filters to it.result will still be  a queryset
+            - they are lazy i.e not all methods actually hit the db when playing around with QuerySet.
+            - only hits database when evaluated: Iteration,slicing,pickling/caching,repr(),len(),list(),bool(),print()
+FORMS:
+    Wheneveryou make a that form alters data server side use method="post"
+    All POST forms that target internal urls should use the {%csrf_token%}
+
+    !!Always return a redirect after succesfully handling a posted form. If not resubmition of the data occurs when the user refreshes or navigates back & forward on the page again.
+    PRG method Post - Redirect - Get(cause after redirect, hitting the refresh button results in GET http methods instead of POST)
+    https://www.theserverside.com/news/1365146/Redirect-After-Post
+    !! in the HttpResponseRedirect 
+
+
+    request.POST is a dictionary like object where you can access the variables passed in from the form by keyname
+
+GENERIC VIEWS:
+    Some procedures are pretty common in web dev: getting data from db according to parameter in url,loading template,returning rendered template
+    Generic views help us abstarct these common patterns
+    ---edit urls.py and views.py accordingly
+    ---make classes in your views.py that inherit from generic
+        theres generic.ListView - display a list of objects
+            generic.DetailView - display a detail page for a particular kind of object
+
+TESTING:
+    make classes inheriting from TestCase, make methods that start with test eg test_Any_name_here    
+    you can test views , methodsattached to models -- so make the distinction of what you want to test
+    some test methods:
+        self.assertIs()
+        self.assertEqual()
+        self.assertContains()
+    The tests make dont hit the main db for queries.It uses its own database.So like take necessary steps to create objects for it
+    
+ADMIN: (Modifying admin pages)
+    * some options available when you subclass admin.ModelAdmin
+        (fields,fieldsets,inlines,list_display,list_filter,search_fields)
+    you can customize how the admin pages will look like
+    make a class that subclasses admin.ModelAdmin in there define the fields needed, then register the model supplying a second argument is the class you just made.
+       
+    fields -  the order in which you make the field list in the class is the order in which they will be displayed.
+            super usefull if you have many fields.
+            fields is a list.They will be displayed vertically,but if you group some in a tuple they will be displayed horizontally
+       
+    fieldsets -  can also split long forms into fieldssets : assign a variable fieldsets an array of tuples,first element in tuple is the title for the fieldset , second argument is a dictionary with the key 'fields' the value being an array of actual fields as from db(db column name)
+
+    inlines - when two models share a foreign key relatinship, inines will dispaly the second model on the first models page
+        can be tabular or stacked
+        make a class,subclassing admin.StackedInline or admin.TabularInline
+    
+    list_display - tuple of fieldnames to display as columns oon the list page(page where theres  a list of objects and you choose  which to delete,for editing just click th question itself) ...default just displays the object according to str()
+        you can have name of a model field, callable that accepts one argument:the model instance, a model admin method that accepts one method:the model instance,or string representing model method or attribute
+        
+        @admin.display() used to customize how the field is presented ,
+            if the field can be True,False, Unkown,setting property boolean=True in this decorator will allow django to display a pretty graphic in its stead
+        --can read more on list_display as always its a shit ton
+
+    list_filter
+
+    search_fields
+
+==============TIMEZONES================
+
+Django stores datetime internally in UTC in the database and translates them to end users time zone  in templates and forms.
+Good practise tostore date-time data as UTC even if website is available in only one timezone cos of Daylight Savings
+
+==============TIMEZONES================
+
+==============RANDOM LEARNINGS================
+
+* The links I click have a href that calls the appropriate url in urlconf with whatever arguments needed
+* Always return HttpResponseRedirect after handling a POST 
+* provide name argument for the paths in urlconf sto make life easier eg in calling reverse in HttpResponseRedirect
+* Remember reverse() prevents us from hardcoding urls.we give it the name of the view(as defined in urlconf) we want ,and the params needed 
+* we make queries to the db to get our objects in all our view functions.shorthand queries like get_object_or_404
+
+
+
+==============RANDOM LEARNINGS================
+
+!!!!!!!!!!!!!!!!!!!!!!!!TO BE LEARNT!!!!!!!!!!!!!!!!!!!
+* avoiding race conditions
+* methods for models... queries i can do that is
+!!!!!!!!!!!!!!!!!!!!!!!!TO BE LEARNT!!!!!!!!!!!!!!!!!!!
+
+===========================DJANGO============================================
+

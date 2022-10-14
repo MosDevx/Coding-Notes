@@ -1,0 +1,93 @@
+
+// My Good MongoDB connection method tried and tested against all stupid errors that were cropping up
+
+const mongoose = require('mongoose');
+
+const server = "";
+
+mongoose.connect(server, {useNewUrlParser: true,useUnifiedTopology:true, useCreateIndex:true, useFindAndModify:false})
+.catch(err=>console.log(err));
+var onTerminate = function(){
+	mongoose.connection.close(function(){
+		console.log("\nClosed Database Connection");
+		process.exit(0);
+		
+	});
+};
+
+
+
+process.on('SIGINT',onTerminate).on('SIGTERM',onTerminate);
+module.exports = {mongoose};
+
+
+
+
+[Ref: MongooseTut]
+use mongoose to provide schema validation,translate from objects in code and those in DB
+
+	schema - the structure of a document
+	model  - wrapper on schema / interface to provide CRUD
+	mongoose.ObjectId is supplied automatically --dont need it in schema
+
+
+Process:
+	create a database connection in its own file.Export it // you  can change db check zellwk
+	create schema in its own file.Export model(with said schema as arg)
+		use validator to validate
+		yes include collection name when   defining schema
+				// i wrote  you can define collection name here --lets see
+
+	CRUD OPERATIONS
+		find() with no argument fetches everything ie myModel.find({})
+ 		use findOneAndDelete instead of ...Remove -- less expensive
+		set useFindAndModify: false(when connecting) for operations like findOneAndUpdate
+
+	[ref: userSchema.js]
+	Virtual Property 
+			mySchema.virtual("propertyname").get() // .set()
+			enable some fields to be treated as one 
+			doesnt save to  DB as one though.
+			provide set and get --(like python?)  callback make sure to use function kw
+				
+	Instance Methods
+			mySchema.methods.myMethods  = function()
+		
+	Static Methods:
+			mySchema.statics.myFunction = function()
+
+	MiddleWare:
+		pre and post hooks funcs that get control during async calls
+		defined on schema level(for mongoose--we have express midlleware too)
+		Agrregate,Document,Model,Query.es
+		define before compiling models --i.e before mongoose.model("",schemaName)
+		
+		//The order that you add middleware (app.use) matters
+
+		save() function will trigger validate() both pre and post
+			order will be pre('validate')-->post('validate')-->pre('save') 
+		pre and post for save() are not called on update()/...AndUpdate() etc
+		be aware of Query and Model middleware and the setting of which you need
+
+
+
+
+	Aggregation:
+		process data and return computed result via 3 ways
+			1.Aggregation Pipeline
+			2.Map-Reduce 
+			3.Single purpose aggregation methods
+		
+		Pipeline:
+			perfom queries in a sequence
+			(mongoose based)	
+			$match -- place it in beginning of query
+						index fields on which you run it on(like sql indexes--had momentary amnesia here)
+			$project -- like SELECT
+			$group -- can do calculations and  such
+			$lookup -- left outer join different collections together
+							from:
+							localField:
+							foreignField:
+							as:
+

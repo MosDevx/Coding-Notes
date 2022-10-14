@@ -1,0 +1,717 @@
+
+Linux Kernel:
+    abstraction from device hardware and contains the hardware drivers.
+Libraries:
+    web browser engine, libc which i think is a C library,SQLite database,media libraries
+    SSL librariess
+    
+    Android Libraries:
+        for bulding the user interface, database access, graphics drawing
+
+        android.app
+            access to application model.Cornerstone
+        android.content
+            access to content.messaging between aplications...//thought the kernel did this
+            //wtf is a content actually
+        android.database:
+            access data published by content providers SQLite database management classes
+        android.opengl  
+            interface to opengles
+        android.text
+        
+        android.view
+            fundamental blocks of app user interface
+        android.widget
+            collection of prebuilt UI like buttons labels and such
+        android.webkit
+            web-browsing capabilities to be built in apps
+
+Android Runtime:
+
+    DVM- makes use of linux core things like mem mgmt and multithreading
+    every app runs its own process with own instance of DVM
+
+Application Framework:
+    offers high level services to applications
+    java classes
+
+    Acctivity Manager 
+        apllication lifecycle and activity stack...//i think an activity is the basic unit of
+        the app
+    Content providers
+        apps to publish and share content with other apps
+    Resource Manager
+        display alerts and notifications
+    View System
+        set of views to create application user interfaces
+
+
+        :::::::APPLICATION COMPONENTS::::
+
+held together by AndroidManifest.xml...describes each component and interactions
+    
+    Activities:
+        Control UI 
+    Services:
+        background processing of app
+    Broadcast Recievers:
+        comm between Droid OS and app
+    Content Providers:
+        Data and DataBase mgmnt
+    
+            ACTIVITIES:
+
+    single screen with ui
+    An activity perfoms actions on the screen
+    an app with many activities needs to have one when app is launched!!
+    classs Activity
+
+            SERVICES:
+
+    runs in bg to perfom long running service
+    eg play music in background, network interactions
+    classs Service
+
+            BROADCAST RECIEVERS:
+    respond to broadcast message from system and other apps
+    class Broadcast Reciever
+    class BroadcastReciever
+    messages sent as an intent object
+        eg public class MyReciever extends BroadcastReciever{
+            public void onRecieve(context,intent){}
+        }
+
+            CONTENT PROVIDERS:
+    supplies data from one to another one request
+    request handled by ContentResolver class
+    storage in files or database
+    class ContentProvider
+
+    ADDITIONAL COMPONENTS:
+
+        Fragments:
+            portion of ui in an activty
+        Views:
+            UI elements that are drawn on screen
+        Layouts:
+            screen format and appearance
+        Intents:
+            messages wiring components
+            used by Broadcast Recievers
+        Resources:
+            external elements ie strings constant drawable pics
+        Manifest:
+            AndroidManifest.xml holding shit together
+
+
+
+        :::::::ANATOMY OF AN APPLICATION::::::
+
+
+    java:
+        .java source files 
+        MainActivity.java...runs when app is launched
+
+    res/drawable-hdpi:
+        drawable objects for high-density screens
+
+    res/layout:
+        files for app users interface...like activity_main.xml
+
+    res/values:
+        XML files that contain collection of resources such as string colour definations
+        ...//part of additional components i think
+
+    AndroidManifest.xml
+        fundamental xtics and defines each  component
+       
+        <activity>
+        <service>
+        <reciever>
+        <provider>
+        to specify different application components
+        Als the permissions that your app will require
+        
+    Build.gradle:
+        auto generated file contains complieSDkVersion, builToolsVersion, applicationID
+        miniSdkVersion, targetSdkVersion versionCode and versionName
+
+            MainActivity.java:
+                actuall application file that gets converted to Dalvik 
+
+
+///
+    learnt alot about constaraintlayout
+    view model not quite gotten it but i will..soon///update mvvm..used to separate the "variables" from what is shown the user iterface. DataBinding i think is a means to achieve this learning about it now.
+    you have an object typically named binding that instantieted onCreate and it has properties that corresponding to ids of views in the activity.so instead of the many calls and overhead of findviewbyid 
+    the binding obeject is created only once and access to views is easy.
+    the binding class is created from the the attached class ie.. activity_main.xml will be ActivityMainBinding
+
+        =====================KOTLIN=====================================================
+
+                =============RANDOM JAVA========
+                Static.
+                    a static variable is the same for all instances of a class
+                        created at class level only
+                        can only be modified by a static method
+                    static block(static {}) can be used for one time computation of variables..ie excecuted only once
+                    
+                    static methods
+                        can be accessed without an instance of the class being made
+                        can only modify static variables
+                        can only call other static methods
+                    
+                    static nested classes
+                        can only be nested ie static nested
+                        non static nested classes are called inner class
+
+                        nested class(ie static nested) doesnt need reference to outer....inner  class does
+                        nested access only static data members.inner can access either
+                        inner class cannot be created without an instance of outer
+
+                    Final.
+                        primitive value cannot be reassinged
+                        for an object,the members can be changed  but the instance reference cannot be changed
+
+                    Singleton.
+                        has a private constructor
+                        a method that returns an instance of the class//a method in a static class maybe
+
+            Callbacks.
+                methods that are exceucted after the caller is done.
+
+                how to: have an interface 
+                        implement the interface in the class that recieve the callback
+                        /this is not that fucking helpfull
+                        //i think coz java doesnt have functions as first class citizens
+                        //meaning you cacnt pass a funtion as an argument
+                        // (not sure)so in the class you need the call back(maybe) create an annon object from a class overriding the method you need.
+
+                        or the class that needs a callback gets an object that of the implimented class as an argument to a method then calls function in that own method
+
+                        to give own functionality pass the method (new Interface(){
+                                @override 
+                                the needed callback{
+                                    //define own steps
+                                }
+                        } );
+                            Awesome this is correct.
+
+            Adapter pattern:
+                used to link up to  interfaces that arent  compatible so that neither interface is changed 
+                example used converting kph to mph..will still call getSpeed() but the mph one will 
+                convert internally.
+            Builder pattern:
+                for creating objects of model classes that have diverse parameters and dont need to
+                enforce order..like with constructors
+                its a static class in the model class ,has methods to set data needed and a call to private constructor method of model class to create that object
+            Factory Pattern:
+                returns an object according to given parameters.wothout using if..elses
+
+            OOP PRINCIPLES:
+                S - single responsibilty
+                        A class should only have one reason to change.
+                O - open/closed 
+                        open to extension.closed to modifiication.like instead of hardcoded values in a method,they should be recieved as arguments...if needed.ties in with DRY
+                L - liskov substitution
+                        subtypes must be subtitutable with base types
+                I - interface segregation
+                        create thin cohesive interfaces than an interface that contains more methods
+                        than a client needs.If more functionality is needed implement more interfaces
+                D - dependency inversion
+                        High level modules should not depend on low level ones.Both should depend on abstaractions(interfaces maybe??)
+                        Details should depend on abstractions not the other way round
+                        //i dont really get this and id read about it before.ill get it this time
+                    - Explicit Dependencies.
+                        a class needing other classes to work should  get them in its  constructor,or the
+                        methods parameter list, or via a property setter.
+            TESTING:
+                JUnit or TestNG
+                AAA--Arrange Act Assert
+                    if an exception is expected add it at the @Test tag with a .class
+
+
+                ===========RANDOM JAVA END==========
+
+                ==============RANDOM KOTLIN==========================
+
+    Array:
+        arrayOf
+        Array(number_of_items,{function_to_initialize})
+        2d array-- Array(height{Array(width{some_variables})})
+
+    data class comes..makes it easier to create ojects with CRUD functions and hash string eqaul at a go
+        data class(needed,parameters)
+    function types...like the way a variable x can be of type Int a funtion can signify its parameters and return
+
+    Higher Order Functions..the can take functions as arguments or return functions
+
+    Scope Function:
+            run,with,apply -- lambda receiver --this
+            let,also --lambda argument -- it(can have custom name)   
+
+            apply,also --return context object
+            let,run,with --return lambda result    
+
+            apply   not accessing recievers functions
+                    return reciever
+                    used in initializations
+            
+            also    doest access reciever parameter
+                    doesnt mutate reciever parameter
+                    good for validating 
+            
+            let     execute if not null
+                    convert nullable obect to another nullable object
+                    limit scope single local variable
+            
+            with    not null receiver
+                    dont need its result...??
+
+            run     compute some value
+                    limit scope of multiple local variables.
+                    convert explicit parameters to implicit receivers
+
+
+    //im learning but some concepts are taking a bit of time to sink in..i think just keep moving forward..
+    // hindsight will be 20/20
+    runtime class of an instance....get the class that is loaded when the program is running..like a reference maybe to a supertype but runtime be a subtype...ie Object j = new String()..
+    ...used in reflecion which i havent quite come to grips with
+    Official definition...an object with all the metadata about a class loaded during runtime.#
+
+   
+
+    Fields.
+        properties that implement at least one of the default accessors have a backing field value.
+            its like the how the property is internally stored and its private to it.
+        ..so for like LiveData you have MutableLiveData as the heart(used inside the ViewModel) and LiveData as the face exposed..so that LiveData remains unchanged by other classes..it read only
+
+        backing property makes the getter return something other than the actual object
+
+    Access Modifiers.
+        Public: visible to everyone(default)
+        Iternal: visible to the module
+        Protected: visible to the class and subclasses
+        Private: visible to class or top level declaration visible to the file
+                 private inner class NOT visible to outer class
+       ......Only create extension function of Public Class
+
+    Inheritance Modifiers
+        Final: cannot be overriden inherited (default) also default for methods
+        Open: Inheritable.Methods need explicit Open modifier 
+        Abstract: class has at least one abstract method(no implemantation).Method needs explicit abstract
+                    cant make an instance of an abstract class.abstarct method must be overriden
+
+
+    Inheritance:
+        must initialize parent class.//either in class declaration line or by calling super() on childs contructor
+        
+        Polymorphisim:
+            Static-Compile Time ---this is method overloading
+            Dynamic-Run time----method overriding
+
+
+    SAM and object references i think
+        ...you can create an (annonymous??) object from an class/interface whilst modifying/overriding its methods at the 
+        same damn time.
+
+    Lambdas..fucking shit  show...it keyword. it is just current the given parameter.
+
+    Delegation:
+
+        Properties:
+            The get() and set()(if var) of the property will be handled by the delegates getValue() and setValue()
+            //why do we need this
+             
+             by Lazy..
+                Official..a function that takes a lamdbda,returns an intsance of Lazy<T>.the value computed by the lambda is remembered..synchronized
+                    if no need for sync pass argument LazyThreadSafetyMode.PUBLICATION(for many thread that dont need sync) or LazyThreadSafetyMode.NONE(being used in one thread to avoid overhead)
+                when you want to initialize a property when it is first used not when it is declared...thus preventing unecessary initialization...memory time concerns.
+                myname by lazy{somefunction}.... some function will be called when you need to used myname.
+                    somefunction will return a value that will be saved and when you use myname a get to that saved value will be called
+
+            by Delegates.observable(initial_value,hadler_for_modification{})...the method is called 
+            after assignment
+                Delegates.vetoable() --to check value before assignment
+
+        Implemantation by Delegation:--must be interface
+            // favour composition instead of inheritance.so you have and object of parent class and access all methods of base.
+            so you will have an object created with the delegeted object as an argument..you new object wil access al the methods that belong to base but not of that object argument/delegate object
+
+                i
+
+
+    Companion Object :
+        like static nested calsses of java
+        can have a name or can be called by .companion
+        the have access to outer classes methods and properties
+        Usefull for creating singletons.
+
+    Enums:
+        is a class...enum class
+        entries are object so the can be initialized..or the can be classes with own methodsf
+        can implement an interface(not class)..you can provide customized overrides for each entry
+
+    Strings:
+        .joinToString() --convert a list to string.can specify separator , by default
+
+    Coroutines:
+        lightweight threads.managed by user not processor
+        stackless..not mapped onto native thread
+
+        -async
+        -non-blocking
+        -use suspend functions(can be started,paused,resumed) called only from coroutine or other suspend
+            so outer coroutine will give up its thread and wait for inner suspend fun t complete
+
+        Dispatchers.(choose thread) Main-ui IO-network&database Default-cpu intensive Unconfined
+        coroutines created in three ways 
+                    launch{} --returns nothing....okay returns  a job 
+                    async{}--- can run several background tasks in parllel
+                        returns Deferred..call await() on it to get your result
+                        or withContex(Dispatcher.) -- same as async() no need for await()
+                        exception stored in deferred ..see below
+                    runBlocking --for test mainly
+        Job:
+            .join() --suspend fun
+                    wait for its completion
+                    block coroutine assc with this job till all children have finished executing
+            .cancel --normal fun
+                    cancel all assc child jobs
+        Scope :
+                GlobalScope--lasts for whole app
+
+                activity scope ..implement CoroutineScope inteface (on any class)  and override val coroutineContext:CourtineContext  get()= Dispatcher + job(lateinit)
+                    job.cancel in onDestroy() or onCleared()
+                        set rules configuration define how coroutine will be excecuted
+
+
+        
+        ExceptionHandling:
+                launch{}     GlobalScope -- create handler:CoroutineExceptionHandler,attach it by
+                                launch{Disatchers.SOME + job  handler}
+                            activity scope---create handler ,attach it to the corutineScope in the get()
+                async{}     async{ .. } try{ .await() } catch(exception){}
+
+
+   
+
+    copy() --copy properties from data class without modification
+    forEachIndex(){}        for (index,object) in myarray.withIndex()
+    elvis x?:y return x if not null else return y
+    return @ label the function will return at that point no further excecution //like using break in a loop
+
+
+====================================KOTLIN END===========================================
+     Themes and Style:
+        Themes is large scale for an activity or whole application.set in manifest.xml
+        Styles are for specific views. able to inherit
+
+        Color state list:
+            give views different colora coording to current state
+            save in res/color/name.xml
+            give color attribute of view as name
+        State list Drawable:
+            different images for same graphic deppending on state
+            save in res/drawable/name.xml
+    DataBinding 
+        ..need to have the root layout of your xml as <layout>  ....</layout> so as to enable the binding class to see everything
+
+    fragments.. made from a kotlin class they extend Fragment...have their own lifecycle(refer to the github chart)..The fragment class has an onCreateView ..when it draws  the ui for the first time..return a view component
+    attach it to the activity_main with a fragment tag
+    the fragment in main has an id of nav_host_fragment and has a property app:navGraph that is the navigation xml
+
+    Parcelable is for serialization of objects specific to android
+
+   
+
+
+    <include>  add an external(reusable) view to your current design 
+
+    <merge>  used as root tags for the reusable views that you will attach to other layouts..when attached merge is ignored and the view is placed as is..used to prevent redundant layouts that will kick UI perfomance in the teeth
+        use merge for nav_host_fragment
+
+    onSaveInstaceState....coding in flow9
+    ViewModels...theres a difference with them and DataBinding..and onSaveInstanceState and LiveData...//fuck me
+    // ithink an object(singleton) that gets created onCreate and if it already exist the same refrence is returned.
+    then access data  as normal properties of the viewModel object  youve attached to this activity..
+    
+    Navigation... attach necessary dependacies.
+        create a navigation resource file..it will come with its own directory.
+        its a graph..maping showing activity or fragment flow.
+        set an activity as the defaultNavHost by attaching a fragment to is  that has the
+        .... navigation.xml as navgraph atribute
+        ..the id of this fragment should be myNavHostFragment
+        ....name as androidx.navigation.fragment.NavHostFragment
+        //its all so clear now. arent you glad youre sat here right now.
+        ...and as the default navhost
+
+        ///so navHostFragment graph and navhost..huh
+        ///and there the navContoller which can be got from any view..the controlller handles actuall monevmet
+
+
+        so...google advocates for only one activity per app.
+         created navigation graph..has fragments joined in flow order, "navigation directions"..the lines connecting them,and a home fragment which will be the starting one.
+         you can add indiviual fragments without any connections.can be navigated to with onNavDestinationSelected
+
+
+         implemented the Up button..Use NavigationUI to associate actionbar with navController
+         then override onSupportNavigateUp..//what the fuck
+
+         Menus....what the fuck??
+            create as a resource file..menu resource file.and it isnt attached to any one layout.just inflated where needed
+            sethasoptionsmenu as true.
+            override onCreateOptionsMenu.....first time...//necessary to display the menu
+            override onPrepareOptionsMenu....for changes in the menu
+            override onOptionsItemSelected....gives you item clicked upon...for navigatio set id of menuitem and id of targetdestination fragement to be similar...and NavigationUI will sort it out
+
+        Navigation Drawer....dependencies
+
+        //ah fuck im learning a lot of concepts and i love it. 
+        //many hours later and im not loving it so much any more.
+
+        have Drawer layout as root view.
+        the NavigationView as the last one before closing drawer tag
+        its has a layout and an app:menu where you add navigation menu xml
+        use NavigationUI...not quite comfy with this to attach it to a navController..
+        then if id match valid destinations...it sorts itself out evidently.thank you NavigationUI..
+        and change onSupportNavigationUp...changes from reqular up button..
+        //i think im done with that
+
+        Back Button change it actions by editing actions betwween layouts/fragments in the navigation graph
+
+        Nested Navigation Graphs to handle some situation like login scenarios 
+            do it via the layout editor
+        Safe Args...has dependencies
+            ...set up navigation then include safeargs..it generates classes that can be used to pass args..
+            ...these args are created in the navigation graph..for the fragment that needs them
+            generated FragmentClassNameDirections   ...this cotains a method that correspods to path between two fragments in navigation graph
+            attach attributes/ variables to your fragments inside the navigationgraph editor..
+            these attributes can be passed safely as arguments via below static method.
+            Fragment..Direction.anObviousFromToMethod ...static method in your findNavCotroller().navigate(..)
+            allows to pass data with type safety 
+            attributes can be retrieved from bundle(which is a hashmap) on the other side./fragment activity.
+
+            A static inner class is corresponding to an action(naviagtion direction)..
+            ..and a parametized public method that constructs and returns an instance of that class
+            theres a frombundle method that you can retrieve data from.
+
+       
+        
+        Custom Views:    good site danlew.net
+            compound views where multiple views are grouped together and needed interactions defined
+            can extend an existing view like button or extend view class
+            custom attributes in res folder.include it in the namespace
+            //the vogella tut wasnt that precise in explanantions.
+                --we had a class extending linearlayout(making our own view group) in it we inflate another xml file(merge as root tag) that has its own views2019-11-06 22:062019-11-06 22:06
+                then we use the new class to make our custome view in our activity main xml file
+
+            attributeSet is all the attributes in an xml file..use it when calling obtainStyledAttributes   
+                as arg0.
+                arg1 will be specific attributes needed from that set.  //not sure if totally true
+                i think attributeSet will be the base already existing attributes for a given view and then arg1 will be the 
+                ones we defined ourself...///still not sure
+            atrributeSet --map of xml parametersd defined in the layout.//this is right
+
+            obtainStyledAttributes() --arg 3 defStyleAttr --will give you a base style for a particular view as 
+                                    defined in your theme.eg textViewStyle give it a style resource in your
+                                    theme..set the theme in the manifest then call it with R.attr.textViewStyle
+
+                                    arg 4 defStyleRes --use when above is not given 
+                                        as a style resource(same resource that you would have given textViewStyle above) but now just pass it without a lot of bs
+
+            user merge for xml file if class will extend view group like linear layout or such
+
+            use fully qualified name to make a view in xml
+
+            compound views--- make a layout--call it in obtainStyleAttributes in class extending view(likey a view group..maybe not)--use this class to make new xml tag
+
+                //practise of tic tac toe.   extend a view .keep your variables out of onDraw because its called multiple times a second.also try to invalidate only the needed component.
+                paint object is what draws to screen.methods to set it up
+                make methods to draw vertical and horizantal implementing drawline.uses canvas
+                call them in onDraw()
+
+
+        Canvas:
+            drawText(string,x,y,paint)
+                drawn bottom up from bottom left of x,y---so adjust. can use getTextBounds
+            Rect(left,top,right,bottom)
+        
+        Touch:
+            touched view sets touch event wrapped in MotionEvent object
+                onTouch(View,MotionEvent)..can be used on view,viewgroup,activty..filter out
+                    //has precedence
+                    setOnTouchListener
+                    implement onTouchListener
+                    override touch
+
+                onTouchEvent(MotionEvent)..only in view.
+                    must subclass View...meaning a custom view
+            ViewGroup.onInterceptTouchEvent.. if it does the event is sent to that views onTouchEvent
+                can let ACTION_DOWN pass to the child and then consume ACTION_MOVE later.
+                AACTION_UP(x,y where finger releases) ACTION_CANCEL(called when parent takes over)
+                if ViewGroup doesnt want to intercept it calls dispatchTouchEvent on the apt childs
+            //a touch event is propageted down the view hierachy till someone consumes
+            //if the leaf view doestnt consume it the event is sent up again and Activity.onTouchEvent is the last measure to consume it
+
+        Lifecycle.
+            //Revsion of prior material needed to write down some concise notes.cos apparantley it seems i 
+            //was reading a damn novel on lifecycle events
+            //i grasped the cocurrency of fragment and activity lifecycles..but ill have to read the log messages again for me to do an accurate write up.
+            //also implement the alternative method of logging messages to logcat.teh method that isnt Log
+            //why am i doing this you might ask.when i just want to sleep and write whatever fucked u ideas that slither out from the bottom of the rocks i turn over through my thoughts...well keep at it but promise youll write something.promise you will.write something and get it read.
+            onStart()...app is visible
+            onResume...app has focus
+            
+            //thats all folks.haha.//no seriously i have to push through this.its time for cafffeeeeine.
+
+            !!practise with menus and intents and safeargs 
+
+        Complex lifecycle events
+            
+            ...lifecycle observer
+            ....save restore data 
+    
+    LifeCycle Observer/ Awareness
+
+        The aware class will implement a lifecycleObserver interface.Recieves an argument lifecycle:Lifecycle which is the lifecycle owner..the activity being observed.see below. in init {lifecycle.addObserver(this)}
+        
+        the activity or fragment implements LifecycleOwner interface....which is defaut for Activities or Fragments.
+
+        Create an instance of the Observer in the Act/Frag/lifecycle owner passing parameter of this.lifecycle
+ 
+        with annotations (@OnLifeCycleEvent(Lifecycle.Event.ON_SOMETHING)) lifecycle callbacks can be watched .the observing class executes the code that is needed.
+
+         // i think an advantage is that many activityies can be watched and managing things becomes easier
+
+    Testing:
+                                UI Tests        or End to End 
+                            Intergration Tests
+                        ===== Unit Tests =========
+
+            test each module(tasks users can accomplish) 
+   
+    onSaveInstanceState()
+        ...override it and add data that needs to be saved in memory (<100k) to a bundle object..
+        bundle is a collection of Key Value..keys are strings..so you can make them consts
+        ///the is  a PersistedBundle that takes limited types and is persisted so be carfull on the 
+        /parameter of the method you override
+        ..onCreate is called with savedInstanceState..its null if first run so check it
+        restore you..
+       or   onRestoreInstanceState() you can restore shit there..called after onCreate...so yeah
+
+       ViewModel
+           ....save data while app is in use.stored in memory so quick access
+           ..destroyed during system initiated process death..unlike onSavedInstanceState..meaning onSave stores
+           a SMALL amount of data on configuration changes and when app is stopped in the background due tto memory constarainst(Stopped but not Finished)....ViewModel can store more data but only on configuration changes
+           //finally learning about MVVM..everything's eventual.so stop stressing about shit that isnt in yoour /current scope
+           the ViewModel should hold Data and Data Processing 
+           The ViewModel should NOT hold referenes to activities or fragments
+           the V iew should hold methods for listeners and updating the UI
+           create a viewModel objectt in the activity using ViewModelProviders.of ...it will make only one instance that wont be destroyed or reinstanstiated on the whims of the activity(think it gets the runtimeclass but dont quote me on that)
+           ...access the data  from viewModel like just noraml dot notation method
+           if you need apllication context extend AndroidViewModel(application)
+
+       ViewModelFactory...whwn you want to create a viewModel with parameters..when you need the data rigth when the ViewModel is initialized
+       ...steps 
+                make your viewModel with  arguments class
+                make a viewModelFactory
+                    override method create to return a new ViewMOdel with needed arguments
+
+                in the activity class create a viewModel and viewModelFactory instance
+                pass the arguments to ViewModelFactory 
+                then initialize that viewModel with that just created ViewModelFactory instance using ViewModelProviders.of
+        then bind it to the ui(onCreate())....lifecycleowner step important
+
+        LiveData
+                use MutableLiveData<T>.....checks on null safety needed
+                its lifecycle aware..only updates when the observing?observed ?? activity is onStarted or onResumed.
+                A LiveData instance is an object and the values are accessed through liveData.value
+                Add an observer to the liveData in the activity/fragment you want by method .observe()
+                    the observer will generate a newVariable (upon change) equal to the liveData then you assign newVariable to the field of the view you want //I think an annonymous class then
+                        //overriding onchange method and then new varaible is just it!!!
+                    //i our case i have the livedata in the ViewModel..
+                Can have two sources of LiveData..like one checking changes in database and one checking changes on UI front
+            Encapuslate the live data by having a backing property.
+                so we will expose the LiveData myData and calls to get() will return the private MutableLiveData _myData...so _myData doesnt have an exposed setter...
+
+            Observeres get an update of live data when they move from inactive to inactive state(eg like a screen rotation)...so wach out for boolean LiveData..Reset it at the right time..reset events
+
+            Attach ViewModel to the XML via databinding thus cutting out the fragment/activity middleman
+                add a <data> <variable > to the layout file.
+                in the fragment/activity file databind.VariableViewModel  = the viewModel 
+                so now your xml has direct access to viewmodel objects and you can implement  listener binding o the buttons with a lambda of a viewmodel method
+
+                for data elements add them in the xml properties and set databinding.lifecycleowner = this
+                this removes the observer methods in the fragment/activity(UI controller)
+
+                Transformations class .map takes a livedata input and a function that modifies it and returns a live data...
+
+                                        switchMap...read about it...again but i think if the livedata iits observing changes the funcction given as an arg is called and the livedata it returns changes accordinglly...think of userId and such
+
+
+            Html.toHtml get a string youve formatted with html tags to display in a textview.
+
+    Database:2019-10-22 23:08
+         Room Database and Dao object and a class representing an entity
+
+        
+        Entity
+             Annotated data classes..the objects will be entities the fucntions queries.
+
+        Dao 
+            acts as a go between (custom interface)for our objects and the DB.so we dont need to interat directly with db.For CRUD.
+            advantages being that the data source might change and we would just create another implementation of the dao...i think
+            annotations again
+
+        DataBase Class Holder:
+            //use template  code.
+            remains abstract..room provides implemetation
+            has a builder method
+            companion object..only returns one instance of the class..singleton
+            @volatile...never written to cache so that the instance of our database is always the same for the threads acting on it
+            synchronized(this) ... ensure only one thread enters the instatiation block
+            //instance = INSTANCE ...INSTANCE = instance ...maybe to make sure its the same for all threads??  idk. 
+
+        create the viewModel with (database(DAO),applicationContext)
+
+
+        dbcoroutines: happen in the view model
+                // a tonight vaiable that is the latest night inserted in the db.
+                    in ui scope call a function to set tonight.value 
+                    the function is  asuspendd in IO scope that calls db.getTonight
+                    if start and end times are different retutn null
+                    else return that night
+                // a method to start tracking bind it in the xml to the start button 
+                method start tracking for start button
+                    ui scope
+                    create new night
+                    update the tonight value.
+                    call insert method
+                    define insert method IO scope
+                    db.insert(newnight)
+
+                //navigation is set off in the ui,coorutines called in the viewModel
+
+            LiveData plus button states:
+                view model has click handler plus the live data(changes in the click handler function)
+                fragment has navigation by observing the livedata because that is a ui event
+
+                change view enabled state by setting enable attribute to a boolean live data in the viewmodel that is generated by a transfomation.map()
+
+            Recycler View:
+                need data,item layout,layout manager,view holder,adapter,RV instance
+                //fucking hard to read without practical application
+
+
+
+
+
+----navigation drawer---menu---up navigation
+    
+
+
+
+
+
+    
